@@ -35,9 +35,9 @@ const CustomarReviews = () => {
 			<div className="flex justify-between">
 				<div>
 					<h4 className="text-xl text-primary font-bold">
-						Testimonial
+						Customer Review
 					</h4>
-					<h2 className="text-4xl">What Our Patients Says</h2>
+					<h2 className="text-4xl">What Our Customer Says</h2>
 				</div>
 				<figure>
 					<img className="w-24 lg:w-48" src={quote} alt="" />
