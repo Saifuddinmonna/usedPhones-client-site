@@ -1,8 +1,9 @@
 import React from "react";
 import Banner from "../Banner/Banner";
+import Brands from "../Brands/Brands";
 import InfoCards from "../InfoCards/InfoCards";
 import MakeAppointment from "../MakeAppointment/MakeAppointment";
-import Services from "../Services/Services";
+
 import CustomarReviews from "../Testimonial/CustomarReviews";
 
 const Home = () => {
@@ -10,8 +11,7 @@ const Home = () => {
 		<div className="mx-5">
 			<Banner></Banner>
 			{/* <InfoCards></InfoCards> */}
-			<Services></Services>
-			<MakeAppointment></MakeAppointment>
+			<Brands></Brands>
 			<CustomarReviews></CustomarReviews>
 		</div>
 	);
