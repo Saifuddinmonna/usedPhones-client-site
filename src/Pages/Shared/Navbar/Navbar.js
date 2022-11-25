@@ -1,9 +1,11 @@
-import React, { useContext } from "react";
-import { Link } from "react-router-dom";
+import React, { useContext, useState } from "react";
+import { NavLink } from "react-router-dom";
 import { AuthContext } from "../../../contexts/AuthProvider";
+import { Switch } from "@headlessui/react";
 
 const Navbar = () => {
 	const { user, logOut } = useContext(AuthContext);
+	const [enabled, setEnabled] = useState(false);
 
 	const handleLogOut = () => {
 		logOut()
@@ -12,23 +14,48 @@ const Navbar = () => {
 	};
 
 	const menuItems = (
-		<React.Fragment>
+		<React.Fragment className="bg-teal-400 text-white ">
 			<li>
-				<Link to="/">Home</Link>
+				<NavLink to="/">Home</NavLink>
 			</li>
 			<li>
-				<Link to="/appointment">Phones' Category</Link>
+				<NavLink to="/appointment">Phones' Category</NavLink>
 			</li>
 			<li>
-				<Link to="/about">About</Link>
+				<NavLink to="/about">About</NavLink>
 			</li>
 			<li>
-				<Link to="/blog">Blog</Link>
+				<NavLink to="/blog">Blog</NavLink>
 			</li>
+			<li>
+				<NavLink to="/myorders">My Orders</NavLink>
+			</li>
+			<li>
+				<NavLink to="/addproduct">Add a Product</NavLink>
+			</li>
+			<li>
+				<NavLink to="/adminpanel">Admin Panel</NavLink>
+			</li>
+			<div className="py-16">
+				<Switch
+					checked={enabled}
+					onChange={setEnabled}
+					className={`${enabled ? "bg-teal-900" : "bg-teal-700"}
+          relative inline-flex h-[38px] w-[74px] shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus-visible:ring-2  focus-visible:ring-white focus-visible:ring-opacity-75`}>
+					<span className="sr-only">Use setting</span>
+					<span
+						aria-hidden="true"
+						className={`${
+							enabled ? "translate-x-9" : "translate-x-0"
+						}
+            pointer-events-none inline-block h-[34px] w-[34px] transform rounded-full bg-white shadow-lg ring-0 transition duration-200 ease-in-out`}
+					/>
+				</Switch>
+			</div>
 			{user?.uid ? (
 				<>
 					<li>
-						<Link to="/dashboard">Dashboard</Link>
+						<NavLink to="/dashboard">Dashboard</NavLink>
 					</li>
 					<li>
 						<button onClick={handleLogOut}>Sign out</button>
@@ -36,20 +63,20 @@ const Navbar = () => {
 				</>
 			) : (
 				<li>
-					<Link to="/login">Login</Link>
+					<NavLink to="/login">Login</NavLink>
 				</li>
 			)}
 		</React.Fragment>
 	);
 
 	return (
-		<div className="navbar bg-base-100 flex justify-between">
+		<div className="navbar bg-primary mx-3 px-3 border rounded-lg flex justify-between">
 			<div className="navbar-start">
 				<div className="dropdown">
 					<label tabIndex={0} className="btn btn-ghost lg:hidden">
 						<svg
 							xmlns="http://www.w3.org/2000/svg"
-							className="h-5 w-5"
+							className="h- w-"
 							fill="none"
 							viewBox="0 0 24 24"
 							stroke="currentColor">
@@ -67,12 +94,14 @@ const Navbar = () => {
 						{menuItems}
 					</ul>
 				</div>
-				<Link to="/" className="btn btn-ghost normal-case text-xl">
+				<NavLink to="/" className="btn btn-ghost normal-case text-xl">
 					UsedPhones
-				</Link>
+				</NavLink>
 			</div>
 			<div className="navbar-center hidden lg:flex">
-				<ul className="menu menu-horizontal p-0">{menuItems}</ul>
+				<ul className="menu menu-horizontal p-0 text-white border-l text-lg">
+					{menuItems}
+				</ul>
 			</div>
 			<label
 				htmlFor="dashboard-drawer"

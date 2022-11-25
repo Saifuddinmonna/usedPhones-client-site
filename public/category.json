@@ -1,0 +1,22 @@
+[
+	{
+		"brand": "One Plus",
+		"description": "Lorem Ipsum is simply dummy printing and typesetting indust Ipsum has been the",
+		"img": "https://unsplash.com/photos/ngqZrU2QG4M/download?ixid=MnwxMjA3fDB8MXxzZWFyY2h8MjN8fG9uZSUyMHBsdXMlMjBwaG9uZXxlbnwwfHx8fDE2NjkzODMwMDk&force=true"
+	},
+	{
+		"brand": "Vivo",
+		"description": "Lorem Ipsum is simply dummy printing and typesetting indust Ipsum has been the",
+		"img": "https://unsplash.com/photos/hqQyF86Gqbc/download?ixid=MnwxMjA3fDB8MXxzZWFyY2h8Mjd8fG1pJTIwcGhvbmV8ZW58MHx8fHwxNjY5MzgyOTIy&force=true"
+	},
+	{
+		"brand": "MI",
+		"description": "Lorem Ipsum is simply dummy printing and typesetting indust Ipsum has been the",
+		"img": "https://unsplash.com/photos/0VGG7cqTwCo/download?ixid=MnwxMjA3fDB8MXxzZWFyY2h8NHx8c21hcnRwaG9uZXxlbnwwfHx8fDE2NjkzODI4NjE&force=true"
+	},
+	{
+		"brand": "HTC",
+		"description": "Lorem Ipsum is simply dummy printing and typesetting indust Ipsum has been the",
+		"img": "https://unsplash.com/photos/hKTN9zl30eE/download?ixid=MnwxMjA3fDB8MXxzZWFyY2h8MzB8fHZpdm98ZW58MHx8fHwxNjY5MzgyNzc0&force=true"
+	}
+]
