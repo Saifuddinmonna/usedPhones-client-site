@@ -1,15 +1,17 @@
 import { createBrowserRouter } from "react-router-dom";
+import About from "../../components/About/About";
+import Blog from "../../components/Blog/Blog";
 import DashboardLayout from "../../Layout/DashboardLayout";
 import Main from "../../Layout/Main";
-import Appointment from "../../Pages/Appointment/Appointment/Appointment";
-import AddDoctor from "../../Pages/Dashboard/AddDoctor/AddDoctor";
+
+import AddPhone from "../../Pages/Dashboard/AddPhone/AddPhone";
 import AllUsers from "../../Pages/Dashboard/AllUsers/AllUsers";
-import Dashboard from "../../Pages/Dashboard/Dashboard/Dashboard";
 import ManageDoctors from "../../Pages/Dashboard/ManageDoctors/ManageDoctors";
-import MyAppointment from "../../Pages/Dashboard/MyAppointment/MyAppointment";
+
 import Payment from "../../Pages/Dashboard/Payment/Payment";
 import Home from "../../Pages/Home/Home/Home";
 import Login from "../../Pages/Login/Login";
+import AllPhones from "../../Pages/PhonesCategories/AllPhones/AllPhones";
 import DisplayError from "../../Pages/Shared/DisplayError/DisplayError";
 import SignUp from "../../Pages/SignUp/SignUp";
 import AdminRoute from "../AdminRoute/AdminRoute";
@@ -34,8 +36,20 @@ const router = createBrowserRouter([
 				element: <SignUp></SignUp>,
 			},
 			{
-				path: "/appointment",
-				element: <Appointment></Appointment>,
+				path: "/allphones",
+				element: <AllPhones></AllPhones>,
+			},
+			{
+				path: "/blog",
+				element: <Blog></Blog>,
+			},
+			{
+				path: "/about",
+				element: <About></About>,
+			},
+			{
+				path: "/addphone",
+				element: <AddPhone></AddPhone>,
 			},
 		],
 	},
@@ -50,7 +64,7 @@ const router = createBrowserRouter([
 		children: [
 			{
 				path: "/dashboard",
-				element: <MyAppointment></MyAppointment>,
+				element: <></>,
 			},
 			{
 				path: "/dashboard/allusers",
@@ -61,10 +75,10 @@ const router = createBrowserRouter([
 				),
 			},
 			{
-				path: "/dashboard/adddoctor",
+				path: "/dashboard/addphone",
 				element: (
 					<AdminRoute>
-						<AddDoctor></AddDoctor>
+						<AddPhone></AddPhone>
 					</AdminRoute>
 				),
 			},
