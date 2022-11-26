@@ -17,17 +17,51 @@ const AddPhone = () => {
 
 	const navigate = useNavigate();
 
-	const { data: brands, isLoading } = useQuery({
+	const {
+		data: brands,
+
+		isLoading,
+	} = useQuery({
 		queryKey: ["brand"],
 		queryFn: async () => {
 			const res = await fetch("http://localhost:5000/brandname");
 			const data = await res.json();
+			console.log("data", data);
 			return data;
 		},
+
+		// queryKey: ["divisions"],
+		// queryFn: async () => {
+		// 	const res = await fetch("http://localhost:5000/divisionsname");
+		// 	const data = await res.json();
+		// 	return data;
+		// },
+	});
+	const {
+		data: divisions,
+
+		isLoading2,
+	} = useQuery({
+		queryKey: ["division"],
+		queryFn: async () => {
+			const res = await fetch("http://localhost:5000/divisionsname");
+			const data = await res.json();
+			console.log("data", data);
+			return data;
+		},
+
+		// queryKey: ["divisions"],
+		// queryFn: async () => {
+		// 	const res = await fetch("http://localhost:5000/divisionsname");
+		// 	const data = await res.json();
+		// 	return data;
+		// },
 	});
 
 	const handleAddPhone = (data) => {
 		const image = data.image[0];
+		const multipleImage = data.multipleImage;
+		const images = [image, multipleImage];
 		const formData = new FormData();
 		formData.append("image", image);
 		const url = `https://api.imgbb.com/1/upload?key=${imageHostKey}`;
@@ -39,6 +73,9 @@ const AddPhone = () => {
 			.then((imgData) => {
 				if (imgData.success) {
 					console.log(imgData.data.url);
+					console.log(data.multipleImage, "images");
+					console.log(data.image, "images");
+					console.log("data", data);
 					const phone = {
 						sellerName: data.name,
 						sellerEmail: data.email,
@@ -48,6 +85,7 @@ const AddPhone = () => {
 						resalePrice: data.resalePrice,
 						yearOfUse: data.yearOfUse,
 						timeOfPost: new Date("2015-03-25"),
+						multipleImage: data.multipleImage,
 					};
 
 					// save phone information to the database
@@ -149,7 +187,7 @@ const AddPhone = () => {
 						<span className="label-text">Year of Use</span>
 					</label>
 					<input
-						type="year"
+						type="date"
 						{...register("yearOfUse", {
 							required: true,
 						})}
@@ -182,9 +220,9 @@ const AddPhone = () => {
 					<select
 						{...register("location")}
 						className="select input-bordered w-full max-w-xs">
-						{brands.map((brand) => (
-							<option key={brand._id} value={brand.brand}>
-								{brand.brand}
+						{divisions.map((division) => (
+							<option key={division._id} value={division.division}>
+								{division.division}
 							</option>
 						))}
 					</select>
@@ -196,15 +234,43 @@ const AddPhone = () => {
 					</label>
 					<input
 						type="file"
+						multiple
+						accept="image/*"
 						{...register("image", {
 							required: "Photo is Required",
 						})}
 						className="input input-bordered w-full max-w-xs"
 					/>
+
 					{errors.img && (
 						<p className="text-red-500">{errors.img.message}</p>
 					)}
 				</div>
+				{/* <div className="form-control w-full max-w-xs">
+					<label className="label">
+						{" "}
+						<span className="label-text">Photo</span>
+					</label>
+					<input
+						type="file"
+						id="fileElem"
+						multiple
+						accept="image/*"
+						{...register("multipleImage", {
+							required: "Photo is Required",
+						})}
+					/>
+					<a href="#" id="fileSelect">
+						Select some files
+					</a>
+					<div id="fileList">
+						<p>No files selected!</p>
+					</div>
+
+					{errors.img && (
+						<p className="text-red-500">{errors.img.message}</p>
+					)}
+				</div> */}
 				<input
 					className="btn btn-accent w-full mt-4"
 					value="Add phone"
