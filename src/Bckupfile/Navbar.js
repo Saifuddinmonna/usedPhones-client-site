@@ -6,7 +6,7 @@ import { Fragment } from "react";
 import { Menu } from "@headlessui/react";
 import Example from "./LoginOption";
 
-const Navbar = () => {
+const Navbar2 = () => {
 	const { user, logOut } = useContext(AuthContext);
 	const [enabled, setEnabled] = useState(false);
 
@@ -19,7 +19,7 @@ const Navbar = () => {
 	const links = [
 		{ href: "/account-settings", label: "Account settings" },
 		{ href: "/support", label: "Support" },
-		{ href: "/license", label: "License" }, 
+		{ href: "/license", label: "License" },
 		{ href: "/sign-out", label: "Sign out" },
 	];
 
@@ -90,7 +90,7 @@ const Navbar = () => {
 					<NavLink to="/login">Login</NavLink>
 				</li>
 			)}
-			<div className="">
+			<div className="py-16">
 				<Switch
 					checked={enabled}
 					onChange={setEnabled}
@@ -133,6 +133,7 @@ const Navbar = () => {
 									strokeWidth="2"
 									d="M4 6h16M4 12h8m-8 6h16"
 								/>
+								gggg
 							</svg>
 						</label>
 						<ul
@@ -152,7 +153,7 @@ const Navbar = () => {
 						{menuItems}
 					</ul>
 				</div>
-				{/* <label
+				<label
 					htmlFor="dashboard-drawer"
 					tabIndex={2}
 					className="btn btn-ghost lg:hidden">
@@ -169,11 +170,11 @@ const Navbar = () => {
 							d="M4 6h16M4 12h8m-8 6h16"
 						/>
 					</svg>
-				</label> */}
+				</label>
 			</div>
 			<Example></Example>
 		</div>
 	);
 };
 
-export default Navbar;
+export default Navbar2;

@@ -6,9 +6,9 @@ const Banner = () => {
 	return (
 		<div>
 			<div
-				className="hero h-80 p-3 rounded-lg m-4"
+				className="hero h-80 p-1 rounded-lg my-3"
 				style={{
-					backgroundImage: `url("https://unsplash.com/photos/xdLXPic3Wfk/download?ixid=MnwxMjA3fDB8MXxzZWFyY2h8Nnx8aXBob25lfGVufDB8fHx8MTY2OTQ2MzMxNg&force=truenn")`,
+					backgroundImage: `url("https://unsplash.com/photos/m1YdCuCQDvQ/download?ixid=MnwxMjA3fDB8MXxzZWFyY2h8MTJ8fGlwaG9uZSUyMDEyfGVufDB8fHx8MTY2OTU1MzM4Mw&force=true")`,
 				}}>
 				<div className="hero-overlay bg-opacity-60"></div>
 				<div className="hero-content text-center text-neutral-content">
@@ -25,7 +25,7 @@ const Banner = () => {
 					</div>
 				</div>
 			</div>
-			<div className="carousel w-full h-80 shadow-lg border border-spacing-1">
+			{/* <div className="carousel w-full h-80 shadow-lg border border-spacing-1">
 				<div id="item1" className="carousel-item w-full">
 					<img
 						src="https://unsplash.com/photos/eikp2rTLahg/download?ixid=MnwxMjA3fDB8MXxzZWFyY2h8MTJ8fG9uZSUyMHBsdXMlMjBwaG9uZXxlbnwwfHx8fDE2Njk0NjI1NzE&force=true"
@@ -64,7 +64,7 @@ const Banner = () => {
 				<a href="#item4" className="btn btn-xs">
 					4
 				</a>
-			</div>
+			</div> */}
 		</div>
 	);
 };

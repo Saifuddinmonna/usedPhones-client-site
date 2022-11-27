@@ -37,8 +37,8 @@ const AllUsers = () => {
 			},
 		})
 			.then((res) => res.json())
-			.then((data) => {
-				if (data.modifiedCount > 0) {
+			.then((data) => {console.log(data)
+				if (data.deletedCount === 1) {
 					toast.success("Delete Process is successful.");
 					refetch();
 				}

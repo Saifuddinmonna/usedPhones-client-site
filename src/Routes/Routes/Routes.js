@@ -8,6 +8,7 @@ import AddPhone from "../../Pages/Dashboard/AddPhone/AddPhone";
 import AllUsers from "../../Pages/Dashboard/AllUsers/AllUsers";
 import Dashboard from "../../Pages/Dashboard/Dashboard/Dashboard";
 import ManageSeller from "../../Pages/Dashboard/ManageSeller/ManageSeller";
+import MyAppointment from "../../Pages/Dashboard/MyAppointment/MyAppointment";
 
 import Payment from "../../Pages/Dashboard/Payment/Payment";
 import Home from "../../Pages/Home/Home/Home";
@@ -74,6 +75,10 @@ const router = createBrowserRouter([
 						<AllUsers></AllUsers>
 					</AdminRoute>
 				),
+			},
+			{
+				path: "/dashboard/myappointment",
+				element: <AdminRoute><MyAppointment></MyAppointment></AdminRoute>,
 			},
 			{
 				path: "/dashboard/addphone",
