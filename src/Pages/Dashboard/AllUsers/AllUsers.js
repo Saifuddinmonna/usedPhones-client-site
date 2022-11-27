@@ -11,8 +11,9 @@ const AllUsers = () => {
 			return data;
 		},
 	});
-
+	console.log("user id ffor token checj", users);
 	const handleMakeAdmin = (id) => {
+		console.log("user id ffor token checj", id);
 		fetch(`http://localhost:5000/users/admin/${id}`, {
 			method: "PUT",
 			headers: {
@@ -23,6 +24,22 @@ const AllUsers = () => {
 			.then((data) => {
 				if (data.modifiedCount > 0) {
 					toast.success("Make admin successful.");
+					refetch();
+				}
+			});
+	};
+	const handleDeleteUser = (id) => {
+		console.log("user id ffor token checj", id);
+		fetch(`http://localhost:5000/users/${id}`, {
+			method: "DELETE",
+			headers: {
+				authorization: `bearer ${localStorage.getItem("accessToken")}`,
+			},
+		})
+			.then((res) => res.json())
+			.then((data) => {
+				if (data.modifiedCount > 0) {
+					toast.success("Delete Process is successful.");
 					refetch();
 				}
 			});
@@ -60,7 +77,11 @@ const AllUsers = () => {
 									)}
 								</td>
 								<td>
-									<button className="btn btn-xs btn-danger">
+									<button
+										onClick={() =>
+											handleDeleteUser(user._id)
+										}
+										className="btn btn-xs btn-danger">
 										Delete
 									</button>
 								</td>

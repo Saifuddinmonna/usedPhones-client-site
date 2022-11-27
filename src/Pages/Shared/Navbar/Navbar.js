@@ -25,34 +25,34 @@ const Navbar = () => {
 		{ href: "/sign-out", label: "Sign out" },
 	];
 
-	function MyMenu() {
-		return (
-			<Menu>
-				<Menu.Button>Options</Menu.Button>
-				<Menu.Items>
-					{links.map((link) => (
-						/* Use the `active` state to conditionally style the active item. */
-						<Menu.Item key={link.href} as={Fragment}>
-							{({ active }) => (
-								<a
-									href={link.href}
-									className={`${
-										active
-											? "bg-blue-500 text-white"
-											: "bg-white text-black"
-									}`}>
-									{link.label}
-								</a>
-							)}
-						</Menu.Item>
-					))}
-				</Menu.Items>
-			</Menu>
-		);
-	}
+	// function MyMenu() {
+	// 	return (
+	// 		<Menu>
+	// 			<Menu.Button>Options</Menu.Button>
+	// 			<Menu.Items>
+	// 				{links.map((link) => (
+	// 					/* Use the `active` state to conditionally style the active item. */
+	// 					<Menu.Item key={link.href} as={Fragment}>
+	// 						{({ active }) => (
+	// 							<a
+	// 								href={link.href}
+	// 								className={`${
+	// 									active
+	// 										? "bg-blue-500 text-white"
+	// 										: "bg-white text-black"
+	// 								}`}>
+	// 								{link.label}
+	// 							</a>
+	// 						)}
+	// 					</Menu.Item>
+	// 				))}
+	// 			</Menu.Items>
+	// 		</Menu>
+	// 	);
+	// }
 
 	const menuItems = (
-		<React.Fragment className="bg-teal-400 text-white ">
+		<React.Fragment key="bg-teal-400 text-white ">
 			<li>
 				<NavLink to="/">Home</NavLink>
 			</li>
@@ -73,6 +73,9 @@ const Navbar = () => {
 			</li>
 			<li>
 				<NavLink to="/adminpanel">Admin Panel</NavLink>
+			</li>
+			<li>m
+				<NavLink to="/dashboard">Dashboard</NavLink>
 			</li>
 
 			{user?.uid ? (

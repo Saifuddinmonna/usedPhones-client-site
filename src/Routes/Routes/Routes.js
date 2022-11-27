@@ -6,7 +6,8 @@ import Main from "../../Layout/Main";
 
 import AddPhone from "../../Pages/Dashboard/AddPhone/AddPhone";
 import AllUsers from "../../Pages/Dashboard/AllUsers/AllUsers";
-import ManageDoctors from "../../Pages/Dashboard/ManageDoctors/ManageDoctors";
+import Dashboard from "../../Pages/Dashboard/Dashboard/Dashboard";
+import ManageSeller from "../../Pages/Dashboard/ManageSeller/ManageSeller";
 
 import Payment from "../../Pages/Dashboard/Payment/Payment";
 import Home from "../../Pages/Home/Home/Home";
@@ -47,10 +48,10 @@ const router = createBrowserRouter([
 				path: "/about",
 				element: <About></About>,
 			},
-			{
-				path: "/addphone",
-				element: <AddPhone></AddPhone>,
-			},
+			// {
+			// 	path: "/addphone",
+			// 	element: <AddPhone></AddPhone>,
+			// },
 		],
 	},
 	{
@@ -64,7 +65,7 @@ const router = createBrowserRouter([
 		children: [
 			{
 				path: "/dashboard",
-				element: <></>,
+				element: <Dashboard></Dashboard>,
 			},
 			{
 				path: "/dashboard/allusers",
@@ -83,10 +84,10 @@ const router = createBrowserRouter([
 				),
 			},
 			{
-				path: "/dashboard/managedoctors",
+				path: "/dashboard/manageseller",
 				element: (
 					<AdminRoute>
-						<ManageDoctors></ManageDoctors>
+						<ManageSeller></ManageSeller>
 					</AdminRoute>
 				),
 			},

@@ -4,7 +4,7 @@ import toast from "react-hot-toast";
 import ConfirmationModal from "../../Shared/ConfirmationModal/ConfirmationModal";
 import Loading from "../../Shared/Loading/Loading";
 
-const ManageDoctors = () => {
+const ManageSeller = () => {
 	const [deletingDoctor, setDeletingDoctor] = useState(null);
 
 	const closeModal = () => {
@@ -109,4 +109,4 @@ const ManageDoctors = () => {
 	);
 };
 
-export default ManageDoctors;
+export default ManageSeller;
