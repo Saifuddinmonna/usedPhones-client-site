@@ -46,10 +46,8 @@ const AddPhone = () => {
 	});
 	console.log(data.location);
 
-	const phonesConditions = [
-		"Excelent", "Good", "Fair"]
-	;
-	console.log()
+	const phonesConditions = ["Excelent", "All Good", "Fair"];
+	console.log();
 
 	const handleAddPhone = (data) => {
 		const image = data.image[0];
@@ -82,6 +80,8 @@ const AddPhone = () => {
 						location: data.location,
 						multipleImage: data.multipleImage,
 						phonesCondition: data.phonesCondition,
+						description: data.description,
+						phoneModele: data.phoneModele,
 					};
 
 					// save phone information to the database
@@ -137,26 +137,7 @@ const AddPhone = () => {
 								</p>
 							)}
 						</div>
-						<div className="form-control w-full max-w-xs">
-							<label className="label">
-								{" "}
-								<span className="label-text">
-									Condition Type
-								</span>
-							</label>
-							<input
-								type="text"
-								{...register("condition", {
-									required: "Name is Required",
-								})}
-								className="input input-bordered w-full max-w-xs"
-							/>
-							{errors.name && (
-								<p className="text-red-500">
-									{errors.name.message}
-								</p>
-							)}
-						</div>
+
 						<div className="form-control w-full max-w-xs">
 							<label className="label">
 								{" "}
@@ -198,6 +179,24 @@ const AddPhone = () => {
 						<div className="form-control w-full max-w-xs">
 							<label className="label">
 								{" "}
+								<span className="label-text">Phone Model</span>
+							</label>
+							<input
+								type="text"
+								{...register("phoneModele", {
+									required: "Name is Required",
+								})}
+								className="input input-bordered w-full max-w-xs"
+							/>
+							{errors.name && (
+								<p className="text-red-500">
+									{errors.name.message}
+								</p>
+							)}
+						</div>
+						<div className="form-control w-full max-w-xs">
+							<label className="label">
+								{" "}
 								<span className="label-text">
 									Phones' Condition
 								</span>
@@ -206,7 +205,9 @@ const AddPhone = () => {
 								{...register("phonesCondition")}
 								className="select input-bordered w-full max-w-xs">
 								{phonesConditions.map((condition) => (
-									<option key={condition._id} value={condition}>
+									<option
+										key={condition._id}
+										value={condition}>
 										{condition}
 									</option>
 								))}
@@ -250,6 +251,7 @@ const AddPhone = () => {
 								</p>
 							)}
 						</div>
+
 						<div className="form-control w-full max-w-xs">
 							<label className="label">
 								{" "}
@@ -269,6 +271,8 @@ const AddPhone = () => {
 									{errors.email.message}
 								</p>
 							)}
+						</div>
+						<div className="form-control w-full max-w-xs">
 							<label className="label">
 								{" "}
 								<span className="label-text">Year of Use</span>
@@ -336,6 +340,33 @@ const AddPhone = () => {
 							{errors.img && (
 								<p className="text-red-500">
 									{errors.img.message}
+								</p>
+							)}
+						</div>
+						<div className="form-control w-full  max-w-xs">
+							<label className="label">
+								{" "}
+								<span className="label-text">
+									Description About The Phone
+								</span>
+							</label>
+							{/* <input
+								type="text"
+								{...register("condition", {
+									required: "Name is Required",
+								})}
+								className="input input-bordered w-full h-36  max-w-xs textarea"
+							/> */}
+							<textarea
+								type="text"
+								{...register("description", {
+									required: "Name is Required",
+								})}
+								className="textarea input-bordered w-full h-36  max-w-xs"
+								placeholder="please give a description about the phone"></textarea>
+							{errors.name && (
+								<p className="text-red-500">
+									{errors.name.message}
 								</p>
 							)}
 						</div>

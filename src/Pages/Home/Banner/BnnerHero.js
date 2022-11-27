@@ -3,7 +3,7 @@ import React from 'react';
 const BnnerHero = () => {
         return (
 			<div>
-				<div className="hero  bg-base-200">
+				<div className="hero  bg-base-100 my-6 border rounded-2xl shadow-lg">
 					<div className="hero-content flex-col lg:flex-row-reverse">
 						<img
 							src="https://unsplash.com/photos/xdLXPic3Wfk/download?ixid=MnwxMjA3fDB8MXxzZWFyY2h8Nnx8aXBob25lfGVufDB8fHx8MTY2OTQ2MzMxNg&force=true"

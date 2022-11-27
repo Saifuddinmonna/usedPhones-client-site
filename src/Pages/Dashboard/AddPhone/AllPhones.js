@@ -1,6 +1,8 @@
 import { useQuery } from "@tanstack/react-query";
 import React from "react";
+
 import { PhotoProvider, PhotoView } from "react-photo-view";
+import "react-photo-view/dist/react-photo-view.css";
 
 const AllPhonesForLayout = () => {
 	const { data: phones = [], refetch } = useQuery({
@@ -38,7 +40,7 @@ const AllPhonesForLayout = () => {
 								<h2 className="card-title">
 									{phone.name} {phone.brand}
 									<div className="badge badge-secondary">
-										NEW
+										{phone.resalePrice}
 									</div>
 								</h2>
 								<p>
