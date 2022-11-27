@@ -2,7 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import React from "react";
 import { PhotoProvider, PhotoView } from "react-photo-view";
 
-const AllPhones = () => {
+const AllPhonesForLayout = () => {
 	const { data: phones = [], refetch } = useQuery({
 		queryKey: ["phones"],
 		queryFn: async () => {
@@ -11,14 +11,17 @@ const AllPhones = () => {
 			return data;
 		},
 	});
+	//sellerName originalPrice  resalePrice sellerEmail sellerName timeOfPost yearOfUse
 
 	console.log(phones);
 
 	return (
 		<div>
-			<h2>All Phones are Shown Here</h2>
 			<div>
-				<div className="grid grid-cols-3 gap-4 justify-content-between">
+				<h2>All Phones are Shown Here</h2>
+			</div>
+			<div>
+				<div className="grid grid-cols-3 gap-4">
 					{phones.map((phone) => (
 						<div className="card bg-base-100 shadow-xl">
 							<figure>
@@ -59,4 +62,4 @@ const AllPhones = () => {
 	);
 };
 
-export default AllPhones;
+export default AllPhonesForLayout;

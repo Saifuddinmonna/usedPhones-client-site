@@ -171,7 +171,7 @@ const Navbar = () => {
 					</svg>
 				</label> */}
 			</div>
-			<Example></Example>
+			{/* <Example></Example> */}
 		</div>
 	);
 };

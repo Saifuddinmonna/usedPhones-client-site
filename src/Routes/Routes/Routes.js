@@ -5,6 +5,9 @@ import DashboardLayout from "../../Layout/DashboardLayout";
 import Main from "../../Layout/Main";
 
 import AddPhone from "../../Pages/Dashboard/AddPhone/AddPhone";
+import AllPhonesForLayout from "../../Pages/Dashboard/AddPhone/AllPhones";
+import AllPhonesLayout from "../../Pages/Dashboard/AddPhone/AllPhonesLayout";
+import PhonesCategories from "../../Pages/Dashboard/AddPhone/PhonesCategories";
 import AllUsers from "../../Pages/Dashboard/AllUsers/AllUsers";
 import Dashboard from "../../Pages/Dashboard/Dashboard/Dashboard";
 import ManageSeller from "../../Pages/Dashboard/ManageSeller/ManageSeller";
@@ -39,7 +42,17 @@ const router = createBrowserRouter([
 			},
 			{
 				path: "/allphones",
-				element: <AllPhones></AllPhones>,
+				element: <AllPhonesLayout></AllPhonesLayout>,
+				children: [
+					{
+						path: "/allphones",
+						element: <AllPhonesForLayout></AllPhonesForLayout>,
+					},
+					{
+						path: "/allphones/:id",
+						element: <PhonesCategories></PhonesCategories>,
+					},
+				],
 			},
 			{
 				path: "/blog",
@@ -49,10 +62,10 @@ const router = createBrowserRouter([
 				path: "/about",
 				element: <About></About>,
 			},
-			// {
-			// 	path: "/addphone",
-			// 	element: <AddPhone></AddPhone>,
-			// },
+			{
+				path: "/addphone",
+				element: <></>,
+			},
 		],
 	},
 	{
@@ -78,7 +91,11 @@ const router = createBrowserRouter([
 			},
 			{
 				path: "/dashboard/myappointment",
-				element: <AdminRoute><MyAppointment></MyAppointment></AdminRoute>,
+				element: (
+					<AdminRoute>
+						<MyAppointment></MyAppointment>
+					</AdminRoute>
+				),
 			},
 			{
 				path: "/dashboard/addphone",

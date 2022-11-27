@@ -30,8 +30,6 @@ const AddPhone = () => {
 			console.log("data", data);
 			return data;
 		},
-
-		
 	});
 	const {
 		data: divisions,
@@ -45,10 +43,13 @@ const AddPhone = () => {
 			console.log("data", data);
 			return data;
 		},
-
-		
 	});
 	console.log(data.location);
+
+	const phonesConditions = [
+		"Excelent", "Good", "Fair"]
+	;
+	console.log()
 
 	const handleAddPhone = (data) => {
 		const image = data.image[0];
@@ -76,10 +77,11 @@ const AddPhone = () => {
 						originalPrice: data.originalPrice,
 						resalePrice: data.resalePrice,
 						yearOfUse: data.yearOfUse,
-						dateOfBuying : data.dateOfBuying,
+						dateOfBuying: data.dateOfBuying,
 						timeOfPost: new Date("2015-03-25"),
-						location : data.location,
-						multipleImage: data.multipleImage
+						location: data.location,
+						multipleImage: data.multipleImage,
+						phonesCondition: data.phonesCondition,
 					};
 
 					// save phone information to the database
@@ -192,6 +194,23 @@ const AddPhone = () => {
 									{errors.email.message}
 								</p>
 							)}
+						</div>
+						<div className="form-control w-full max-w-xs">
+							<label className="label">
+								{" "}
+								<span className="label-text">
+									Phones' Condition
+								</span>
+							</label>
+							<select
+								{...register("phonesCondition")}
+								className="select input-bordered w-full max-w-xs">
+								{phonesConditions.map((condition) => (
+									<option key={condition._id} value={condition}>
+										{condition}
+									</option>
+								))}
+							</select>
 						</div>
 						<div className="form-control w-full max-w-xs">
 							<label className="label">
