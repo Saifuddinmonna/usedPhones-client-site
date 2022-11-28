@@ -16,6 +16,9 @@ const SignUp = () => {
 	const [createdUserEmail, setCreatedUserEmail] = useState("");
 	const [token] = useToken(createdUserEmail);
 	const navigate = useNavigate();
+	const imageHostKey = process.env.REACT_APP_imgbb_key;
+	console.log(imageHostKey, "image key");
+	
 
 	if (token) {
 		navigate("/");
@@ -28,14 +31,38 @@ const SignUp = () => {
 				const user = result.user;
 				console.log(user);
 				toast("User Created Successfully.");
-				const userInfo = {
-					displayName: data.name,
-				};
-				updateUser(userInfo)
-					.then(() => {
-						saveUser(data.name, data.email);
+				const image = data.image[0];
+		const multipleImage = data.multipleImage;
+		const images = [image, multipleImage];
+		const formData = new FormData();
+		formData.append("image", image);
+		const url = `https://api.imgbb.com/1/upload?key=${imageHostKey}`;
+				fetch(url, {
+					method: "POST",
+					body: formData,
+				})
+					.then((res) => res.json())
+					.then((imgData) => {
+						if (imgData.success) {
+							console.log('from bb imag signup',imgData.data.url);
+							console.log(data.multipleImage, "images");
+							console.log(data.image, "images");
+							console.log("data", data);
+							const userInfo = {
+								displayName: data.name,
+								photoURL: imgData.data.url,
+							};
+
+							updateUser(userInfo)
+								.then(() => {
+									saveUser(data.name, data.email);
+								})
+								.catch((err) => console.log(err));
+						}
 					})
-					.catch((err) => console.log(err));
+					
+				
+				
 			})
 			.catch((error) => {
 				console.log(error);
@@ -43,8 +70,8 @@ const SignUp = () => {
 			});
 	};
 
-	const saveUser = (name, email) => {
-		const user = { name, email };
+	const saveUser = (name, email,image) => {
+		const user = { name, email ,image};
 		fetch("http://localhost:5000/users", {
 			method: "POST",
 			headers: {
@@ -97,6 +124,25 @@ const SignUp = () => {
 							<p className="text-red-500">
 								{errors.email.message}
 							</p>
+						)}
+					</div>
+					<div className="form-control w-full max-w-xs">
+						<label className="label">
+							{" "}
+							<span className="label-text">Photo</span>
+						</label>
+						<input
+							type="file"
+							multiple
+							accept="image/*"
+							{...register("image", {
+								required: "Photo is Required",
+							})}
+							className="input input-bordered w-full max-w-xs"
+						/>
+
+						{errors.img && (
+							<p className="text-red-500">{errors.img.message}</p>
 						)}
 					</div>
 					<div className="form-control w-full max-w-xs">

@@ -12,16 +12,31 @@ import { data } from "autoprefixer";
 
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Loading from "../../Shared/Loading/Loading";
 
 const CustomarReviews = () => {
-	let [isOpen, setIsOpen] = useState(true);
+	let [isOpen, setIsOpen] = useState(false);
+	
 	const { data: userscommences = [], refetch } = useQuery({
 		queryKey: ["userscommences"],
 		queryFn: async () => {
 			const res = await fetch("http://localhost:5000/userscommences");
 			const data = await res.json();
+			return data;
+		},
+	});
+
+	const {
+		data: divisions,
+
+		isLoading2,
+	} = useQuery({
+		queryKey: ["division"],
+		queryFn: async () => {
+			const res = await fetch("http://localhost:5000/divisionsnameforreview");
+			const data = await res.json();
+			console.log("data", data);
 			return data;
 		},
 	});
@@ -38,8 +53,7 @@ const CustomarReviews = () => {
 
 	console.log(data.location);
 
-	const phonesConditions = ["Excelent", "All Good", "Fair"];
-	console.log();
+	
 
 	const handleAddPhone = (data) => {
 		const image = data.image[0];
@@ -65,6 +79,7 @@ const CustomarReviews = () => {
 						brand: data.brand,
 						image: imgData.data.url,
 						description: data.description,
+						location: data.location
 					};
 
 					// save phone information to the database
@@ -95,6 +110,7 @@ const CustomarReviews = () => {
 	function openModal() {
 		setIsOpen(true);
 	}
+
 
 	const handleDeletecommence = (id) => {
 		console.log("user id ffor token checj", id);
@@ -134,7 +150,7 @@ const CustomarReviews = () => {
 										type="button"
 										onClick={openModal}
 										className="rounded-md btn btn-info btn-sm bg-opacity-75 px-4 py-2 text-sm font-medium text-white hover:bg-opacity-30 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75">
-										Add A comment About Our Service
+										Add A Review About Our Service
 									</button>
 								</div>
 
@@ -158,6 +174,7 @@ const CustomarReviews = () => {
 											<div className="flex min-h-full items-center justify-center p-4 text-center">
 												<Transition.Child
 													as={Fragment}
+													ew
 													enter="ease-out duration-300"
 													enterFrom="opacity-0 scale-95"
 													enterTo="opacity-100 scale-100"
@@ -168,14 +185,14 @@ const CustomarReviews = () => {
 														<Dialog.Title
 															as="h3"
 															className="text-lg font-medium leading-6 text-gray-900">
-															Payment successful
+															Please Review Us
 														</Dialog.Title>
 														<div className="mt-2">
 															<div className="flex flex-col justify-center items-center mt-5 ">
 																<div className="px-7 ">
 																	<h2 className="text-4xl text-center">
 																		Add A
-																		Phone
+																		Revi
 																	</h2>
 																</div>
 																<div className="flex flex-row justify-center items-center mx-5 my-6 ">
@@ -240,6 +257,37 @@ const CustomarReviews = () => {
 																						}
 																					</p>
 																				)}
+																			</div>
+																			<div className="form-control w-full max-w-xs">
+																				<label className="label">
+																					{" "}
+																					<span className="label-text">
+																						Location
+																					</span>
+																				</label>
+																				<select
+																					{...register(
+																						"location",
+																					)}
+																					className="select input-bordered w-full max-w-xs">
+																					{divisions?.map(
+																						(
+																							division,
+																						) => (
+																							<option
+																								key={
+																									division._id
+																								}
+																								value={
+																									division.division
+																								}>
+																								{
+																									division.division
+																								}
+																							</option>
+																						),
+																					)}
+																				</select>
 																			</div>
 
 																			<div className="form-control w-full max-w-xs">
@@ -338,12 +386,14 @@ const CustomarReviews = () => {
 							</>
 						</div>
 						<div className="   items-center ">
-							<button
-								type="button"
-								onClick={openModal}
-								className="rounded-md btn btn-info btn-sm bg-opacity-75 px-4 py-2 text-sm font-medium text-white hover:bg-opacity-30 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75">
-								Sell Al Reviews
-							</button>
+							<Link to="/customarreviewsall">
+								<button
+									type="button"
+									onClick={openModal}
+									className="rounded-md btn btn-info btn-sm bg-opacity-75 px-4 py-2 text-sm font-medium text-white hover:bg-opacity-30 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75">
+									See Al Reviews
+								</button>
+							</Link>
 						</div>
 					</div>
 				</div>

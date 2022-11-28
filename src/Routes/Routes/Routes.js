@@ -15,6 +15,7 @@ import MyAppointment from "../../Pages/Dashboard/MyAppointment/MyAppointment";
 
 import Payment from "../../Pages/Dashboard/Payment/Payment";
 import Home from "../../Pages/Home/Home/Home";
+import CustomarReviewsAll from "../../Pages/Home/Testimonial/AllUserCommences";
 import Login from "../../Pages/Login/Login";
 import AllPhones from "../../Pages/PhonesCategories/AllPhones/AllPhones";
 import DisplayError from "../../Pages/Shared/DisplayError/DisplayError";
@@ -63,8 +64,8 @@ const router = createBrowserRouter([
 				element: <About></About>,
 			},
 			{
-				path: "/addphone",
-				element: <></>,
+				path: "/customarreviewsall",
+				element: <CustomarReviewsAll></CustomarReviewsAll>,
 			},
 		],
 	},

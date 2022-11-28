@@ -1,16 +1,21 @@
 import React, { useContext, useState } from "react";
-import { NavLink } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import { AuthContext } from "../../../contexts/AuthProvider";
 import { Switch } from "@headlessui/react";
 import { Fragment } from "react";
 import { Menu } from "@headlessui/react";
 import Example from "./LoginOption";
+import { PhotoProvider, PhotoView } from "react-photo-view";
+import { FaBeer, FaUserCheck } from "react-icons/fa";
 
 const Navbar = () => {
 	const { user, logOut } = useContext(AuthContext);
 	const [enabled, setEnabled] = useState(false);
 
 	const handleLogOut = () => {
+		localStorage.removeItem("accessToken");
+		localStorage.setItem("mytime", Date.now());
+		console.log("ami singout paisi");
 		logOut()
 			.then(() => {})
 			.catch((err) => console.log(err));
@@ -19,7 +24,7 @@ const Navbar = () => {
 	const links = [
 		{ href: "/account-settings", label: "Account settings" },
 		{ href: "/support", label: "Support" },
-		{ href: "/license", label: "License" }, 
+		{ href: "/license", label: "License" },
 		{ href: "/sign-out", label: "Sign out" },
 	];
 
@@ -63,33 +68,70 @@ const Navbar = () => {
 			<li>
 				<NavLink to="/blog">Blog</NavLink>
 			</li>
-			<li>
+			{/* <li>
 				<NavLink to="/myorders">My Orders</NavLink>
-			</li>
-			<li>
-				<NavLink to="/addphone">Add Phone</NavLink>
-			</li>
-			<li>
-				<NavLink to="/adminpanel">Admin Panel</NavLink>
-			</li>
-			<li>
-				m<NavLink to="/dashboard">Dashboard</NavLink>
-			</li>
+			</li> */}
 
-			{user?.uid ? (
+			<>
 				<>
-					<li>
-						<NavLink to="/dashboard">Dashboard</NavLink>
-					</li>
-					<li>
-						<button onClick={handleLogOut}>Sign out</button>
-					</li>
+					{!user?.uid ? (
+						<>
+							<li>
+								<NavLink
+									className="px-2 text-decoration-none text-white  shadow-md rounded mx-2 px-2"
+									to="/login">
+									Login
+								</NavLink>
+							</li>
+							<li>
+								<NavLink
+									className="px-2 text-decoration-none text-white  shadow-md rounded  mx-2 px-2"
+									to="/signup">
+									Sign Up
+								</NavLink>
+							</li>
+						</>
+					) : (
+						<>
+							<>
+								<>
+									<li>
+										<NavLink to="/dashboard">
+											Dashboard
+										</NavLink>
+									</li>
+									<li className="rounded-full ">
+										<button onClick={handleLogOut}>
+											Sign out
+										</button>
+									</li>
+								</>
+
+								<Link className=" p-1 text-center flex items-center text-xs  shadow rounded-full ml-2 ">
+									{user?.displayName || user?.email}
+								</Link>
+								<div
+									className="tooltipcustomhover  w-20 mask mask-hexagon"
+									data-tip="hello">
+									{user.photoURL ? (
+										<PhotoProvider className="tooltipcustomhover">
+											<PhotoView src={user?.photoURL}>
+												<img
+													className="tooltipcustomhover"
+													src={user?.photoURL}
+													alt=""
+												/>
+											</PhotoView>
+										</PhotoProvider>
+									) : (
+										<FaUserCheck className="p-0 m-0 fs-3 inline-block"></FaUserCheck>
+									)}
+								</div>
+							</>
+						</>
+					)}
 				</>
-			) : (
-				<li>
-					<NavLink to="/login">Login</NavLink>
-				</li>
-			)}
+			</>
 			<div className="">
 				<Switch
 					checked={enabled}

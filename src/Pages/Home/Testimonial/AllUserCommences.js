@@ -17,12 +17,25 @@ import Loading from "../../Shared/Loading/Loading";
 import ReviewAll from "./ReviewAll";
 
 const CustomarReviewsAll = () => {
-	let [isOpen, setIsOpen] = useState(true);
+	let [isOpen, setIsOpen] = useState(false);
 	const { data: userscommences = [], refetch } = useQuery({
 		queryKey: ["userscommences"],
 		queryFn: async () => {
 			const res = await fetch("http://localhost:5000/userscommencesall");
 			const data = await res.json();
+			return data;
+		},
+	});
+	const {
+		data: divisions,
+
+		isLoading2,
+	} = useQuery({
+		queryKey: ["division"],
+		queryFn: async () => {
+			const res = await fetch("http://localhost:5000/divisionsname");
+			const data = await res.json();
+			console.log("data", data);
 			return data;
 		},
 	});
@@ -69,7 +82,7 @@ const CustomarReviewsAll = () => {
 					};
 
 					// save phone information to the database
-					fetch("http://localhost:5000/userscommences", {
+					fetch("http://localhost:5000/userscommencesallUsercommences", {
 						method: "POST",
 						headers: {
 							"content-type": "application/json",
@@ -118,9 +131,9 @@ const CustomarReviewsAll = () => {
 	return (
 		<section className="my-16">
 			<div className="flex justify-between">
-				<div className="flex justify-around">
-					<div>
-						<h4 className="text-xl text-primary font-bold">
+				<div className="flex justify-center">
+					<div className="border rounded-full text-center shadow-xl p-4 m-6">
+						<h4 className="text-3xl text-primary font-bold">
 							Customer Review
 						</h4>
 						<h2 className="text-4xl">What Our Customer Says</h2>
@@ -134,7 +147,7 @@ const CustomarReviewsAll = () => {
 									type="button"
 									onClick={openModal}
 									className="rounded-md btn btn-info btn-sm bg-opacity-75 px-4 py-2 text-sm font-medium text-white hover:bg-opacity-30 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75">
-									Add A comment About Our Service
+									Add A Review About Our Service
 								</button>
 							</div>
 
@@ -168,13 +181,13 @@ const CustomarReviewsAll = () => {
 													<Dialog.Title
 														as="h3"
 														className="text-lg font-medium leading-6 text-gray-900">
-														Payment successful
+														Please Give a Review
 													</Dialog.Title>
 													<div className="mt-2">
 														<div className="flex flex-col justify-center items-center mt-5 ">
 															<div className="px-7 ">
 																<h2 className="text-4xl text-center">
-																	Add A Phone
+																	Add A Review
 																</h2>
 															</div>
 															<div className="flex flex-row justify-center items-center mx-5 my-6 ">
@@ -239,6 +252,37 @@ const CustomarReviewsAll = () => {
 																					}
 																				</p>
 																			)}
+																		</div>
+																		<div className="form-control w-full max-w-xs">
+																			<label className="label">
+																				{" "}
+																				<span className="label-text">
+																					Location
+																				</span>
+																			</label>
+																			<select
+																				{...register(
+																					"location",
+																				)}
+																				className="select input-bordered w-full max-w-xs">
+																				{divisions.map(
+																					(
+																						division,
+																					) => (
+																						<option
+																							key={
+																								division._id
+																							}
+																							value={
+																								division.division
+																							}>
+																							{
+																								division.division
+																							}
+																						</option>
+																					),
+																				)}
+																			</select>
 																		</div>
 
 																		<div className="form-control w-full max-w-xs">
@@ -337,9 +381,6 @@ const CustomarReviewsAll = () => {
 						</>
 					</div>
 				</div>
-				<figure>
-					<img className="w-24 lg:w-48" src={quote} alt="" />
-				</figure>
 			</div>
 			<div className="grid gap-6 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
 				{userscommences?.map((review) => (
