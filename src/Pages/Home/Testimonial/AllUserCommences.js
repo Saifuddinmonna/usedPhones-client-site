@@ -21,7 +21,9 @@ const CustomarReviewsAll = () => {
 	const { data: userscommences = [], refetch } = useQuery({
 		queryKey: ["userscommences"],
 		queryFn: async () => {
-			const res = await fetch("http://localhost:5000/userscommencesall");
+			const res = await fetch(
+				"https://usedphonesserver-saifuddinmonna.vercel.app/userscommencesall",
+			);
 			const data = await res.json();
 			return data;
 		},
@@ -33,7 +35,9 @@ const CustomarReviewsAll = () => {
 	} = useQuery({
 		queryKey: ["division"],
 		queryFn: async () => {
-			const res = await fetch("http://localhost:5000/divisionsname");
+			const res = await fetch(
+				"https://usedphonesserver-saifuddinmonna.vercel.app/divisionsname",
+			);
 			const data = await res.json();
 			console.log("data", data);
 			return data;
@@ -82,21 +86,23 @@ const CustomarReviewsAll = () => {
 					};
 
 					// save phone information to the database
-					fetch("http://localhost:5000/userscommencesallUsercommences", {
-						method: "POST",
-						headers: {
-							"content-type": "application/json",
-							authorization: `bearer ${localStorage.getItem(
-								"accessToken",
-							)}`,
+					fetch(
+						"https://usedphonesserver-saifuddinmonna.vercel.app/userscommencesallUsercommences",
+						{
+							method: "POST",
+							headers: {
+								"content-type": "application/json",
+								authorization: `bearer ${localStorage.getItem(
+									"accessToken",
+								)}`,
+							},
+							body: JSON.stringify(phone),
 						},
-						body: JSON.stringify(phone),
-					})
+					)
 						.then((res) => res.json())
 						.then((result) => {
 							console.log(result);
 							toast.success(`${data.name} is added successfully`);
-							navigate("/dashboard/managedoctors");
 						});
 				}
 			});
@@ -112,12 +118,17 @@ const CustomarReviewsAll = () => {
 
 	const handleDeletecommence = (id) => {
 		console.log("user id ffor token checj", id);
-		fetch(`http://localhost:5000/users/${id}`, {
-			method: "DELETE",
-			headers: {
-				authorization: `bearer ${localStorage.getItem("accessToken")}`,
+		fetch(
+			`https://usedphonesserver-saifuddinmonna.vercel.app/users/${id}`,
+			{
+				method: "DELETE",
+				headers: {
+					authorization: `bearer ${localStorage.getItem(
+						"accessToken",
+					)}`,
+				},
 			},
-		})
+		)
 			.then((res) => res.json())
 			.then((data) => {
 				console.log(data);

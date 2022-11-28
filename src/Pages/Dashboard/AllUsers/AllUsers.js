@@ -6,7 +6,9 @@ const AllUsers = () => {
 	const { data: users = [], refetch } = useQuery({
 		queryKey: ["users"],
 		queryFn: async () => {
-			const res = await fetch("http://localhost:5000/users");
+			const res = await fetch(
+				"https://usedphonesserver-saifuddinmonna.vercel.app/users",
+			);
 			const data = await res.json();
 			return data;
 		},
@@ -14,12 +16,17 @@ const AllUsers = () => {
 	console.log("user id ffor token checj", users);
 	const handleMakeAdmin = (id) => {
 		console.log("user id ffor token checj", id);
-		fetch(`http://localhost:5000/users/admin/${id}`, {
-			method: "PUT",
-			headers: {
-				authorization: `bearer ${localStorage.getItem("accessToken")}`,
+		fetch(
+			`https://usedphonesserver-saifuddinmonna.vercel.app/users/admin/${id}`,
+			{
+				method: "PUT",
+				headers: {
+					authorization: `bearer ${localStorage.getItem(
+						"accessToken",
+					)}`,
+				},
 			},
-		})
+		)
 			.then((res) => res.json())
 			.then((data) => {
 				if (data.modifiedCount > 0) {
@@ -30,14 +37,20 @@ const AllUsers = () => {
 	};
 	const handleDeleteUser = (id) => {
 		console.log("user id ffor token checj", id);
-		fetch(`http://localhost:5000/users/${id}`, {
-			method: "DELETE",
-			headers: {
-				authorization: `bearer ${localStorage.getItem("accessToken")}`,
+		fetch(
+			`https://usedphonesserver-saifuddinmonna.vercel.app/users/${id}`,
+			{
+				method: "DELETE",
+				headers: {
+					authorization: `bearer ${localStorage.getItem(
+						"accessToken",
+					)}`,
+				},
 			},
-		})
+		)
 			.then((res) => res.json())
-			.then((data) => {console.log(data)
+			.then((data) => {
+				console.log(data);
 				if (data.deletedCount === 1) {
 					toast.success("Delete Process is successful.");
 					refetch();

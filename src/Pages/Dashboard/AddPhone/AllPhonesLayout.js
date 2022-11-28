@@ -6,7 +6,9 @@ const AllPhonesLayout = () => {
 	const { data: brands = [], refetch } = useQuery({
 		queryKey: ["brands"],
 		queryFn: async () => {
-			const res = await fetch("http://localhost:5000/brandname");
+			const res = await fetch(
+				"https://usedphonesserver-saifuddinmonna.vercel.app/brandname",
+			);
 			const data = await res.json();
 			return data;
 		},

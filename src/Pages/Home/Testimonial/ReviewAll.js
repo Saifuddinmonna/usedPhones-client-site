@@ -1,8 +1,8 @@
 import React from "react";
 
 const ReviewAll = ({ review }) => {
-	const { name, image, description, review: userReview, location } = review;
-	console.log("review", review);
+	const { Name, image, description, review: userReview, location } = review;
+	console.log("review all", review);
 	return (
 		<div className="card shadow-xl">
 			<div className="card-body">
@@ -14,7 +14,7 @@ const ReviewAll = ({ review }) => {
 						</div>
 					</div>
 					<div>
-						<h5 className="text-lg">{name}</h5>
+						<h5 className="text-lg">{Name}</h5>
 						<p>{location}</p>
 					</div>
 				</div>

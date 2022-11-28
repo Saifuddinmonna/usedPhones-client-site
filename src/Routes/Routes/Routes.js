@@ -20,6 +20,7 @@ import Login from "../../Pages/Login/Login";
 import AllPhones from "../../Pages/PhonesCategories/AllPhones/AllPhones";
 import DisplayError from "../../Pages/Shared/DisplayError/DisplayError";
 import SignUp from "../../Pages/SignUp/SignUp";
+import SignUpForSeller from "../../Pages/SignUp/SignUpForSeller";
 import AdminRoute from "../AdminRoute/AdminRoute";
 import PrivateRoute from "../PrivateRoute/PrivateRoute";
 
@@ -40,6 +41,10 @@ const router = createBrowserRouter([
 			{
 				path: "/signup",
 				element: <SignUp></SignUp>,
+			},
+			{
+				path: "/signupseller",
+				element: <SignUpForSeller></SignUpForSeller>,
 			},
 			{
 				path: "/allphones",
@@ -118,7 +123,9 @@ const router = createBrowserRouter([
 				path: "/dashboard/payment/:id",
 				element: <Payment></Payment>,
 				loader: ({ params }) =>
-					fetch(`http://localhost:5000/bookings/${params.id}`),
+					fetch(
+						`https://usedphonesserver-saifuddinmonna.vercel.app/bookings/${params.id}`,
+					),
 			},
 		],
 	},

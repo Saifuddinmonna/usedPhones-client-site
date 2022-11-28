@@ -1,39 +1,34 @@
 import { Popover, Transition } from "@headlessui/react";
 import { ChevronDownIcon } from "@heroicons/react/20/solid";
 import { Fragment } from "react";
+import { Link } from "react-router-dom";
 
 const solutions = [
 	{
-		name: "Insights",
-		description: "Measure actions your users take",
-		href: "##",
+		name: "SignUp",
+		description: "Sign Up for Buyer",
+		to: "#/signup",
 		icon: IconOne,
 	},
 	{
-		name: "Automations",
-		description: "Create your own targeted content",
-		href: "##",
+		name: "SignUp",
+		description: "Sign Up for Seller",
+		href: "#/signupseller",
 		icon: IconTwo,
-	},
-	{
-		name: "Reports",
-		description: "Keep track of your growth",
-		href: "##",
-		icon: IconThree,
 	},
 ];
 
 export default function Example() {
 	return (
-		<div className="fixed top-16 w-full max-w-sm px-4">
+		<div className=" w-full ">
 			<Popover className="relative">
 				{({ open }) => (
 					<>
 						<Popover.Button
 							className={`
                 ${open ? "" : "text-opacity-90"}
-                group inline-flex items-center rounded-md bg-orange-700 px-3 py-2 text-base font-medium text-white hover:text-opacity-100 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75`}>
-							<span>Solutions</span>
+                // group inline-flex items-center rounded-mdtext-base font-medium text-white hover:text-opacity-100 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75`}>
+							<span>SignUp</span>
 							<ChevronDownIcon
 								className={`${open ? "" : "text-opacity-70"}
                   ml-2 h-5 w-5 text-orange-300 transition duration-150 ease-in-out group-hover:text-opacity-80`}
@@ -52,7 +47,7 @@ export default function Example() {
 								<div className="overflow-hidden rounded-lg shadow-lg ring-1 ring-black ring-opacity-5">
 									<div className="relative grid gap-8 bg-white p-7 lg:grid-cols-2">
 										{solutions.map((item) => (
-											<a
+											<Link
 												key={item.name}
 												href={item.href}
 												className="-m-3 flex items-center rounded-lg p-2 transition duration-150 ease-in-out hover:bg-gray-50 focus:outline-none focus-visible:ring focus-visible:ring-orange-500 focus-visible:ring-opacity-50">
@@ -67,24 +62,10 @@ export default function Example() {
 														{item.description}
 													</p>
 												</div>
-											</a>
+											</Link>
 										))}
 									</div>
-									<div className="bg-gray-50 p-4">
-										<a
-											href="##"
-											className="flow-root rounded-md px-2 py-2 transition duration-150 ease-in-out hover:bg-gray-100 focus:outline-none focus-visible:ring focus-visible:ring-orange-500 focus-visible:ring-opacity-50">
-											<span className="flex items-center">
-												<span className="text-sm font-medium text-gray-900">
-													Documentation
-												</span>
-											</span>
-											<span className="block text-sm text-gray-500">
-												Start integrating products and
-												tools
-											</span>
-										</a>
-									</div>
+									
 								</div>
 							</Popover.Panel>
 						</Transition>
@@ -152,21 +133,4 @@ function IconTwo() {
 	);
 }
 
-function IconThree() {
-	return (
-		<svg
-			width="48"
-			height="48"
-			viewBox="0 0 48 48"
-			fill="none"
-			xmlns="http://www.w3.org/2000/svg">
-			<rect width="48" height="48" rx="8" fill="#FFEDD5" />
-			<rect x="13" y="32" width="2" height="4" fill="#FDBA74" />
-			<rect x="17" y="28" width="2" height="8" fill="#FDBA74" />
-			<rect x="21" y="24" width="2" height="12" fill="#FDBA74" />
-			<rect x="25" y="20" width="2" height="16" fill="#FDBA74" />
-			<rect x="29" y="16" width="2" height="20" fill="#FB923C" />
-			<rect x="33" y="12" width="2" height="24" fill="#FB923C" />
-		</svg>
-	);
-}
+

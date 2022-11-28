@@ -18,7 +18,6 @@ const SignUp = () => {
 	const navigate = useNavigate();
 	const imageHostKey = process.env.REACT_APP_imgbb_key;
 	console.log(imageHostKey, "image key");
-	
 
 	if (token) {
 		navigate("/");
@@ -32,11 +31,11 @@ const SignUp = () => {
 				console.log(user);
 				toast("User Created Successfully.");
 				const image = data.image[0];
-		const multipleImage = data.multipleImage;
-		const images = [image, multipleImage];
-		const formData = new FormData();
-		formData.append("image", image);
-		const url = `https://api.imgbb.com/1/upload?key=${imageHostKey}`;
+				const multipleImage = data.multipleImage;
+				const images = [image, multipleImage];
+				const formData = new FormData();
+				formData.append("image", image);
+				const url = `https://api.imgbb.com/1/upload?key=${imageHostKey}`;
 				fetch(url, {
 					method: "POST",
 					body: formData,
@@ -44,7 +43,10 @@ const SignUp = () => {
 					.then((res) => res.json())
 					.then((imgData) => {
 						if (imgData.success) {
-							console.log('from bb imag signup',imgData.data.url);
+							console.log(
+								"from bb imag signup",
+								imgData.data.url,
+							);
 							console.log(data.multipleImage, "images");
 							console.log(data.image, "images");
 							console.log("data", data);
@@ -55,24 +57,29 @@ const SignUp = () => {
 
 							updateUser(userInfo)
 								.then(() => {
-									saveUser(data.name, data.email);
+									saveUser(
+										data.name,
+										data.email,
+										userInfo.photoURL,
+									);
+									console.log(
+										"from save uder ",
+										userInfo.photoURL,
+									);
 								})
 								.catch((err) => console.log(err));
 						}
-					})
-					
-				
-				
+					});
 			})
 			.catch((error) => {
 				console.log(error);
 				setSignUPError(error.message);
 			});
 	};
-
-	const saveUser = (name, email,image) => {
-		const user = { name, email ,image};
-		fetch("http://localhost:5000/users", {
+	const saveUser = (name, email, photoURL) => {
+		console.log("from save uder ", photoURL);
+		const user = { name, email, photoURL };
+		fetch("https://usedphonesserver-saifuddinmonna.vercel.app/users", {
 			method: "POST",
 			headers: {
 				"content-type": "application/json",

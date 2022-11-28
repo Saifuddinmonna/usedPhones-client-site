@@ -1,11 +1,9 @@
-import React from 'react';
+import React from "react";
 
 const Review = ({ review }) => {
-    const { name, image,
-description,
-        review: userReview, location } = review;
-    console.log('review', review);
-    return (
+	const { Name, image, description, review: userReview, location } = review;
+	console.log("review", review);
+	return (
 		<div className="card shadow-xl">
 			<div className="card-body">
 				<p>{description}</p>
@@ -16,7 +14,7 @@ description,
 						</div>
 					</div>
 					<div>
-						<h5 className="text-lg">{name}</h5>
+						<h5 className="text-lg">{Name}</h5>
 						<p>{location}</p>
 					</div>
 				</div>

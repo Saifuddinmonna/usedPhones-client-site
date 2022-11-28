@@ -14,14 +14,19 @@ const CheckoutForm = ({ booking }) => {
 
 	useEffect(() => {
 		// Create PaymentIntent as soon as the page loads
-		fetch("http://localhost:5000/create-payment-intent", {
-			method: "POST",
-			headers: {
-				"Content-Type": "application/json",
-				authorization: `bearer ${localStorage.getItem("accessToken")}`,
+		fetch(
+			"https://usedphonesserver-saifuddinmonna.vercel.app/create-payment-intent",
+			{
+				method: "POST",
+				headers: {
+					"Content-Type": "application/json",
+					authorization: `bearer ${localStorage.getItem(
+						"accessToken",
+					)}`,
+				},
+				body: JSON.stringify({ price }),
 			},
-			body: JSON.stringify({ price }),
-		})
+		)
 			.then((res) => res.json())
 			.then((data) => setClientSecret(data.clientSecret));
 	}, [price]);
@@ -75,16 +80,19 @@ const CheckoutForm = ({ booking }) => {
 				email,
 				bookingId: _id,
 			};
-			fetch("http://localhost:5000/payments", {
-				method: "POST",
-				headers: {
-					"content-type": "application/json",
-					authorization: `bearer ${localStorage.getItem(
-						"accessToken",
-					)}`,
+			fetch(
+				"https://usedphonesserver-saifuddinmonna.vercel.app/payments",
+				{
+					method: "POST",
+					headers: {
+						"content-type": "application/json",
+						authorization: `bearer ${localStorage.getItem(
+							"accessToken",
+						)}`,
+					},
+					body: JSON.stringify(payment),
 				},
-				body: JSON.stringify(payment),
-			})
+			)
 				.then((res) => res.json())
 				.then((data) => {
 					console.log(data);

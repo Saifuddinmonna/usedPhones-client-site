@@ -7,6 +7,7 @@ import { Menu } from "@headlessui/react";
 import Example from "./LoginOption";
 import { PhotoProvider, PhotoView } from "react-photo-view";
 import { FaBeer, FaUserCheck } from "react-icons/fa";
+import { HiMenu, IconName } from "react-icons/hi";
 
 const Navbar = () => {
 	const { user, logOut } = useContext(AuthContext);
@@ -55,7 +56,7 @@ const Navbar = () => {
 	// }
 
 	const menuItems = (
-		<React.Fragment key="bg-teal-400 text-white ">
+		<React.Fragment key="bg-teal-400 text-white flex justify-end ">
 			<li>
 				<NavLink to="/">Home</NavLink>
 			</li>
@@ -68,70 +69,72 @@ const Navbar = () => {
 			<li>
 				<NavLink to="/blog">Blog</NavLink>
 			</li>
-			{/* <li>
-				<NavLink to="/myorders">My Orders</NavLink>
-			</li> */}
 
-			<>
+			{!user?.uid ? (
 				<>
-					{!user?.uid ? (
-						<>
-							<li>
-								<NavLink
-									className="px-2 text-decoration-none text-white  shadow-md rounded mx-2 px-2"
-									to="/login">
-									Login
-								</NavLink>
-							</li>
-							<li>
-								<NavLink
-									className="px-2 text-decoration-none text-white  shadow-md rounded  mx-2 px-2"
-									to="/signup">
-									Sign Up
-								</NavLink>
-							</li>
-						</>
-					) : (
-						<>
-							<>
-								<>
-									<li>
-										<NavLink to="/dashboard">
-											Dashboard
-										</NavLink>
-									</li>
-									<li className="rounded-full ">
-										<button onClick={handleLogOut}>
-											Sign out
-										</button>
-									</li>
-								</>
+					<li tabIndex={0}>
+						<NavLink
+							className=" text-decoration-none  rounded mx-2 px-2"
+							to="/login">
+							{" "}
+							Login
+						</NavLink>
 
-								<Link className=" p-1 text-center flex items-center text-xs  shadow rounded-full ml-2 ">
-									{user?.displayName || user?.email}
-								</Link>
-								<div
-									className="tooltipcustomhover  w-20 mask mask-hexagon"
-									data-tip="hello">
-									{user.photoURL ? (
-										<PhotoProvider className="tooltipcustomhover">
-											<PhotoView src={user?.photoURL}>
-												<img
-													className="tooltipcustomhover"
-													src={user?.photoURL}
-													alt=""
-												/>
-											</PhotoView>
-										</PhotoProvider>
-									) : (
-										<FaUserCheck className="p-0 m-0 fs-3 inline-block"></FaUserCheck>
-									)}
-								</div>
-							</>
-						</>
-					)}
+						<a>
+							SignUp
+							<svg
+								className="fill-current"
+								xmlns="http://www.w3.org/2000/svg"
+								width="20"
+								height="20"
+								viewBox="0 0 24 24">
+								<path d="M7.41,8.58L12,13.17L16.59,8.58L18,10L12,16L6,10L7.41,8.58Z" />
+							</svg>
+						</a>
+						<ul className="p-2 text-black bg-base-100">
+							<li>
+								<NavLink to="/signup">SignUp For Buyer</NavLink>
+							</li>
+							<li>
+								<NavLink to="/signupseller">SignUp For Seller</NavLink>
+							</li>
+						</ul>
+					</li>
 				</>
-			</>
+			) : (
+				<>
+					<>
+						<li>
+							<NavLink to="/dashboard">Dashboard</NavLink>
+						</li>
+						<li className="rounded-full ">
+							<button onClick={handleLogOut}>Sign out</button>
+						</li>
+					</>
+
+					<Link className=" p-1 text-center flex items-center text-xs  shadow rounded-full ml-2 ">
+						{user?.displayName || user?.email}
+					</Link>
+					<div
+						className="tooltipcustomhover  w-20 mask mask-hexagon"
+						data-tip="hello">
+						{user.photoURL ? (
+							<PhotoProvider className="tooltipcustomhover">
+								<PhotoView src={user?.photoURL}>
+									<img
+										className="tooltipcustomhover"
+										src={user?.photoURL}
+										alt=""
+									/>
+								</PhotoView>
+							</PhotoProvider>
+						) : (
+							<FaUserCheck className="p-0 m-0 fs-3 inline-block"></FaUserCheck>
+						)}
+					</div>
+				</>
+			)}
+
 			<div className="">
 				<Switch
 					checked={enabled}
@@ -158,24 +161,7 @@ const Navbar = () => {
 				<div className="navbar-start  flex justify-between">
 					<div className="dropdown">
 						<label tabIndex={0} className="btn btn-ghost lg:hidden">
-							<NavLink
-								to="/"
-								className="btn btn-ghost normal-case text-xl">
-								Menu
-							</NavLink>
-							<svg
-								xmlns="http://www.w3.org/2000/svg"
-								className="h- w-"
-								fill="none"
-								viewBox="0 0 24 24"
-								stroke="currentColor">
-								<path
-									strokeLinecap="round"
-									strokeLinejoin="round"
-									strokeWidth="2"
-									d="M4 6h16M4 12h8m-8 6h16"
-								/>
-							</svg>
+							<HiMenu></HiMenu>
 						</label>
 						<ul
 							tabIndex={1}
@@ -194,7 +180,7 @@ const Navbar = () => {
 						{menuItems}
 					</ul>
 				</div>
-				{/* <label
+				<label
 					htmlFor="dashboard-drawer"
 					tabIndex={2}
 					className="btn btn-ghost lg:hidden">
@@ -211,9 +197,8 @@ const Navbar = () => {
 							d="M4 6h16M4 12h8m-8 6h16"
 						/>
 					</svg>
-				</label> */}
+				</label>
 			</div>
-			{/* <Example></Example> */}
 		</div>
 	);
 };

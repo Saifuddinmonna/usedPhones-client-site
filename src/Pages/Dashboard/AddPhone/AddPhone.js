@@ -25,7 +25,9 @@ const AddPhone = () => {
 	} = useQuery({
 		queryKey: ["brand"],
 		queryFn: async () => {
-			const res = await fetch("http://localhost:5000/brandname");
+			const res = await fetch(
+				"https://usedphonesserver-saifuddinmonna.vercel.app/brandname",
+			);
 			const data = await res.json();
 			console.log("data", data);
 			return data;
@@ -38,7 +40,9 @@ const AddPhone = () => {
 	} = useQuery({
 		queryKey: ["division"],
 		queryFn: async () => {
-			const res = await fetch("http://localhost:5000/divisionsname");
+			const res = await fetch(
+				"https://usedphonesserver-saifuddinmonna.vercel.app/divisionsname",
+			);
 			const data = await res.json();
 			console.log("data", data);
 			return data;
@@ -85,16 +89,19 @@ const AddPhone = () => {
 					};
 
 					// save phone information to the database
-					fetch("http://localhost:5000/phones", {
-						method: "POST",
-						headers: {
-							"content-type": "application/json",
-							authorization: `bearer ${localStorage.getItem(
-								"accessToken",
-							)}`,
+					fetch(
+						"https://usedphonesserver-saifuddinmonna.vercel.app/phones",
+						{
+							method: "POST",
+							headers: {
+								"content-type": "application/json",
+								authorization: `bearer ${localStorage.getItem(
+									"accessToken",
+								)}`,
+							},
+							body: JSON.stringify(phone),
 						},
-						body: JSON.stringify(phone),
-					})
+					)
 						.then((res) => res.json())
 						.then((result) => {
 							console.log(result);
