@@ -27,8 +27,8 @@ const DashboardLayout = () => {
 						<li>
 							<Link
 								className="btn btn-primary mx-2 my-2"
-								to="/dashboard/myappointment">
-								My Appointments
+								to="/dashboard/">
+								My Orders
 							</Link>
 						</li>
 						<li>
@@ -58,8 +58,29 @@ const DashboardLayout = () => {
 								<li>
 									<Link
 										className="btn btn-primary mx-2 my-2"
+										to="/dashboard/addseller">
+										All Buyers
+									</Link>
+								</li>
+								<li>
+									<Link
+										className="btn btn-primary mx-2 my-2"
+										to="/dashboard/addseller">
+										All Sellers
+									</Link>
+								</li>
+								<li>
+									<Link
+										className="btn btn-primary mx-2 my-2"
 										to="/dashboard/manageseller">
 										Manage seller
+									</Link>
+								</li>
+								<li>
+									<Link
+										className="btn btn-primary mx-2 my-2"
+										to="/dashboard/malkeadmin">
+										Make Admin
 									</Link>
 								</li>
 							</>

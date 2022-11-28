@@ -58,6 +58,10 @@ const router = createBrowserRouter([
 						path: "/allphones/:id",
 						element: <PhonesCategories></PhonesCategories>,
 					},
+					{
+						path: "/allphones/*",
+						element: <DisplayError></DisplayError>,
+					},
 				],
 			},
 			{
@@ -71,6 +75,10 @@ const router = createBrowserRouter([
 			{
 				path: "/customarreviewsall",
 				element: <CustomarReviewsAll></CustomarReviewsAll>,
+			},
+			{
+				path: "/*",
+				element: <DisplayError></DisplayError>,
 			},
 		],
 	},
@@ -96,7 +104,7 @@ const router = createBrowserRouter([
 				),
 			},
 			{
-				path: "/dashboard/myappointment",
+				path: "/dashboard/myorders",
 				element: (
 					<AdminRoute>
 						<MyAppointment></MyAppointment>
@@ -120,12 +128,24 @@ const router = createBrowserRouter([
 				),
 			},
 			{
+				path: "/dashboard/managebuyers",
+				element: (
+					<AdminRoute>
+						<ManageSeller></ManageSeller>
+					</AdminRoute>
+				),
+			},
+			{
 				path: "/dashboard/payment/:id",
 				element: <Payment></Payment>,
 				loader: ({ params }) =>
 					fetch(
 						`https://usedphonesserver-saifuddinmonna.vercel.app/bookings/${params.id}`,
 					),
+			},
+			{
+				path: "/dashboard/*",
+				element: <DisplayError></DisplayError>,
 			},
 		],
 	},
