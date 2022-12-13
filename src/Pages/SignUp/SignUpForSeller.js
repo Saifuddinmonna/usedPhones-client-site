@@ -1,7 +1,7 @@
 import React, { useContext, useState } from "react";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../contexts/AuthProvider";
 import useToken from "../../hooks/useToken";
 
@@ -81,13 +81,16 @@ const SignUpForSeller = () => {
 	const saveUser = (name, email, photoURL, role) => {
 		console.log("from save uder ", photoURL);
 		const user = { name, email, photoURL, role: "seller" };
-		fetch("https://usedphonesserver-saifuddinmonna.vercel.app/usersseller", {
-			method: "POST",
-			headers: {
-				"content-type": "application/json",
+		fetch(
+			"https://usedphonesserver-saifuddinmonna.vercel.app/usersseller",
+			{
+				method: "POST",
+				headers: {
+					"content-type": "application/json",
+				},
+				body: JSON.stringify(user),
 			},
-			body: JSON.stringify(user),
-		})
+		)
 			.then((res) => res.json())
 			.then((data) => {
 				setCreatedUserEmail(email);
@@ -98,6 +101,18 @@ const SignUpForSeller = () => {
 		<div className="h-[800px] flex justify-center items-center">
 			<div className="w-96 p-7">
 				<h2 className="text-xl text-center">Sign Up To Be Seller</h2>
+				<div class="btn-group btn-group-horizontal  lg:btn-group-horizontal">
+					<NavLink className="m-3" to="/signupseller">
+						<button class="btn btn-active  d-inline-block px-5 btn-primary ">
+							Sign Up For Seller
+						</button>
+					</NavLink>
+					<NavLink className="m-3 " to="/signupbuyer">
+						<button class="btn d-inline-block px-5 btn-primary ">
+							Sign Up For Buyer
+						</button>
+					</NavLink>
+				</div>
 				<form onSubmit={handleSubmit(handleSignUp)}>
 					<div className="form-control w-full max-w-xs">
 						<label className="label">
@@ -183,8 +198,8 @@ const SignUpForSeller = () => {
 						)}
 					</div>
 					<input
-						className="btn btn-accent w-full mt-4"
-						value="Sign Up"
+						className="btn w-full mt-4 btn-primary"
+						value="Sign Up For Seller"
 						type="submit"
 					/>
 					{signUpError && (
@@ -197,10 +212,13 @@ const SignUpForSeller = () => {
 						Please Login
 					</Link>
 				</p>
-				<div className="divider">OR</div>
-				<button className="btn btn-outline w-full">
-					CONTINUE WITH GOOGLE
-				</button>
+				<div className="divider"></div>
+
+				<Link className="text-secondary" to="/login">
+					<button className="btn btn-outline w-full">
+						Please Login
+					</button>
+				</Link>
 			</div>
 		</div>
 	);

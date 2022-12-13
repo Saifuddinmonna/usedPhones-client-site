@@ -1,12 +1,14 @@
 import { useQuery } from "@tanstack/react-query";
 import { data } from "autoprefixer";
-import React from "react";
+import React, { useContext } from "react";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
+import { AuthContext } from "../../../contexts/AuthProvider";
 import Loading from "../../Shared/Loading/Loading";
 
 const AddPhone = () => {
+	const { user } = useContext(AuthContext);
 	const {
 		register,
 		handleSubmit,
@@ -74,6 +76,7 @@ const AddPhone = () => {
 					const phone = {
 						sellerName: data.name,
 						sellerEmail: data.email,
+						mobileNumber: data.mobileNumber,
 						brand: data.brand,
 						image: imgData.data.url,
 						originalPrice: data.originalPrice,
@@ -106,7 +109,7 @@ const AddPhone = () => {
 						.then((result) => {
 							console.log(result);
 							toast.success(`${data.name} is added successfully`);
-							navigate("/dashboard/managedoctors");
+							navigate("/dashboard/myproducts");
 						});
 				}
 			});
@@ -132,6 +135,10 @@ const AddPhone = () => {
 								<span className="label-text">Seller Name</span>
 							</label>
 							<input
+								// placeholder={user?.displayName}
+								// defaultValue={user?.displayName}
+								defaultValue={user?.displayName}
+								placeholder={user?.displayName}
 								type="text"
 								{...register("name", {
 									required: "Name is Required",
@@ -151,6 +158,11 @@ const AddPhone = () => {
 								<span className="label-text">Seller Email</span>
 							</label>
 							<input
+								// placeholder={user?.email}
+								// // disabled
+								// defaultChecked={user?.email}
+								defaultValue={user?.email}
+								placeholder={user?.email}
 								type="email"
 								{...register("email", {
 									required: true,

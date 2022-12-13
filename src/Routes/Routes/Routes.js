@@ -1,3 +1,4 @@
+import { id } from "date-fns/locale";
 import { createBrowserRouter } from "react-router-dom";
 import About from "../../components/About/About";
 import Blog from "../../components/Blog/Blog";
@@ -7,13 +8,20 @@ import Main from "../../Layout/Main";
 import AddPhone from "../../Pages/Dashboard/AddPhone/AddPhone";
 import AllPhonesForLayout from "../../Pages/Dashboard/AddPhone/AllPhones";
 import AllPhonesLayout from "../../Pages/Dashboard/AddPhone/AllPhonesLayout";
+import MyBuyers from "../../Pages/Dashboard/AddPhone/MyBuyers";
+import MyProductDelete from "../../Pages/Dashboard/AddPhone/MyProductDelete";
+import MyProducts from "../../Pages/Dashboard/AddPhone/MyProducts";
+import MyProductsDelete from "../../Pages/Dashboard/AddPhone/MyProductsDelete";
 import PhonesCategories from "../../Pages/Dashboard/AddPhone/PhonesCategories";
+import AllBuyers from "../../Pages/Dashboard/AllUsers/AllBuyers";
+import AllSellers from "../../Pages/Dashboard/AllUsers/AllSellers";
 import AllUsers from "../../Pages/Dashboard/AllUsers/AllUsers";
 import Dashboard from "../../Pages/Dashboard/Dashboard/Dashboard";
 import ManageSeller from "../../Pages/Dashboard/ManageSeller/ManageSeller";
-import MyAppointment from "../../Pages/Dashboard/MyAppointment/MyAppointment";
+import MyOrders from "../../Pages/Dashboard/MyOrders/MyOrders";
 
 import Payment from "../../Pages/Dashboard/Payment/Payment";
+import BrandsCategorys from "../../Pages/Home/Brands/BrandsCategorys";
 import Home from "../../Pages/Home/Home/Home";
 import CustomarReviewsAll from "../../Pages/Home/Testimonial/AllUserCommences";
 import Login from "../../Pages/Login/Login";
@@ -21,6 +29,7 @@ import AllPhones from "../../Pages/PhonesCategories/AllPhones/AllPhones";
 import DisplayError from "../../Pages/Shared/DisplayError/DisplayError";
 import SignUp from "../../Pages/SignUp/SignUp";
 import SignUpForSeller from "../../Pages/SignUp/SignUpForSeller";
+import SignUpForBuyer from "../../Pages/SignUp/SignUpForUser";
 import AdminRoute from "../AdminRoute/AdminRoute";
 import PrivateRoute from "../PrivateRoute/PrivateRoute";
 
@@ -39,8 +48,8 @@ const router = createBrowserRouter([
 				element: <Login></Login>,
 			},
 			{
-				path: "/signup",
-				element: <SignUp></SignUp>,
+				path: "/signupbuyer",
+				element: <SignUpForBuyer></SignUpForBuyer>,
 			},
 			{
 				path: "/signupseller",
@@ -52,11 +61,24 @@ const router = createBrowserRouter([
 				children: [
 					{
 						path: "/allphones",
-						element: <AllPhonesForLayout></AllPhonesForLayout>,
+						element: (
+							<PrivateRoute>
+								<AllPhonesForLayout></AllPhonesForLayout>
+							</PrivateRoute>
+						),
 					},
 					{
-						path: "/allphones/:id",
-						element: <PhonesCategories></PhonesCategories>,
+						path: "/allphones/:brand",
+						loader: async ({ params }) => {
+							return fetch(
+								`https://usedphonesserver-saifuddinmonna.vercel.app/allphones/?brand=${params.brand}`,
+							);
+						},
+						element: (
+							<PrivateRoute>
+								<PhonesCategories></PhonesCategories>
+							</PrivateRoute>
+						),
 					},
 					{
 						path: "/allphones/*",
@@ -69,12 +91,32 @@ const router = createBrowserRouter([
 				element: <Blog></Blog>,
 			},
 			{
+				path: "/category/:id",
+				loader: async ({ params }) => {
+					console.log("from loader", params.id);
+					return fetch(
+						`https://usedphonesserver-saifuddinmonna.vercel.app/category/${params.id}`,
+					);
+				},
+				element: (
+					<PrivateRoute>
+						{" "}
+						<BrandsCategorys></BrandsCategorys>
+					</PrivateRoute>
+				),
+			},
+			{
 				path: "/about",
 				element: <About></About>,
 			},
 			{
 				path: "/customarreviewsall",
-				element: <CustomarReviewsAll></CustomarReviewsAll>,
+				element: (
+					<PrivateRoute>
+						{" "}
+						<CustomarReviewsAll></CustomarReviewsAll>
+					</PrivateRoute>
+				),
 			},
 			{
 				path: "/*",
@@ -84,16 +126,29 @@ const router = createBrowserRouter([
 	},
 	{
 		path: "/dashboard",
-		element: (
-			<PrivateRoute>
-				<DashboardLayout></DashboardLayout>
-			</PrivateRoute>
-		),
+		element: <DashboardLayout></DashboardLayout>,
 		errorElement: <DisplayError></DisplayError>,
 		children: [
 			{
 				path: "/dashboard",
+
 				element: <Dashboard></Dashboard>,
+			},
+			{
+				path: "/dashboard/sellers",
+				element: (
+					<AdminRoute>
+						<AllSellers></AllSellers>
+					</AdminRoute>
+				),
+			},
+			{
+				path: "/dashboard/buyers",
+				element: (
+					<PrivateRoute>
+						<AllBuyers></AllBuyers>
+					</PrivateRoute>
+				),
 			},
 			{
 				path: "/dashboard/allusers",
@@ -106,17 +161,41 @@ const router = createBrowserRouter([
 			{
 				path: "/dashboard/myorders",
 				element: (
-					<AdminRoute>
-						<MyAppointment></MyAppointment>
-					</AdminRoute>
+					<PrivateRoute>
+						<MyOrders></MyOrders>
+					</PrivateRoute>
+				),
+			},
+			{
+				path: "/dashboard/myproducts",
+				element: (
+					<PrivateRoute>
+						<MyProducts></MyProducts>
+					</PrivateRoute>
+				),
+			},
+			{
+				path: "/dashboard/myproducts/myproductdelete",
+				element: (
+					<PrivateRoute>
+						<MyProductsDelete></MyProductsDelete>
+					</PrivateRoute>
+				),
+			},
+			{
+				path: "/dashboard/mybuyers",
+				element: (
+					<PrivateRoute>
+						<MyBuyers></MyBuyers>
+					</PrivateRoute>
 				),
 			},
 			{
 				path: "/dashboard/addphone",
 				element: (
-					<AdminRoute>
+					<PrivateRoute>
 						<AddPhone></AddPhone>
-					</AdminRoute>
+					</PrivateRoute>
 				),
 			},
 			{
@@ -140,7 +219,7 @@ const router = createBrowserRouter([
 				element: <Payment></Payment>,
 				loader: ({ params }) =>
 					fetch(
-						`https://usedphonesserver-saifuddinmonna.vercel.app/bookings/${params.id}`,
+						`https://usedphonesserver-saifuddinmonna.vercel.app/payment/${params.id}`,
 					),
 			},
 			{

@@ -35,6 +35,27 @@ const AllUsers = () => {
 				}
 			});
 	};
+	const handleMakeVerify = (id) => {
+		console.log("user id ffor token checj", id);
+		fetch(
+			`https://usedphonesserver-saifuddinmonna.vercel.app/users/verify/${id}`,
+			{
+				method: "PUT",
+				headers: {
+					authorization: `bearer ${localStorage.getItem(
+						"accessToken",
+					)}`,
+				},
+			},
+		)
+			.then((res) => res.json())
+			.then((data) => {
+				if (data.modifiedCount > 0) {
+					toast.success("Make admin successful.");
+					refetch();
+				}
+			});
+	};
 	const handleDeleteUser = (id) => {
 		console.log("user id ffor token checj", id);
 		fetch(
@@ -69,6 +90,7 @@ const AllUsers = () => {
 							<th>Name</th>
 							<th>Email</th>
 							<th>Admin</th>
+							<th>Verification</th>
 							<th>Delete</th>
 						</tr>
 					</thead>
@@ -86,6 +108,17 @@ const AllUsers = () => {
 											}
 											className="btn btn-xs btn-primary">
 											Make Admin
+										</button>
+									)}
+								</td>
+								<td>
+									{user?.verification !== "verified" && (
+										<button
+											onClick={() =>
+												handleMakeVerify(user._id)
+											}
+											className="btn btn-xs btn-primary">
+											Verify
 										</button>
 									)}
 								</td>

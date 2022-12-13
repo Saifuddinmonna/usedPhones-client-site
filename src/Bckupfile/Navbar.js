@@ -5,6 +5,7 @@ import { Switch } from "@headlessui/react";
 import { Fragment } from "react";
 import { Menu } from "@headlessui/react";
 import Example from "./LoginOption";
+import DashboardLayout from "../Layout/DashboardLayout";
 
 const Navbar2 = () => {
 	const { user, logOut } = useContext(AuthContext);
@@ -171,6 +172,12 @@ const Navbar2 = () => {
 						/>
 					</svg>
 				</label>
+				<input
+					id="dashboard-drawer"
+					type="checkbox"
+					className="drawer-toggle"
+				/>
+				<DashboardLayout></DashboardLayout>
 			</div>
 			<Example></Example>
 		</div>

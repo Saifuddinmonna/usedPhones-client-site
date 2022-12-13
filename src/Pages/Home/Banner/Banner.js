@@ -4,7 +4,7 @@ import PrimaryButton from "../../../components/PrimaryButton/PrimaryButton";
 
 const Banner = () => {
 	return (
-		<div>
+		<div className="z-0">
 			<div
 				className="hero h-80 p-1 rounded-lg my-3"
 				style={{
@@ -12,11 +12,11 @@ const Banner = () => {
 				}}>
 				<div className="hero-overlay bg-opacity-60"></div>
 				<div className="hero-content text-center text-neutral-content">
-					<div className="">
-						<h1 className="mb-5 text-5xl font-bold">
+					<div className="z-0">
+						<h1 className="mb-5 text-5xl font-bold z-0">
 							Buy - Sell Your Used Product
 						</h1>
-						<p className="mb-5">
+						<p className="mb-5 z-1">
 							Provident cupiditate voluptatem et in. Quaerat
 							fugiat ut assumenda excepturi exercitationem quasi.
 							In deleniti eaque aut repudiandae et a id nisi.

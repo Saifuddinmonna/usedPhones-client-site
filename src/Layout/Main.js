@@ -1,15 +1,16 @@
-import React from 'react';
-import { Outlet } from 'react-router-dom';
+import React from "react";
+import { Outlet } from "react-router-dom";
 
-import Footer from '../Pages/Shared/Footer/Footer';
-import Navbar from '../Pages/Shared/Navbar/Navbar';
-import Navbar2 from '../Pages/Shared/Navbar/Navbar';
+import Footer from "../Pages/Shared/Footer/Footer";
+import Navbar from "../Pages/Shared/Navbar/Navbar";
+
 
 const Main = () => {
-    return (
+	return (
 		<div>
-			<Navbar></Navbar>
-			<Outlet></Outlet>
+			 <Navbar className="z-20"></Navbar>
+			
+			<Outlet className="z-0"></Outlet>
 			<Footer></Footer>
 		</div>
 	);

@@ -1,4 +1,7 @@
 import React from "react";
+import AllPhonesForLayout from "../../Dashboard/AddPhone/AllPhones";
+import Payment from "../../Dashboard/Payment/Payment";
+
 import Banner from "../Banner/Banner";
 import BnnerHero from "../Banner/BnnerHero";
 import Brands from "../Brands/Brands";
@@ -9,9 +12,12 @@ import CustomarReviews from "../Testimonial/CustomarReviews";
 
 const Home = () => {
 	return (
-		<div className="mx-5">
+		<div className="mx-5 z-0">
 			<Banner></Banner>
-			{/* <InfoCards></InfoCards> */}
+			{/* <Payment></Payment> */}
+			<div>
+			<AllPhonesForLayout></AllPhonesForLayout>
+			</div>
 			<Brands></Brands>
 			<BnnerHero></BnnerHero>
 			<CustomarReviews></CustomarReviews>

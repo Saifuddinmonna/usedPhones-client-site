@@ -1,5 +1,7 @@
 import { CardElement, useElements, useStripe } from "@stripe/react-stripe-js";
 import React, { useEffect, useState } from "react";
+import { useNavigation } from "react-router-dom";
+import Loading from "../../Shared/Loading/Loading";
 
 const CheckoutForm = ({ booking }) => {
 	const [cardError, setCardError] = useState("");
@@ -8,10 +10,31 @@ const CheckoutForm = ({ booking }) => {
 	const [transactionId, setTransactionId] = useState("");
 	const [clientSecret, setClientSecret] = useState("");
 
+	const navigation = useNavigation();
 	const stripe = useStripe();
 	const elements = useElements();
-	const { price, email, patient, _id } = booking;
-
+	console.log("from checkout form route route", booking._id);
+	const {
+		phone,
+		buyer,
+		price,
+		phoneName,
+		email,
+		productId,
+		orderingDate,
+		_id,
+	} = booking;
+	console.log(
+		"from checkout form route route",
+		booking._id,
+		buyer,
+		price,
+		phoneName,
+		email,
+		productId,
+		orderingDate,
+		_id,
+	);
 	useEffect(() => {
 		// Create PaymentIntent as soon as the page loads
 		fetch(
@@ -33,7 +56,7 @@ const CheckoutForm = ({ booking }) => {
 
 	const handleSubmit = async (event) => {
 		event.preventDefault();
-
+		console.log("after handle click", event);
 		if (!stripe || !elements) {
 			return;
 		}
@@ -61,7 +84,7 @@ const CheckoutForm = ({ booking }) => {
 				payment_method: {
 					card: card,
 					billing_details: {
-						name: patient,
+						name: buyer,
 						email: email,
 					},
 				},
@@ -104,15 +127,19 @@ const CheckoutForm = ({ booking }) => {
 		}
 		setProcessing(false);
 	};
+	console.log("from payment route", booking);
+	if (navigation.state === "loading") {
+		return <Loading></Loading>;
+	}
 
 	return (
 		<>
-			<form onSubmit={handleSubmit}>
+			<form className="border p-12 m rounded-xl" onSubmit={handleSubmit}>
 				<CardElement
 					options={{
 						style: {
 							base: {
-								fontSize: "16px",
+								fontSize: "18px",
 								color: "#424770",
 								"::placeholder": {
 									color: "#aab7c4",
@@ -127,15 +154,16 @@ const CheckoutForm = ({ booking }) => {
 				<button
 					className="btn btn-sm mt-4 btn-primary"
 					type="submit"
-					disabled={!stripe || !clientSecret || processing}>
+					// disabled={ !stripe || !clientSecret || processing }
+				>
 					Pay
 				</button>
 			</form>
 			<p className="text-red-500">{cardError}</p>
 			{success && (
 				<div>
-					<p className="text-green-500">{success}</p>
-					<p>
+					<p className="text-green-500 text-lg">{success}</p>
+					<p className=" text-lg">
 						Your transactionId:{" "}
 						<span className="font-bold">{transactionId}</span>
 					</p>

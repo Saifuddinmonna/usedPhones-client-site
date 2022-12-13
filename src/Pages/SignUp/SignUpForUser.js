@@ -1,11 +1,11 @@
 import React, { useContext, useState } from "react";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../contexts/AuthProvider";
 import useToken from "../../hooks/useToken";
 
-const SignUpForUser = () => {
+const SignUpForBuyer = () => {
 	const {
 		register,
 		handleSubmit,
@@ -78,7 +78,7 @@ const SignUpForUser = () => {
 	};
 	const saveUser = (name, email, photoURL) => {
 		console.log("from save uder ", photoURL);
-		const user = { name, email, photoURL };
+		const user = { name, email, photoURL, role: "buyer" };
 		fetch("https://usedphonesserver-saifuddinmonna.vercel.app/users", {
 			method: "POST",
 			headers: {
@@ -95,7 +95,19 @@ const SignUpForUser = () => {
 	return (
 		<div className="h-[800px] flex justify-center items-center">
 			<div className="w-96 p-7">
-				<h2 className="text-xl text-center">Sign Up</h2>
+				<h2 className="text-xl text-center">Sign Up For Buyer</h2>
+				<div class="btn-group btn-group-horizontal  lg:btn-group-horizontal">
+					<NavLink className="m-3 " to="/signupbuyer">
+						<button class="btn d-inline-block btn-active px-5 btn-primary ">
+							Sign Up For Buyer
+						</button>
+					</NavLink>
+					<NavLink className="m-3" to="/signupseller">
+						<button class="btn   d-inline-block px-5 btn-primary ">
+							Sign Up For Seller
+						</button>
+					</NavLink>
+				</div>
 				<form onSubmit={handleSubmit(handleSignUp)}>
 					<div className="form-control w-full max-w-xs">
 						<label className="label">
@@ -181,8 +193,8 @@ const SignUpForUser = () => {
 						)}
 					</div>
 					<input
-						className="btn btn-accent w-full mt-4"
-						value="Sign Up"
+						className="btn  w-full btn-primary mt-4"
+						value="Sign Up For Buyer "
 						type="submit"
 					/>
 					{signUpError && (
@@ -204,4 +216,4 @@ const SignUpForUser = () => {
 	);
 };
 
-export default SignUpForUser;
+export default SignUpForBuyer;

@@ -2,11 +2,16 @@ import React, { useContext } from "react";
 import { Link, NavLink, Outlet } from "react-router-dom";
 import { AuthContext } from "../contexts/AuthProvider";
 import useAdmin from "../hooks/useAdmin";
+import useBuyer from "../hooks/useBuyer";
+import useSeller from "../hooks/useSeller";
 import Navbar from "../Pages/Shared/Navbar/Navbar";
 
 const DashboardLayout = () => {
 	const { user } = useContext(AuthContext);
 	const [isAdmin] = useAdmin(user?.email);
+	const [isBuyer] = useBuyer(user?.email);
+	const [isSeller] = useSeller(user?.email);
+	console.log("seller check", isSeller, isBuyer);
 	return (
 		<div>
 			<Navbar></Navbar>
@@ -16,30 +21,55 @@ const DashboardLayout = () => {
 					type="checkbox"
 					className="drawer-toggle"
 				/>
-				<div className="drawer-content my-5 border shadow rounded rounded-5 p-1 bg-base-100 ">
+				<div className="drawer-content my-5 border shadow rounded rounded-5 p-1 ml-2 bg-base-100 ">
 					<Outlet></Outlet>
 				</div>
 				<div className="drawer-side mt-6">
-					<label
-						htmlFor="dashboard-drawer"
-						className="drawer-overlay"></label>
 					<ul className="menu p-4 w-80 text-base-content">
-						<li>
-							<Link
-								className="btn btn-primary mx-2 my-2"
-								to="/dashboard/">
-								My Orders
-							</Link>
-						</li>
-						<li>
-							<Link
-								className="btn btn-primary mx-2 my-2"
-								to="/dashboard/addphone">
-								Add Phone
-							</Link>
-						</li>
-						{
-							// isAdmin &&
+						{isBuyer && (
+							<>
+								<li>
+									<Link
+										className="btn btn-primary mx-2 my-2"
+										to="/dashboard/myorders">
+										My Orders
+									</Link>
+								</li>
+								<li>
+									<Link
+										className="btn btn-primary mx-2 my-2"
+										to="/dashboard/">
+										MyWish List
+									</Link>
+								</li>
+							</>
+						)}
+						{isSeller && (
+							<>
+								<li>
+									<Link
+										className="btn btn-primary mx-2 my-2"
+										to="/dashboard/addphone">
+										Add Product
+									</Link>
+								</li>
+								<li>
+									<Link
+										className="btn btn-primary mx-2 my-2"
+										to="/dashboard/myproducts">
+										My Products
+									</Link>
+								</li>
+								<li>
+									<Link
+										className="btn btn-primary mx-2 my-2"
+										to="/dashboard/mybuyers">
+										My Buyers
+									</Link>
+								</li>
+							</>
+						)}
+						{isAdmin && (
 							<>
 								<li>
 									<Link
@@ -49,43 +79,29 @@ const DashboardLayout = () => {
 									</Link>
 								</li>
 								<li>
-									<Link
+									{/* <Link
 										className="btn btn-primary mx-2 my-2"
 										to="/dashboard/addseller">
 										Add a Seller
-									</Link>
+									</Link> */}
 								</li>
 								<li>
 									<Link
 										className="btn btn-primary mx-2 my-2"
-										to="/dashboard/addseller">
+										to="/dashboard/buyers">
 										All Buyers
 									</Link>
 								</li>
 								<li>
 									<Link
 										className="btn btn-primary mx-2 my-2"
-										to="/dashboard/addseller">
+										to="/dashboard/sellers">
 										All Sellers
 									</Link>
 								</li>
-								<li>
-									<Link
-										className="btn btn-primary mx-2 my-2"
-										to="/dashboard/manageseller">
-										Manage seller
-									</Link>
-								</li>
-								<li>
-									<Link
-										className="btn btn-primary mx-2 my-2"
-										to="/dashboard/malkeadmin">
-										Make Admin
-									</Link>
-								</li>
 							</>
-						}
-						<ul>
+						)}
+						{/* <ul>
 							<li>
 								<NavLink
 									className="btn btn-primary mx-2 my-2"
@@ -93,7 +109,7 @@ const DashboardLayout = () => {
 									Home
 								</NavLink>
 							</li>
-						</ul>
+						</ul> */}
 					</ul>
 				</div>
 			</div>

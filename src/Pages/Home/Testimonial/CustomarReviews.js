@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import quote from "../../../assets/icons/quote.svg";
 import people1 from "../../../assets/images/people1.png";
 import people2 from "../../../assets/images/people2.png";
@@ -14,8 +14,11 @@ import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { Link, useNavigate } from "react-router-dom";
 import Loading from "../../Shared/Loading/Loading";
+import { AuthContext } from "../../../contexts/AuthProvider";
 
 const CustomarReviews = () => {
+	const { user } = useContext(AuthContext);
+	console.log("for emialuser", user);
 	let [isOpen, setIsOpen] = useState(false);
 
 	const { data: userscommences = [], refetch } = useQuery({
@@ -58,7 +61,7 @@ const CustomarReviews = () => {
 	console.log(data.location);
 
 	const handleAddPhone = (data) => {
-		const image = data.image[0];
+		const image = data.image[0] ? data.image[0] : user?.photoURL;
 		const multipleImage = data.multipleImage;
 		const images = [image, multipleImage];
 		const formData = new FormData();
@@ -182,7 +185,6 @@ const CustomarReviews = () => {
 											<div className="flex min-h-full items-center justify-center p-4 text-center">
 												<Transition.Child
 													as={Fragment}
-													ew
 													enter="ease-out duration-300"
 													enterFrom="opacity-0 scale-95"
 													enterTo="opacity-100 scale-100"
@@ -200,7 +202,7 @@ const CustomarReviews = () => {
 																<div className="px-7 ">
 																	<h2 className="text-4xl text-center">
 																		Add A
-																		Revi
+																		Review
 																	</h2>
 																</div>
 																<div className="flex flex-row justify-center items-center mx-5 my-6 ">
@@ -218,6 +220,12 @@ const CustomarReviews = () => {
 																					</span>
 																				</label>
 																				<input
+																					defaultValue={
+																						user?.displayName
+																					}
+																					placeholder={
+																						user?.displayName
+																					}
 																					type="text"
 																					{...register(
 																						"name",
@@ -247,6 +255,12 @@ const CustomarReviews = () => {
 																					</span>
 																				</label>
 																				<input
+																					defaultValue={
+																						user?.email
+																					}
+																					placeholder={
+																						user?.email
+																					}
 																					type="email"
 																					{...register(
 																						"email",
@@ -306,15 +320,17 @@ const CustomarReviews = () => {
 																					</span>
 																				</label>
 																				<input
+																					placeholder={
+																						user?.photoURL
+																					}
 																					type="file"
 																					multiple
 																					accept="image/*"
 																					{...register(
 																						"image",
-																						{
-																							required:
-																								"Photo is Required",
-																						},
+
+																						!user?.photoURL &&
+																							`{required: "Photo is Required",}`,
 																					)}
 																					className="input input-bordered w-full max-w-xs"
 																				/>

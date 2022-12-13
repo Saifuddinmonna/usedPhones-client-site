@@ -8,13 +8,14 @@ import Example from "./LoginOption";
 import { PhotoProvider, PhotoView } from "react-photo-view";
 import { FaBeer, FaUserCheck } from "react-icons/fa";
 import { HiMenu, IconName } from "react-icons/hi";
+import DashboardLayout from "../../../Layout/DashboardLayout";
 
 const Navbar = () => {
 	const { user, logOut } = useContext(AuthContext);
 	const [enabled, setEnabled] = useState(false);
 
 	const handleLogOut = () => {
-		localStorage.removeItem("accessToken");
+		// localStorage.removeItem("accessToken");
 		localStorage.setItem("mytime", Date.now());
 		console.log("ami singout paisi");
 		logOut()
@@ -29,39 +30,39 @@ const Navbar = () => {
 		{ href: "/sign-out", label: "Sign out" },
 	];
 
-	// function MyMenu() {
-	// 	return (
-	// 		<Menu>
-	// 			<Menu.Button>Options</Menu.Button>
-	// 			<Menu.Items>
-	// 				{links.map((link) => (
-	// 					/* Use the `active` state to conditionally style the active item. */
-	// 					<Menu.Item key={link.href} as={Fragment}>
-	// 						{({ active }) => (
-	// 							<a
-	// 								href={link.href}
-	// 								className={`${
-	// 									active
-	// 										? "bg-blue-500 text-white"
-	// 										: "bg-white text-black"
-	// 								}`}>
-	// 								{link.label}
-	// 							</a>
-	// 						)}
-	// 					</Menu.Item>
-	// 				))}
-	// 			</Menu.Items>
-	// 		</Menu>
-	// 	);
-	// }
+	function MyMenu() {
+		return (
+			<Menu>
+				<Menu.Button>Options</Menu.Button>
+				<Menu.Items>
+					{links.map((link) => (
+						/* Use the `active` state to conditionally style the active item. */
+						<Menu.Item key={link.href} as={Fragment}>
+							{({ active }) => (
+								<a
+									href={link.href}
+									className={`${
+										active
+											? "bg-blue-500 text-white"
+											: "bg-white text-black"
+									}`}>
+									{link.label}
+								</a>
+							)}
+						</Menu.Item>
+					))}
+				</Menu.Items>
+			</Menu>
+		);
+	}
 
 	const menuItems = (
-		<React.Fragment key="bg-teal-400 text-white flex justify-end ">
+		<React.Fragment>
 			<li>
 				<NavLink to="/">Home</NavLink>
 			</li>
 			<li>
-				<NavLink to="/allphones">Phones' Category</NavLink>
+				<NavLink to="/allphones"> Categories</NavLink>
 			</li>
 			<li>
 				<NavLink to="/about">About</NavLink>
@@ -80,7 +81,7 @@ const Navbar = () => {
 							Login
 						</NavLink>
 
-						<a>
+						<Link>
 							SignUp
 							<svg
 								className="fill-current"
@@ -90,13 +91,17 @@ const Navbar = () => {
 								viewBox="0 0 24 24">
 								<path d="M7.41,8.58L12,13.17L16.59,8.58L18,10L12,16L6,10L7.41,8.58Z" />
 							</svg>
-						</a>
+						</Link>
 						<ul className="p-2 text-black bg-base-100">
 							<li>
-								<NavLink to="/signup">SignUp For Buyer</NavLink>
+								<NavLink to="/signupbuyer">
+									SignUp For Buyer
+								</NavLink>
 							</li>
 							<li>
-								<NavLink to="/signupseller">SignUp For Seller</NavLink>
+								<NavLink to="/signupseller">
+									SignUp For Seller
+								</NavLink>
 							</li>
 						</ul>
 					</li>
@@ -155,48 +160,37 @@ const Navbar = () => {
 	);
 
 	return (
-		<div className="navbar bg-primary text-primary-content navbar bg-primary mx-3 px-3 border rounded-lg flex justify-between">
-			{/* <a className="btn btn-ghost normal-case text-xl">daisyUI</a> */}
-			<div className=" ">
-				<div className="navbar-start  flex justify-between">
+		<div className="flex justify position-relative z-auto">
+			<div className="navbar bg-primary text-primary-content  rounded-lg flex justify-between">
+				{/* <a className="btn btn-ghost normal-case text-xl">daisyUI</a> */}
+
+				<div className="navbar-start  flex justify-start">
 					<div className="dropdown">
-						<label tabIndex={0} className="btn btn-ghost lg:hidden">
+						<label tabIndex={2} className="btn btn-ghost lg:hidden">
 							<HiMenu></HiMenu>
 						</label>
 						<ul
 							tabIndex={1}
-							className="menu menu-compact dropdown-content mt-3 p-2 shadow bg-base-100 rounded-box w-52">
+							className="menu menu-compact dropdown-content mt-3 p-2 z-10 bg-base-100 rounded-box w-52">
 							{menuItems}
 						</ul>
 					</div>
 					<NavLink
 						to="/"
-						className="btn btn-ghost   invisible lg:visible normal-case text-xl">
+						className="btn btn-ghost normal-case text-xl">
 						UsedPhones
 					</NavLink>
 				</div>
-				<div className="navbar-center hidden lg:flex  flex justify-between">
-					<ul className="menu menu-horizontal p-0 text-white border-l text-lg">
+				<div className="navbar-center hidden lg:flex position-absolute z-20 flex justify-between">
+					<ul className="z-10 menu menu-horizontal p-0 text-white border-l text-lg">
 						{menuItems}
 					</ul>
 				</div>
 				<label
-					htmlFor="dashboard-drawer"
+					htmlFor="dashboard-drawer "
 					tabIndex={2}
-					className="btn btn-ghost lg:hidden">
-					<svg
-						xmlns="http://www.w3.org/2000/svg"
-						className="h-1 w-5"
-						fill="none"
-						viewBox="0 0 24 24"
-						stroke="currentColor">
-						<path
-							strokeLinecap="round"
-							strokeLinejoin="round"
-							strokeWidth="2"
-							d="M4 6h16M4 12h8m-8 6h16"
-						/>
-					</svg>
+					className="btn btn-ghost lg:hidden ">
+					<HiMenu></HiMenu>
 				</label>
 			</div>
 		</div>
