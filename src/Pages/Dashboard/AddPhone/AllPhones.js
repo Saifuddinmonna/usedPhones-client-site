@@ -46,156 +46,90 @@ const AllPhonesForLayout = () => {
 		return (
 			<>
 				<div className="mt-14 rounded-lg">
-					<div>
-						<div className="border rounded-full text-center shadow-xl p-4 m-6">
-							<h1 className="text-4xl">All Advertised Items</h1>
+					<div className="text-center mb-12">
+						<div className="inline-block border-b-2 border-primary pb-2">
+							<h1 className="text-3xl md:text-4xl font-bold text-gray-800">All Advertised Items</h1>
 						</div>
 					</div>
 					<div className="rounded-lg">
-						<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-7  gap-y-10 shadow-xl rounded-lg ">
+						<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
 							{phones?.map((phone, i) => (
-								<div className="card bg-base-100 shadow-xl">
-									<figure className="px-10 pt-10">
+								<div key={phone._id} className="card bg-white shadow-lg hover:shadow-xl transition-shadow duration-300 rounded-lg overflow-hidden">
+									<figure className="relative">
 										<PhotoProvider>
 											<PhotoView src={phone.image}>
 												<img
-													className="md:h-64 lg:h-72 minhight w-full object-cover rounded-t-3xl"
+													className="w-full h-64 object-cover cursor-pointer"
 													src={phone.image}
 													alt=" pic of phone "
 												/>
 											</PhotoView>
 										</PhotoProvider>
 									</figure>
-									<div className=" bgColor card-body items-center text-center">
-										{/* <div className="flex flex-wrap mt-3 justify-around">
-											<h2 className="text-2xl text-bolder text-primary">
-												{phone?.brand}-
-												{phone.phoneModel}-
+									<div className="p-6">
+										<div className="flex justify-between items-start mb-3">
+											<h2 className="text-xl font-semibold text-gray-800">
+												{phone?.brand} {phone.phoneModel}
 											</h2>
-											<div className="border rounded-full p-2 text-bolder text-bolder text-xl text-strong ">
-												tk {phone.resalePrice}
-											</div>
+											<span className="text-lg font-bold text-primary">
+												TK {phone.resalePrice}
+											</span>
 										</div>
-										<div className=" text-black divider text divider-vertical"></div>
-										<div className="shadow-sm rounded-lg ">
-											<div className="flex justify-around my-3 ">
-												<div className="border rounded-full mr-3 flex p-2 text-bolder  text-xl ">
-													<AiOutlineStar className="d-inline-block text-center text-base text-red-300 text-bold"></AiOutlineStar>
-													<AiOutlineStar className="d-inline-block text-center text-base text-red-400 text-bolder"></AiOutlineStar>{" "}
-													{phone.phonesCondition}
-												</div>
-												<div>
-													<button className="btn btn-primary opacity-80 d-block  shadow-md">
-														{" "}
-														Whish List
-													</button>
-												</div>
-											</div>
 
-											<div className="flex justify-around ">
-												<div className=" text-lg border rounded-full p-2 text-bold text-bold ">
-													Original Price-{" "}
-													{phone.originalPrice}
-												</div>
-												<div className=" text-lg border rounded-full p-2 text-bold text-bold">
-													Seller Name -{" "}
-													{phone.sellerName}
-												</div>
-											</div>
-
-											<div className="flex justify-around ">
-												<div className=" text-lg border rounded-full p-2 text-bold text-bold">
-													Year of Use -
-													{phone?.yearOfUse}
-												</div>
-
-												<div className=" text-lg border rounded-full p-2 text-bold text-bold">
-													Buying Date-
-													{phone.dateOfBuying}
-												</div>
-											</div>
-
-											<div className="flex justify-around ">
-												<div className=" text-lg border rounded-full p-2 text-bold text-bold">
-													Time fo Posting :{" "}
-													{phone.timeOfPost}
-												</div>
-											</div>
-										</div>
-										<div className=" text-black text-justify divider divider-vertical"></div> */}
-										<div className="  text-wrapper shadow-lg shadow-slate-100 rounded-lg  m p-4">
-											<table className=" border-collapse text-left table-auto  ">
+										<div className="mb-4">
+											<table className="w-full text-sm">
 												<thead>
 													<tr>
-														<th className="strong text-bold text-xl">
-															{phone?.brand}-
-														</th>
-														<th>
-															{phone.phoneModel}
-															<span className="strong text-bold text-xl">
-																TK{" "}
-																{
-																	phone.resalePrice
-																}
-															</span>
-															<TiTick className="inline-block text-green-500 text-4xl border border-green-800 rounded-full p-1 m-2 "></TiTick>
+														<th className="pb-1 text-left font-medium text-gray-500">Seller</th>
+														<th className="pb-1 text-right font-medium text-gray-500">
+															{phone.sellerVerified && <TiTick className="inline-block text-green-500 text-xl border border-green-600 rounded-full p-0.5 mr-1" />}
+															{phone.sellerName}
 														</th>
 													</tr>
 												</thead>
 												<tbody>
-													<tr>
-														<td>
+													<tr className="border-t border-gray-200">
+														<td className="py-1 text-gray-600">
 															Phones' Condition
 														</td>
-														<td>
+														<td className="py-1 text-right text-gray-700 font-medium">
 															{
 																phone.phonesCondition
 															}
 														</td>
 													</tr>
 
-													<tr className="active bg-slate-200">
-														<td>Original Price</td>
-														<td>
-															{
-																phone.originalPrice
-															}
+													<tr className="border-t border-gray-200">
+														<td className="py-1 text-gray-600">Original Price</td>
+														<td className="py-1 text-right text-gray-700 font-medium">
+															TK&nbsp;{phone.originalPrice}
 														</td>
 													</tr>
-													<tr>
-														<td>Year of Use </td>
-														<td>
+													<tr className="border-t border-gray-200">
+														<td className="py-1 text-gray-600">Year of Use </td>
+														<td className="py-1 text-right text-gray-700 font-medium">
 															{phone?.yearOfUse}
 														</td>
 													</tr>
-
-													<tr className="active  bg-slate-200">
-														<td>Seller Name</td>
-														<td>
-															{phone.sellerName}
+													<tr className="border-t border-gray-200">
+														<td className="py-1 text-gray-600">Posted On</td>
+														<td className="py-1 text-right text-gray-700 font-medium">
+															{
+																new Date(phone.timeOfPost).toLocaleDateString()
+															}
 														</td>
 													</tr>
-													<tr>
-														<td>Buying Date-</td>
-														<td>
-															{phone.dateOfBuying}
-														</td>
-													</tr>
-													<tr></tr>
-
-													<tr className="active  bg-slate-200 p-4 m-22 rounded">
-														<td>
-															Time fo Posting{" "}
-														</td>
-														<td>
-															{phone.timeOfPost}
+													<tr className="border-t border-gray-200">
+														<td className="py-1 text-gray-600">Location</td>
+														<td className="py-1 text-right text-gray-700 font-medium">
+															{phone.location || "N/A"}
 														</td>
 													</tr>
 												</tbody>
 											</table>
 										</div>
-										<div className="p-3 border rounded-2xl my- ">
-											<p>
+										<div className="mt-4 pt-3 border-t border-gray-200">
+											<p className="text-gray-600 text-sm leading-relaxed">
 												{`${phone?.description}` ? (
 													<>
 														{`${phone?.description}`.slice(
@@ -206,32 +140,28 @@ const AllPhonesForLayout = () => {
 												) : (
 													<p>Not available</p>
 												)}
-												...
-												{/* {`${details}`.slice(0, 7)} */}
+												{phone?.description && phone.description.length > 100 && "..."}
 											</p>
 										</div>
 									</div>
-									<div className="flex flex-col justify-around">
-										<div className="p-2 mx- block bg-primary mb- w-full opacity-90 mb-1 shadow text-center">
+									<div className="p-4 border-t border-gray-200">
+										<button className="btn btn-sm btn-outline btn-primary w-full mb-2">
 											View Details
-										</div>
-										<div className=" p-2 mx- bg-primary mb- w-full opacity-90 rounded-b-xl text-center">
-											<label
-												disabled
-												onClick={() =>
-													HandlesetOnClickPhone(phone)
-												}
-												htmlFor={
-													isBuyer && user
-														? "ordering-modal"
-														: ""
-												}
-												className="disabled">
-												{isBuyer && user
-													? "Boock Now"
-													: "Signin First to Boock"}
-											</label>
-										</div>
+										</button>
+										<label
+											onClick={() => HandlesetOnClickPhone(phone)}
+											htmlFor={isBuyer && user ? "ordering-modal" : ""}
+											className={`btn btn-sm btn-primary w-full ${
+												!(isBuyer && user) ? "btn-disabled" : ""
+											}`}
+										>
+											{isBuyer && user
+												? "Book Now"
+												: isSeller 
+													? "Sellers can't book"
+													: "Login as Buyer to Book"
+											}
+										</label>
 									</div>
 								</div>
 							))}
