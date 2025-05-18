@@ -60,7 +60,7 @@ const allBlogPosts = [
     { id: 35, title: "The State of Jamstack in 2024: Trends and Future", content: "Placeholder content analyzing the current state and future prospects of the Jamstack architecture." },
 ];
 
-const POSTS_PER_PAGE = 4; // You can adjust this number
+const POSTS_PER_PAGE = 4;
 
 const Blog = () => {
     const [currentPage, setCurrentPage] = useState(1);
@@ -79,6 +79,55 @@ const Blog = () => {
         }
     };
 
+    // Generate page numbers array with ellipsis
+    const getPageNumbers = () => {
+        const pageNumbers = [];
+        const maxVisiblePages = 5; // Maximum number of page buttons to show
+
+        if (totalPages <= maxVisiblePages) {
+            // If total pages are less than maxVisiblePages, show all pages
+            for (let i = 1; i <= totalPages; i++) {
+                pageNumbers.push(i);
+            }
+        } else {
+            // Always show first page
+            pageNumbers.push(1);
+
+            // Calculate start and end of visible pages
+            let startPage = Math.max(2, currentPage - 1);
+            let endPage = Math.min(totalPages - 1, currentPage + 1);
+
+            // Adjust if at the start
+            if (currentPage <= 2) {
+                endPage = 4;
+            }
+            // Adjust if at the end
+            if (currentPage >= totalPages - 1) {
+                startPage = totalPages - 3;
+            }
+
+            // Add ellipsis after first page if needed
+            if (startPage > 2) {
+                pageNumbers.push('...');
+            }
+
+            // Add middle pages
+            for (let i = startPage; i <= endPage; i++) {
+                pageNumbers.push(i);
+            }
+
+            // Add ellipsis before last page if needed
+            if (endPage < totalPages - 1) {
+                pageNumbers.push('...');
+            }
+
+            // Always show last page
+            pageNumbers.push(totalPages);
+        }
+
+        return pageNumbers;
+    };
+
     return (
         <div className="min-h-screen bg-slate-100 py-10 font-sans">
             {/* Main Title Section */}
@@ -90,12 +139,12 @@ const Blog = () => {
             </div>
 
             {/* Blog Posts Container */}
-            <div className="max-w-3xl mx-auto space-y-12 px-4 sm:px-6 lg:px-8">
+            <div className="container mx-auto px-4">
                 {currentPosts.length > 0 ? (
                     currentPosts.map((post) => (
                         <article
                             key={post.id}
-                            className="bg-white p-6 md:p-8 rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 ease-in-out transform hover:-translate-y-1 hover:scale-[1.02]"
+                            className="bg-white p-6 md:p-8 rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 ease-in-out transform hover:-translate-y-1 hover:scale-[1.02] mb-8"
                         >
                             <h2 className="text-2xl sm:text-3xl font-bold text-slate-800 mb-6 text-center capitalize">
                                 {post.title}
@@ -111,8 +160,9 @@ const Blog = () => {
             </div>
 
             {/* Pagination Controls */}
-            {totalPages > 1 && (
-                <div className="mt-16 flex justify-center items-center space-x-4">
+            <div className="container mx-auto px-4 mt-16">
+                <div className="flex justify-center items-center space-x-2">
+                    {/* Previous Button */}
                     <button
                         onClick={() => paginate(currentPage - 1)}
                         disabled={currentPage === 1}
@@ -120,9 +170,26 @@ const Blog = () => {
                     >
                         Previous
                     </button>
-                    <span className="text-slate-700">
-                        Page {currentPage} of {totalPages}
-                    </span>
+
+                    {/* Page Numbers */}
+                    {getPageNumbers().map((number, index) => (
+                        <button
+                            key={index}
+                            onClick={() => typeof number === 'number' ? paginate(number) : null}
+                            disabled={number === '...'}
+                            className={`px-4 py-2 rounded-md transition-colors ${
+                                number === '...'
+                                    ? 'bg-transparent text-slate-500 cursor-default'
+                                    : currentPage === number
+                                    ? 'bg-teal-500 text-white'
+                                    : 'bg-white text-slate-700 hover:bg-teal-100'
+                            }`}
+                        >
+                            {number}
+                        </button>
+                    ))}
+
+                    {/* Next Button */}
                     <button
                         onClick={() => paginate(currentPage + 1)}
                         disabled={currentPage === totalPages}
@@ -131,7 +198,7 @@ const Blog = () => {
                         Next
                     </button>
                 </div>
-            )}
+            </div>
 
             <div className="pb-10"> {/* Added padding at the bottom */} </div>
         </div>

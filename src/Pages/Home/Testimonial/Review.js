@@ -18,7 +18,7 @@ const Review = ({ review }) => {
 				</div>
 				<div>
 					<h5 className="text-lg font-semibold text-gray-900">{Name}</h5>
-					<p className="text-gray-600">{location}</p>
+					<p className="text-sm text-gray-700">{location}</p>
 				</div>
 			</div>
 			
