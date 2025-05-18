@@ -41,32 +41,31 @@ const Login = () => {
 	}, [user, token, loginUserEmail]);
 
 	return (
-		<div className="h-[800px] flex justify-center items-center">
-			<div className="w-96 p-7">
-				<h2 className="text-xl text-center">Login</h2>
-				<form onSubmit={handleSubmit(handleLogin)}>
-					<div className="form-control w-full max-w-xs">
+		<div className="min-h-screen flex justify-center items-center bg-gradient-to-b from-gray-50 to-white py-12 px-4 sm:px-6 lg:px-8">
+			<div className="w-full max-w-md p-8 bg-white rounded-xl shadow-lg">
+				<h2 className="text-3xl font-bold text-center text-gray-900 mb-8">Login</h2>
+				<form onSubmit={handleSubmit(handleLogin)} className="space-y-6">
+					<div className="form-control w-full">
 						<label className="label">
-							{" "}
-							<span className="label-text">Email</span>
+							<span className="label-text font-semibold text-gray-700">Email</span>
 						</label>
 						<input
 							type="text"
 							{...register("email", {
 								required: "Email Address is required",
 							})}
-							className="input input-bordered w-full max-w-xs"
+							className="input input-bordered w-full text-gray-900 placeholder-gray-500 focus:ring-2 focus:ring-primary"
+							placeholder="Enter your email"
 						/>
 						{errors.email && (
-							<p className="text-red-600">
+							<p className="text-red-600 text-sm mt-1">
 								{errors.email?.message}
 							</p>
 						)}
 					</div>
-					<div className="form-control w-full max-w-xs">
+					<div className="form-control w-full">
 						<label className="label">
-							{" "}
-							<span className="label-text">Password</span>
+							<span className="label-text font-semibold text-gray-700">Password</span>
 						</label>
 						<input
 							type="password"
@@ -74,41 +73,42 @@ const Login = () => {
 								required: "Password is required",
 								minLength: {
 									value: 6,
-									message:
-										"Password must be 6 characters or longer",
+									message: "Password must be 6 characters or longer",
 								},
 							})}
-							className="input input-bordered w-full max-w-xs"
+							className="input input-bordered w-full text-gray-900 placeholder-gray-500 focus:ring-2 focus:ring-primary"
+							placeholder="Enter your password"
 						/>
 						<label className="label">
-							{" "}
-							<span className="label-text">Forget Password?</span>
+							<Link to="/forgot-password" className="label-text-alt text-primary hover:text-primary-dark">
+								Forgot Password?
+							</Link>
 						</label>
 						{errors.password && (
-							<p className="text-red-600">
+							<p className="text-red-600 text-sm mt-1">
 								{errors.password?.message}
 							</p>
 						)}
 					</div>
-					<input
-						className="btn btn-primary w-full"
-						value="Login"
-						type="submit"
-					/>
+					<button
+						className="btn btn-primary w-full text-white font-semibold py-3 rounded-lg hover:bg-primary-dark transition-colors duration-300"
+						type="submit">
+						Login
+					</button>
 					<div>
 						{loginError && (
-							<p className="text-red-600">{loginError}</p>
+							<p className="text-red-600 text-center">{loginError}</p>
 						)}
 					</div>
 				</form>
-				<p>
+				<p className="mt-6 text-center text-gray-600">
 					New to Used Phone{" "}
-					<Link className="text-secondary" to="/signupbuyer">
+					<Link className="text-primary font-semibold hover:text-primary-dark" to="/signupbuyer">
 						Create new Account
 					</Link>
 				</p>
-				<div className="divider">OR</div>
-				<button className="btn btn-primary btn-outline w-full">
+				<div className="divider text-gray-500">OR</div>
+				<button className="btn btn-outline btn-primary w-full text-primary font-semibold hover:bg-gray-50 transition-colors duration-300">
 					CONTINUE WITH GOOGLE
 				</button>
 			</div>

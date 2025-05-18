@@ -1,10 +1,24 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useContext } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import { PhotoProvider, PhotoView } from "react-photo-view";
 import { fadeIn, staggerContainer } from "../../../utils/animations";
+import { AuthContext } from "../../../contexts/AuthProvider";
+import toast from "react-hot-toast";
 
 const FeaturedProducts = ({ phones }) => {
+	const navigate = useNavigate();
+	const { user } = useContext(AuthContext);
+
+	const handleBooking = (phone) => {
+		if (!user) {
+			toast.error("Please login to book this product");
+			navigate("/login");
+			return;
+		}
+		navigate(`/product/${phone._id}`);
+	};
+
 	return (
 		<section className="py-16 bg-gray-50">
 			<div className="container mx-auto px-4">
@@ -97,7 +111,9 @@ const FeaturedProducts = ({ phones }) => {
 											className="flex-1 btn btn-primary text-white">
 											View Details
 										</Link>
-										<button className="flex-1 btn btn-outline btn-primary">
+										<button
+											onClick={() => handleBooking(phone)}
+											className="flex-1 btn btn-outline btn-primary">
 											Book Now
 										</button>
 									</div>

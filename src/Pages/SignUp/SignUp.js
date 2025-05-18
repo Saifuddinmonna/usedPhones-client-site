@@ -29,7 +29,7 @@ const SignUp = () => {
 			.then((result) => {
 				const user = result.user;
 				console.log(user);
-				toast("User Created Successfully.");
+				toast.success("User Created Successfully.");
 				const image = data.image[0];
 				const multipleImage = data.multipleImage;
 				const images = [image, multipleImage];
@@ -93,69 +93,65 @@ const SignUp = () => {
 	};
 
 	return (
-		<div className="h-[800px] flex justify-center items-center">
-			<div className="w-96 p-7">
-				<h2 className="text-xl text-center">Sign Up</h2>
-				<form onSubmit={handleSubmit(handleSignUp)}>
-					<div className="form-control w-full max-w-xs">
+		<div className="min-h-screen flex justify-center items-center bg-gradient-to-b from-gray-50 to-white py-12 px-4 sm:px-6 lg:px-8">
+			<div className="w-full max-w-md p-8 bg-white rounded-xl shadow-lg">
+				<h2 className="text-3xl font-bold text-center text-gray-900 mb-8">Sign Up</h2>
+				<form onSubmit={handleSubmit(handleSignUp)} className="space-y-6">
+					<div className="form-control w-full">
 						<label className="label">
-							{" "}
-							<span className="label-text">Name</span>
+							<span className="label-text font-semibold text-gray-700">Name</span>
 						</label>
 						<input
 							type="text"
 							{...register("name", {
 								required: "Name is Required",
 							})}
-							className="input input-bordered w-full max-w-xs"
+							className="input input-bordered w-full text-gray-900 placeholder-gray-500 focus:ring-2 focus:ring-primary"
+							placeholder="Enter your name"
 						/>
 						{errors.name && (
-							<p className="text-red-500">
+							<p className="text-red-600 text-sm mt-1">
 								{errors.name.message}
 							</p>
 						)}
 					</div>
-					<div className="form-control w-full max-w-xs">
+					<div className="form-control w-full">
 						<label className="label">
-							{" "}
-							<span className="label-text">Email</span>
+							<span className="label-text font-semibold text-gray-700">Email</span>
 						</label>
 						<input
 							type="email"
 							{...register("email", {
-								required: true,
+								required: "Email is required",
 							})}
-							className="input input-bordered w-full max-w-xs"
+							className="input input-bordered w-full text-gray-900 placeholder-gray-500 focus:ring-2 focus:ring-primary"
+							placeholder="Enter your email"
 						/>
 						{errors.email && (
-							<p className="text-red-500">
+							<p className="text-red-600 text-sm mt-1">
 								{errors.email.message}
 							</p>
 						)}
 					</div>
-					<div className="form-control w-full max-w-xs">
+					<div className="form-control w-full">
 						<label className="label">
-							{" "}
-							<span className="label-text">Photo</span>
+							<span className="label-text font-semibold text-gray-700">Photo</span>
 						</label>
 						<input
 							type="file"
-							multiple
 							accept="image/*"
 							{...register("image", {
 								required: "Photo is Required",
 							})}
-							className="input input-bordered w-full max-w-xs"
+							className="file-input file-input-bordered w-full text-gray-900 focus:ring-2 focus:ring-primary"
 						/>
-
 						{errors.img && (
-							<p className="text-red-500">{errors.img.message}</p>
+							<p className="text-red-600 text-sm mt-1">{errors.img.message}</p>
 						)}
 					</div>
-					<div className="form-control w-full max-w-xs">
+					<div className="form-control w-full">
 						<label className="label">
-							{" "}
-							<span className="label-text">Password</span>
+							<span className="label-text font-semibold text-gray-700">Password</span>
 						</label>
 						<input
 							type="password"
@@ -163,40 +159,39 @@ const SignUp = () => {
 								required: "Password is required",
 								minLength: {
 									value: 6,
-									message:
-										"Password must be 6 characters long",
+									message: "Password must be 6 characters long",
 								},
 								pattern: {
 									value: /(?=.*[A-Z])(?=.*[!@#$&*])(?=.*[0-9])/,
-									message:
-										"Password must have uppercase, number and special characters",
+									message: "Password must have uppercase, number and special characters",
 								},
 							})}
-							className="input input-bordered w-full max-w-xs"
+							className="input input-bordered w-full text-gray-900 placeholder-gray-500 focus:ring-2 focus:ring-primary"
+							placeholder="Enter your password"
 						/>
 						{errors.password && (
-							<p className="text-red-500">
+							<p className="text-red-600 text-sm mt-1">
 								{errors.password.message}
 							</p>
 						)}
 					</div>
-					<input
-						className="btn btn-accent w-full mt-4"
-						value="Sign Up"
-						type="submit"
-					/>
+					<button
+						className="btn btn-primary w-full text-white font-semibold py-3 rounded-lg hover:bg-primary-dark transition-colors duration-300"
+						type="submit">
+						Sign Up
+					</button>
 					{signUpError && (
-						<p className="text-red-600">{signUpError}</p>
+						<p className="text-red-600 text-center">{signUpError}</p>
 					)}
 				</form>
-				<p>
+				<p className="mt-6 text-center text-gray-600">
 					Already have an account{" "}
-					<Link className="text-secondary" to="/login">
+					<Link className="text-primary font-semibold hover:text-primary-dark" to="/login">
 						Please Login
 					</Link>
 				</p>
-				<div className="divider">OR</div>
-				<button className="btn btn-outline w-full">
+				<div className="divider text-gray-500">OR</div>
+				<button className="btn btn-outline btn-primary w-full text-primary font-semibold hover:bg-gray-50 transition-colors duration-300">
 					CONTINUE WITH GOOGLE
 				</button>
 			</div>

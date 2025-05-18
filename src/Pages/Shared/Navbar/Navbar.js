@@ -205,7 +205,7 @@ const Navbar = () => {
 			initial="initial"
 			animate="animate"
 			className="sticky top-0 z-50">
-			<div className="navbar h-20 items-center bg-gradient-to-r from-primary to-primary/95 text-white px-4 md:px-8 shadow-xl">
+			<div className="navbar h-20 items-center bg-[rgb(38,168,224)] text-white px-4 md:px-8 shadow-xl">
 				<div className="navbar-start">
 					<div className="dropdown">
 						<motion.label 
