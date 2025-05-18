@@ -37,6 +37,7 @@ export default function Example() {
 						</Popover.Button>
 						<Transition
 							as={Fragment}
+							show={open} // Add the show prop here, using the 'open' state from Popover
 							enter="transition ease-out duration-200"
 							enterFrom="opacity-0 translate-y-1"
 							enterTo="opacity-100 translate-y-0"
@@ -58,7 +59,7 @@ export default function Example() {
 													<p className="text-sm font-medium text-gray-900">
 														{item.name}
 													</p>
-													<p className="text-sm text-gray-500">
+													<p className="text-sm text-gray-700">
 														{item.description}
 													</p>
 												</div>
@@ -132,5 +133,3 @@ function IconTwo() {
 		</svg>
 	);
 }
-
-

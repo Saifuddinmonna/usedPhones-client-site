@@ -1,7 +1,3 @@
-
-
-//const PhonesCategories = () => {
-
 import { useQuery } from "@tanstack/react-query";
 import React, { useContext, useState } from "react";
 import { FaBeer } from "react-icons/fa";
@@ -16,22 +12,24 @@ import { AuthContext } from "../../../contexts/AuthProvider";
 import useSeller from "../../../hooks/useSeller";
 
 const PhonesCategories = () => {
-	const [onClickPhone, setOnClickPhone] = useState({});
-	console.log("modal data allphones ", onClickPhone);
+	const [onClickPhone, setOnClickPhone] = useState(null);
+	const [isModalOpen, setIsModalOpen] = useState(false);
 	const { user } = useContext(AuthContext);
 	const [isBuyer] = useBuyer(user?.email);
 	const [isSeller] = useSeller(user?.email);
 
 	const phones = useLoaderData();
-	//sellerName originalPrice  resalePrice sellerEmail sellerName timeOfPost yearOfUse
-	const HandlesetOnClickPhone = (phone) => {
-		// console.log("modal data allphones ", onClickPhone, phone);
 
+	const handleOpenModal = (phone) => {
 		setOnClickPhone(phone);
-		console.log("modal data allphones ", onClickPhone);
+		setIsModalOpen(true);
 	};
-	console.log("modal data allphones ", onClickPhone);
-	console.log("phines length check", phones.length);
+
+	const handleCloseModal = () => {
+		setIsModalOpen(false);
+		setOnClickPhone(null);
+	};
+
 	if (phones.length !== 0) {
 		return (
 			<>
@@ -42,91 +40,78 @@ const PhonesCategories = () => {
 						</div>
 					</div>
 					<div className="rounded-lg">
-						<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-7  gap-y-10 shadow-xl rounded-lg ">
+						<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-7 gap-y-10 shadow-xl rounded-lg">
 							{phones?.map((phone, i) => (
-								<div className="card bg-base-100 shadow-xl">
+								<div key={phone._id} className="card bg-base-100 shadow-xl">
 									<figure className="px-10 pt-10">
 										<PhotoProvider>
 											<PhotoView src={phone.image}>
 												<img
 													className="md:h-64 lg:h-72 minhight w-full object-cover rounded-t-3xl"
 													src={phone.image}
-													alt=" pic of phone "
+													alt="pic of phone"
 												/>
 											</PhotoView>
 										</PhotoProvider>
 									</figure>
-									<div className=" bgColor card-body items-center text-center">
+									<div className="bgColor card-body items-center text-center">
 										<div className="flex flex-wrap mt-3 justify-around">
 											<h2 className="text-2xl text-bolder text-primary">
-												{phone?.brand}-
-												{phone.phoneModel}-
+												{phone?.brand}-{phone.phoneModel}-
 											</h2>
-											<div className="border rounded-full p-2 text-bolder text-bolder text-xl text-strong ">
+											<div className="border rounded-full p-2 text-bolder text-bolder text-xl text-strong">
 												tk {phone.resalePrice}
 											</div>
 										</div>
-										<div className=" text-black divider text divider-vertical"></div>
-										<div className="shadow-sm rounded-lg ">
-											<div className="flex justify-around my-3 ">
-												<div className="border rounded-full mr-3 flex p-2 text-bolder  text-xl ">
+										<div className="text-black divider text divider-vertical"></div>
+										<div className="shadow-sm rounded-lg">
+											<div className="flex justify-around my-3">
+												<div className="border rounded-full mr-3 flex p-2 text-bolder text-xl">
 													<AiOutlineStar className="d-inline-block text-center text-base text-red-300 text-bold"></AiOutlineStar>
 													<AiOutlineStar className="d-inline-block text-center text-base text-red-400 text-bolder"></AiOutlineStar>{" "}
 													{phone.phonesCondition}
 												</div>
 												<div>
-													<button className="btn btn-primary opacity-80 d-block  shadow-md">
-														{" "}
+													<button className="btn btn-primary opacity-80 d-block shadow-md">
 														Whish List
 													</button>
 												</div>
 											</div>
 
-											<div className="flex justify-around ">
-												<div className=" text-lg border rounded-full p-2 text-bold text-bold ">
-													Original Price-{" "}
-													{phone.originalPrice}
+											<div className="flex justify-around">
+												<div className="text-lg border rounded-full p-2 text-bold text-bold">
+													Original Price-{phone.originalPrice}
 												</div>
-												<div className=" text-lg border rounded-full p-2 text-bold text-bold">
-													Seller Name -{" "}
-													{phone.sellerName}
+												<div className="text-lg border rounded-full p-2 text-bold text-bold">
+													Seller Name -{phone.sellerName}
 												</div>
 											</div>
 
-											<div className="flex justify-around ">
-												<div className=" text-lg border rounded-full p-2 text-bold text-bold">
-													Year of Use -
-													{phone?.yearOfUse}
+											<div className="flex justify-around">
+												<div className="text-lg border rounded-full p-2 text-bold text-bold">
+													Year of Use -{phone?.yearOfUse}
 												</div>
 
-												<div className=" text-lg border rounded-full p-2 text-bold text-bold">
-													Buying Date-
-													{phone.dateOfBuying}
+												<div className="text-lg border rounded-full p-2 text-bold text-bold">
+													Buying Date-{phone.dateOfBuying}
 												</div>
 											</div>
 
-											<div className="flex justify-around ">
-												<div className=" text-lg border rounded-full p-2 text-bold text-bold">
-													Time fo Posting :{" "}
-													{phone.timeOfPost}
+											<div className="flex justify-around">
+												<div className="text-lg border rounded-full p-2 text-bold text-bold">
+													Time fo Posting :{phone.timeOfPost}
 												</div>
 											</div>
 										</div>
-										<div className=" text-black text-justify divider divider-vertical"></div>
+										<div className="text-black text-justify divider divider-vertical"></div>
 										<div className="px-3">
 											<p>
-												{`${phone?.description}` ? (
-													<>
-														{`${phone?.description}`.slice(
-															0,
-															100,
-														)}
-													</>
+												{phone?.description ? (
+													<>{phone?.description.slice(0, 100)}</>
 												) : (
 													<p>Not available</p>
 												)}
 												...
-												{/* {`${details}`.slice(0, 7)} */}
 											</p>
 										</div>
 									</div>
@@ -134,17 +119,12 @@ const PhonesCategories = () => {
 										<div className="p-2 mx- block bg-primary mb- w-full opacity-90 mb-1 shadow text-center">
 											View Details
 										</div>
-										<div className=" p-2 mx- bg-primary mb- w-full opacity-90 rounded-b-xl text-center">
-											<label
-												onClick={() =>
-													HandlesetOnClickPhone(phone)
-												}
-												htmlFor="ordering-modal"
-												className="">
-												{/* {isBuyer
-													? "Boock Now"
-													: "login  First to Boock"} */}
-											</label>
+										<div className="p-2 mx- bg-primary mb- w-full opacity-90 rounded-b-xl text-center">
+											<button
+												onClick={() => handleOpenModal(phone)}
+												className="w-full text-white font-semibold">
+												{isBuyer ? "Book Now" : "Login First to Book"}
+											</button>
 										</div>
 									</div>
 								</div>
@@ -152,11 +132,19 @@ const PhonesCategories = () => {
 						</div>
 					</div>
 				</div>
-				<BookingModal onClickPhone={onClickPhone}></BookingModal>
+				<BookingModal
+					isOpen={isModalOpen}
+					closeModal={handleCloseModal}
+					onClickPhone={onClickPhone}
+				/>
 			</>
 		);
 	} else {
-		return <></>;
+		return (
+			<div className="text-center p-8">
+				<h2 className="text-2xl font-semibold text-gray-700">No phones found in this category</h2>
+			</div>
+		);
 	}
 };
 

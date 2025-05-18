@@ -12,10 +12,12 @@ import useSeller from "../../../hooks/useSeller";
 import { TiTick } from "react-icons/ti";
 import { useEffect } from "react";
 const AllPhonesForLayout = () => {
-	const [onClickPhone, setOnClickPhone] = useState({});
+	const [onClickPhone, setOnClickPhone] = useState(null); // Initialize with null
+	const [isBookingModalOpen, setIsBookingModalOpen] = useState(false); // State for modal
 	const { user } = useContext(AuthContext);
 	const [isBuyer] = useBuyer(user?.email);
 	const [isSeller] = useSeller(user?.email);
+	
 	// console.log("modal data allphones ", onClickPhone);
 
 	const { data: phones = [], refetch } = useQuery({
@@ -34,12 +36,27 @@ const AllPhonesForLayout = () => {
 		console.log(refetch);
 	}, [user]);
 	//sellerName originalPrice  resalePrice sellerEmail sellerName timeOfPost yearOfUse
+	
 	const HandlesetOnClickPhone = (phone) => {
 		// console.log("modal data allphones ", onClickPhone, phone);
-
 		setOnClickPhone(phone);
-		// console.log("modal data allphones ", onClickPhone);
+		if (isBuyer && user) {
+			setIsBookingModalOpen(true);
+		} else {
+			if (!user) {
+				// toast.error("Please login to book an item."); // Consider adding toast if not already handled
+				console.log("User not logged in, cannot open modal.");
+			} else if (isSeller) {
+				// toast.error("Sellers cannot book items.");
+				console.log("Seller cannot book, cannot open modal.");
+			} else if (!isBuyer) {
+				// toast.error("Only buyers can book items.");
+				console.log("User is not a buyer, cannot open modal.");
+			}
+		}
 	};
+
+	const closeBookingModalHandler = () => setIsBookingModalOpen(false);
 	// console.log("modal data allphones ", onClickPhone);
 	// console.log("phines length check", phones.length);
 	if (phones.length !== 0) {
@@ -150,8 +167,7 @@ const AllPhonesForLayout = () => {
 										</button>
 										<label
 											onClick={() => HandlesetOnClickPhone(phone)}
-											htmlFor={isBuyer && user ? "ordering-modal" : ""}
-											className={`btn btn-sm btn-primary w-full ${
+											className={`btn btn-sm btn-primary w-full cursor-pointer ${
 												!(isBuyer && user) ? "btn-disabled" : ""
 											}`}
 										>
@@ -168,7 +184,11 @@ const AllPhonesForLayout = () => {
 						</div>
 					</div>
 				</div>
-				<BookingModal onClickPhone={onClickPhone}></BookingModal>
+				<BookingModal 
+					isOpen={isBookingModalOpen} 
+					closeModal={closeBookingModalHandler} 
+					onClickPhone={onClickPhone}
+				/>
 			</>
 		);
 	} else {
