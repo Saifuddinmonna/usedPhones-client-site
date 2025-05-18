@@ -58,7 +58,7 @@ const MyProducts = () => {
 					))}
 				</div>
 			</div>
-			<h2>thid i s my product</h2>
+			<h2>this is my product</h2>
 			
 		</>
 	);

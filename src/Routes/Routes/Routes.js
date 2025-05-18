@@ -18,7 +18,7 @@ import AllBuyers from "../../Pages/Dashboard/AllUsers/AllBuyers";
 import AllSellers from "../../Pages/Dashboard/AllUsers/AllSellers";
 import AllUsers from "../../Pages/Dashboard/AllUsers/AllUsers";
 import Dashboard from "../../Pages/Dashboard/Dashboard/Dashboard";
-import ManageSeller from "../../Pages/Dashboard/ManageSeller/ManageSeller";
+
 import MyOrders from "../../Pages/Dashboard/MyOrders/MyOrders";
 
 import Payment from "../../Pages/Dashboard/Payment/Payment";
@@ -203,22 +203,8 @@ const router = createBrowserRouter([
 					</PrivateRoute>
 				),
 			},
-			{
-				path: "/dashboard/manageseller",
-				element: (
-					<AdminRoute>
-						<ManageSeller></ManageSeller>
-					</AdminRoute>
-				),
-			},
-			{
-				path: "/dashboard/managebuyers",
-				element: (
-					<AdminRoute>
-						<ManageSeller></ManageSeller>
-					</AdminRoute>
-				),
-			},
+			
+		
 			{
 				path: "/dashboard/payment/:id",
 				element: <Payment></Payment>,
