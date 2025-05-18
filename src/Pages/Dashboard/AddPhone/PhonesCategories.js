@@ -3,7 +3,7 @@
 //const PhonesCategories = () => {
 
 import { useQuery } from "@tanstack/react-query";
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { FaBeer } from "react-icons/fa";
 import { AiOutlineStar, IconName } from "react-icons/ai";
 import "./AllPhone.css";
@@ -11,10 +11,16 @@ import { PhotoProvider, PhotoView } from "react-photo-view";
 import "react-photo-view/dist/react-photo-view.css";
 import BookingModal from "../MyOrders/PhoneOrderModal";
 import { useLoaderData } from "react-router-dom";
+import useBuyer from "../../../hooks/useBuyer";
+import { AuthContext } from "../../../contexts/AuthProvider";
+import useSeller from "../../../hooks/useSeller";
 
 const PhonesCategories = () => {
 	const [onClickPhone, setOnClickPhone] = useState({});
 	console.log("modal data allphones ", onClickPhone);
+	const { user } = useContext(AuthContext);
+	const [isBuyer] = useBuyer(user?.email);
+	const [isSeller] = useSeller(user?.email);
 
 	const phones = useLoaderData();
 	//sellerName originalPrice  resalePrice sellerEmail sellerName timeOfPost yearOfUse
@@ -135,7 +141,9 @@ const PhonesCategories = () => {
 												}
 												htmlFor="ordering-modal"
 												className="">
-												Boock Now
+												{/* {isBuyer
+													? "Boock Now"
+													: "login  First to Boock"} */}
 											</label>
 										</div>
 									</div>

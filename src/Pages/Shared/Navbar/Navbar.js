@@ -1,199 +1,249 @@
 import React, { useContext, useState } from "react";
 import { Link, NavLink } from "react-router-dom";
 import { AuthContext } from "../../../contexts/AuthProvider";
-import { Switch } from "@headlessui/react";
-import { Fragment } from "react";
-import { Menu } from "@headlessui/react";
-import Example from "./LoginOption";
+import { HiMenu } from "react-icons/hi";
+import { FaUserCheck } from "react-icons/fa";
 import { PhotoProvider, PhotoView } from "react-photo-view";
-import { FaBeer, FaUserCheck } from "react-icons/fa";
-import { HiMenu, IconName } from "react-icons/hi";
-import DashboardLayout from "../../../Layout/DashboardLayout";
+import { motion, AnimatePresence } from "framer-motion";
+import { slideDown, fadeIn, buttonHover } from "../../../utils/animations";
 
 const Navbar = () => {
 	const { user, logOut } = useContext(AuthContext);
-	const [enabled, setEnabled] = useState(false);
+	const [isMenuOpen, setIsMenuOpen] = useState(false);
+	const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
 	const handleLogOut = () => {
-		// localStorage.removeItem("accessToken");
 		localStorage.setItem("mytime", Date.now());
-		console.log("ami singout paisi");
 		logOut()
 			.then(() => {})
 			.catch((err) => console.log(err));
 	};
 
-	const links = [
-		{ href: "/account-settings", label: "Account settings" },
-		{ href: "/support", label: "Support" },
-		{ href: "/license", label: "License" },
-		{ href: "/sign-out", label: "Sign out" },
-	];
-
-	function MyMenu() {
-		return (
-			<Menu>
-				<Menu.Button>Options</Menu.Button>
-				<Menu.Items>
-					{links.map((link) => (
-						/* Use the `active` state to conditionally style the active item. */
-						<Menu.Item key={link.href} as={Fragment}>
-							{({ active }) => (
-								<a
-									href={link.href}
-									className={`${
-										active
-											? "bg-blue-500 text-white"
-											: "bg-white text-black"
-									}`}>
-									{link.label}
-								</a>
-							)}
-						</Menu.Item>
-					))}
-				</Menu.Items>
-			</Menu>
-		);
-	}
-
 	const menuItems = (
-		<React.Fragment>
+		<>
 			<li>
-				<NavLink to="/">Home</NavLink>
+				<NavLink 
+					to="/" 
+					className={({ isActive }) =>
+						`font-medium text-[15px] tracking-wide hover:text-primary/90 transition-all duration-300 ${
+							isActive ? "text-primary font-semibold" : "text-gray-50"
+						}`
+					}>
+					Home
+				</NavLink>
 			</li>
 			<li>
-				<NavLink to="/allphones"> Categories</NavLink>
+				<NavLink 
+					to="/allphones"
+					className={({ isActive }) =>
+						`font-medium text-[15px] tracking-wide hover:text-primary/90 transition-all duration-300 ${
+							isActive ? "text-primary font-semibold" : "text-gray-50"
+						}`
+					}>
+					Categories
+				</NavLink>
 			</li>
 			<li>
-				<NavLink to="/about">About</NavLink>
+				<NavLink 
+					to="/about"
+					className={({ isActive }) =>
+						`font-medium text-[15px] tracking-wide hover:text-primary/90 transition-all duration-300 ${
+							isActive ? "text-primary font-semibold" : "text-gray-50"
+						}`
+					}>
+					About
+				</NavLink>
 			</li>
 			<li>
-				<NavLink to="/blog">Blog</NavLink>
+				<NavLink 
+					to="/blog"
+					className={({ isActive }) =>
+						`font-medium text-[15px] tracking-wide hover:text-primary/90 transition-all duration-300 ${
+							isActive ? "text-primary font-semibold" : "text-gray-50"
+						}`
+					}>
+					Blog
+				</NavLink>
 			</li>
 
 			{!user?.uid ? (
 				<>
-					<li tabIndex={0}>
-						<NavLink
-							className=" text-decoration-none  rounded mx-2 px-2"
-							to="/login">
-							{" "}
-							Login
-						</NavLink>
-
-						<Link>
-							SignUp
-							<svg
-								className="fill-current"
-								xmlns="http://www.w3.org/2000/svg"
-								width="20"
-								height="20"
-								viewBox="0 0 24 24">
-								<path d="M7.41,8.58L12,13.17L16.59,8.58L18,10L12,16L6,10L7.41,8.58Z" />
-							</svg>
-						</Link>
-						<ul className="p-2 text-black bg-base-100">
-							<li>
-								<NavLink to="/signupbuyer">
-									SignUp For Buyer
-								</NavLink>
-							</li>
-							<li>
-								<NavLink to="/signupseller">
-									SignUp For Seller
-								</NavLink>
-							</li>
-						</ul>
+					<li>
+						<motion.div
+							variants={buttonHover}
+							initial="initial"
+							whileHover="hover"
+							className="relative">
+							<NavLink 
+								to="/login"
+								className="btn btn-outline border-gray-50 text-gray-50 hover:bg-white hover:text-primary transition-all duration-300 font-medium">
+								Login
+							</NavLink>
+						</motion.div>
+					</li>
+					<li className="relative">
+						<motion.div
+							variants={buttonHover}
+							initial="initial"
+							whileHover="hover"
+							className="relative">
+							<button
+								onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+								className="btn btn-outline border-gray-50 text-gray-50 hover:bg-white hover:text-primary transition-all duration-300 font-medium">
+								Sign Up
+							</button>
+						</motion.div>
+						<AnimatePresence>
+							{isDropdownOpen && (
+								<motion.ul
+									variants={{
+										initial: { opacity: 0, y: -10 },
+										animate: { opacity: 1, y: 0 },
+										exit: { opacity: 0, y: -10 }
+									}}
+									initial="initial"
+									animate="animate"
+									exit="exit"
+									transition={{ duration: 0.2 }}
+									className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-xl py-2 z-50">
+									<li>
+										<NavLink 
+											to="/signupbuyer"
+											className="block px-4 py-2.5 text-gray-800 hover:bg-gray-50 hover:text-primary transition-all duration-300 font-medium">
+											Sign Up as Buyer
+										</NavLink>
+									</li>
+									<li>
+										<NavLink 
+											to="/signupseller"
+											className="block px-4 py-2.5 text-gray-800 hover:bg-gray-50 hover:text-primary transition-all duration-300 font-medium">
+											Sign Up as Seller
+										</NavLink>
+									</li>
+								</motion.ul>
+							)}
+						</AnimatePresence>
 					</li>
 				</>
 			) : (
 				<>
-					<>
-						<li>
-							<NavLink to="/dashboard">Dashboard</NavLink>
-						</li>
-						<li className="rounded-full ">
-							<button onClick={handleLogOut}>Sign out</button>
-						</li>
-					</>
-
-					<Link className=" p-1 text-center flex items-center text-xs  shadow rounded-full ml-2 ">
-						{user?.displayName || user?.email}
-					</Link>
-					<div
-						className="tooltipcustomhover  w-20 mask mask-hexagon"
-						data-tip="hello">
-						{user.photoURL ? (
-							<PhotoProvider className="tooltipcustomhover">
-								<PhotoView src={user?.photoURL}>
-									<img
-										className="tooltipcustomhover"
-										src={user?.photoURL}
-										alt=""
-									/>
-								</PhotoView>
-							</PhotoProvider>
-						) : (
-							<FaUserCheck className="p-0 m-0 fs-3 inline-block"></FaUserCheck>
-						)}
-					</div>
+					<li>
+						<NavLink 
+							to="/dashboard"
+							className={({ isActive }) =>
+								`font-medium text-[15px] tracking-wide hover:text-primary/90 transition-all duration-300 ${
+									isActive ? "text-primary font-semibold" : "text-gray-50"
+								}`
+							}>
+							Dashboard
+						</NavLink>
+					</li>
+					<li>
+						<motion.div
+							variants={buttonHover}
+							initial="initial"
+							whileHover="hover"
+							className="relative">
+							<button 
+								onClick={handleLogOut}
+								className="btn btn-outline border-gray-50 text-gray-50 hover:bg-white hover:text-primary transition-all duration-300 font-medium">
+								Sign Out
+							</button>
+						</motion.div>
+					</li>
+					<li className="flex items-center gap-3">
+						<motion.span 
+							variants={fadeIn}
+							initial="initial"
+							animate="animate"
+							className="text-sm text-gray-50 font-medium">
+							{user?.displayName || user?.email}
+						</motion.span>
+						<motion.div 
+							variants={buttonHover}
+							initial="initial"
+							whileHover="hover"
+							className="w-10 h-10 rounded-full overflow-hidden border-2 border-gray-50 shadow-md">
+							{user.photoURL ? (
+								<PhotoProvider>
+									<PhotoView src={user?.photoURL}>
+										<img
+											src={user?.photoURL}
+											alt=""
+											className="w-full h-full object-cover"
+										/>
+									</PhotoView>
+								</PhotoProvider>
+							) : (
+								<FaUserCheck className="w-full h-full p-2 text-gray-50" />
+							)}
+						</motion.div>
+					</li>
 				</>
 			)}
-
-			<div className="">
-				<Switch
-					checked={enabled}
-					onChange={setEnabled}
-					className={`${enabled ? "bg-teal-900" : "bg-teal-700"}
-          relative inline-flex h-[38px] w-[74px] shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus-visible:ring-2  focus-visible:ring-white focus-visible:ring-opacity-75`}>
-					<span className="sr-only">Use setting</span>
-					<span
-						aria-hidden="true"
-						className={`${
-							enabled ? "translate-x-9" : "translate-x-0"
-						}
-            pointer-events-none inline-block h-[34px] w-[34px] transform rounded-full bg-white shadow-lg ring-0 transition duration-200 ease-in-out`}
-					/>
-				</Switch>
-			</div>
-		</React.Fragment>
+		</>
 	);
 
 	return (
-		<div className="flex justify position-relative z-auto">
-			<div className="navbar bg-primary text-primary-content  rounded-lg flex justify-between">
-				{/* <a className="btn btn-ghost normal-case text-xl">daisyUI</a> */}
-
-				<div className="navbar-start  flex justify-start">
+		<motion.div
+			variants={slideDown}
+			initial="initial"
+			animate="animate"
+			className="sticky top-0 z-50">
+			<div className="navbar bg-gradient-to-r from-primary to-primary/95 text-white px-4 md:px-8 shadow-xl">
+				<div className="navbar-start">
 					<div className="dropdown">
-						<label tabIndex={2} className="btn btn-ghost lg:hidden">
-							<HiMenu></HiMenu>
-						</label>
-						<ul
-							tabIndex={1}
-							className="menu menu-compact dropdown-content mt-3 p-2 z-10 bg-base-100 rounded-box w-52">
-							{menuItems}
-						</ul>
+						<motion.label 
+							variants={buttonHover}
+							initial="initial"
+							whileHover="hover"
+							tabIndex={0} 
+							className="btn btn-ghost lg:hidden"
+							onClick={() => setIsMenuOpen(!isMenuOpen)}>
+							<HiMenu className="h-6 w-6 text-gray-50" />
+						</motion.label>
+						<AnimatePresence>
+							{isMenuOpen && (
+								<motion.ul 
+									variants={{
+										initial: { opacity: 0, y: -10 },
+										animate: { opacity: 1, y: 0 },
+										exit: { opacity: 0, y: -10 }
+									}}
+									initial="initial"
+									animate="animate"
+									exit="exit"
+									transition={{ duration: 0.2 }}
+									className="menu menu-compact dropdown-content mt-3 p-2 shadow-xl bg-white rounded-lg w-52">
+									{menuItems}
+								</motion.ul>
+							)}
+						</AnimatePresence>
 					</div>
-					<NavLink
-						to="/"
-						className="btn btn-ghost normal-case text-xl">
-						UsedPhones
-					</NavLink>
+					<motion.div
+						variants={fadeIn}
+						initial="initial"
+						animate="animate"
+						className="relative">
+						<NavLink 
+							to="/" 
+							className="btn btn-ghost normal-case text-2xl font-bold text-gray-50 hover:text-primary/90 transition-all duration-300">
+							UsedPhones
+						</NavLink>
+					</motion.div>
 				</div>
-				<div className="navbar-center hidden lg:flex position-absolute z-20 flex justify-between">
-					<ul className="z-10 menu menu-horizontal p-0 text-white border-l text-lg">
+				
+				<div className="navbar-center hidden lg:flex">
+					<motion.ul 
+						variants={fadeIn}
+						initial="initial"
+						animate="animate"
+						className="menu menu-horizontal px-1 gap-8">
 						{menuItems}
-					</ul>
+					</motion.ul>
 				</div>
-				<label
-					htmlFor="dashboard-drawer "
-					tabIndex={2}
-					className="btn btn-ghost lg:hidden ">
-					<HiMenu></HiMenu>
-				</label>
 			</div>
-		</div>
+		</motion.div>
 	);
 };
 

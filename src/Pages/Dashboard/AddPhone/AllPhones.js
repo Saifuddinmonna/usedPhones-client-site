@@ -1,15 +1,22 @@
 import { useQuery } from "@tanstack/react-query";
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { FaBeer } from "react-icons/fa";
 import { AiOutlineStar, IconName } from "react-icons/ai";
 import "./AllPhone.css";
 import { PhotoProvider, PhotoView } from "react-photo-view";
 import "react-photo-view/dist/react-photo-view.css";
 import BookingModal from "../MyOrders/PhoneOrderModal";
-
+import { AuthContext } from "../../../contexts/AuthProvider";
+import useBuyer from "../../../hooks/useBuyer";
+import useSeller from "../../../hooks/useSeller";
+import { TiTick } from "react-icons/ti";
+import { useEffect } from "react";
 const AllPhonesForLayout = () => {
 	const [onClickPhone, setOnClickPhone] = useState({});
-	console.log("modal data allphones ", onClickPhone);
+	const { user } = useContext(AuthContext);
+	const [isBuyer] = useBuyer(user?.email);
+	const [isSeller] = useSeller(user?.email);
+	// console.log("modal data allphones ", onClickPhone);
 
 	const { data: phones = [], refetch } = useQuery({
 		queryKey: ["phones"],
@@ -21,15 +28,20 @@ const AllPhonesForLayout = () => {
 			return data;
 		},
 	});
+
+	useEffect(() => {
+		refetch();
+		console.log(refetch);
+	}, [user]);
 	//sellerName originalPrice  resalePrice sellerEmail sellerName timeOfPost yearOfUse
 	const HandlesetOnClickPhone = (phone) => {
 		// console.log("modal data allphones ", onClickPhone, phone);
 
 		setOnClickPhone(phone);
-		console.log("modal data allphones ", onClickPhone);
+		// console.log("modal data allphones ", onClickPhone);
 	};
-	console.log("modal data allphones ", onClickPhone);
-	console.log("phines length check", phones.length);
+	// console.log("modal data allphones ", onClickPhone);
+	// console.log("phines length check", phones.length);
 	if (phones.length !== 0) {
 		return (
 			<>
@@ -126,6 +138,7 @@ const AllPhonesForLayout = () => {
 																	phone.resalePrice
 																}
 															</span>
+															<TiTick className="inline-block text-green-500 text-4xl border border-green-800 rounded-full p-1 m-2 "></TiTick>
 														</th>
 													</tr>
 												</thead>
@@ -204,12 +217,19 @@ const AllPhonesForLayout = () => {
 										</div>
 										<div className=" p-2 mx- bg-primary mb- w-full opacity-90 rounded-b-xl text-center">
 											<label
+												disabled
 												onClick={() =>
 													HandlesetOnClickPhone(phone)
 												}
-												htmlFor="ordering-modal"
-												className="">
-												Boock Now
+												htmlFor={
+													isBuyer && user
+														? "ordering-modal"
+														: ""
+												}
+												className="disabled">
+												{isBuyer && user
+													? "Boock Now"
+													: "Signin First to Boock"}
 											</label>
 										</div>
 									</div>

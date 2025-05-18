@@ -1,66 +1,139 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
-import footer from '../../../assets/images/footer.png';
+import React from "react";
+import { Link } from "react-router-dom";
+import { motion } from "framer-motion";
+import { fadeIn, staggerContainer } from "../../../utils/animations";
+import { FaFacebook, FaTwitter, FaInstagram, FaLinkedin } from "react-icons/fa";
 
 const Footer = () => {
-    return (
-		<div>
-			<footer
-				style={{
-					background: `url(${footer})`,
-					backgroundSize: "cover",
-				}}
-				className="m-4 rounded-xl border shadow-md">
-				<footer className="footer footer-center p-10 bg-slate-100 text-base-content rounded-xl">
-					<div className="grid grid-flow-col gap-4">
-						<Link className="link link-hover">About us</Link>
-						<Link className="link link-hover">Contact</Link>
-						<Link className="link link-hover">Jobs</Link>
-						<Link className="link link-hover">Report</Link>
-					</div>
-					<div className="">
-						<div className="grid grid-flow-col gap-4 rounded-3xl">
-							<Link>
-								<svg
-									xmlns="http://www.w3.org/2000/svg"
-									width="24"
-									height="24"
-									viewBox="0 0 24 24"
-									className="fill-current">
-									<path d="M24 4.557c-.883.392-1.832.656-2.828.775 1.017-.609 1.798-1.574 2.165-2.724-.951.564-2.005.974-3.127 1.195-.897-.957-2.178-1.555-3.594-1.555-3.179 0-5.515 2.966-4.797 6.045-4.091-.205-7.719-2.165-10.148-5.144-1.29 2.213-.669 5.108 1.523 6.574-.806-.026-1.566-.247-2.229-.616-.054 2.281 1.581 4.415 3.949 4.89-.693.188-1.452.232-2.224.084.626 1.956 2.444 3.379 4.6 3.419-2.07 1.623-4.678 2.348-7.29 2.04 2.179 1.397 4.768 2.212 7.548 2.212 9.142 0 14.307-7.721 13.995-14.646.962-.695 1.797-1.562 2.457-2.549z"></path>
-								</svg>
+	const currentYear = new Date().getFullYear();
+
+	const footerLinks = [
+		{
+			title: "Company",
+			links: [
+				{ name: "About Us", path: "/about" },
+				{ name: "Careers", path: "/careers" },
+				{ name: "Blog", path: "/blog" },
+				{ name: "Press", path: "/press" },
+			],
+		},
+		{
+			title: "Support",
+			links: [
+				{ name: "Help Center", path: "/help" },
+				{ name: "Safety Center", path: "/safety" },
+				{ name: "Community", path: "/community" },
+				{ name: "Contact Us", path: "/contact" },
+			],
+		},
+		{
+			title: "Legal",
+			links: [
+				{ name: "Privacy Policy", path: "/privacy" },
+				{ name: "Terms of Service", path: "/terms" },
+				{ name: "Cookie Policy", path: "/cookies" },
+				{ name: "Licenses", path: "/licenses" },
+			],
+		},
+	];
+
+	const socialLinks = [
+		{ icon: <FaFacebook />, url: "https://facebook.com" },
+		{ icon: <FaTwitter />, url: "https://twitter.com" },
+		{ icon: <FaInstagram />, url: "https://instagram.com" },
+		{ icon: <FaLinkedin />, url: "https://linkedin.com" },
+	];
+
+	return (
+		<footer className="bg-gray-900 text-gray-300">
+			<div className="container mx-auto px-4 py-16">
+				<motion.div
+					variants={staggerContainer}
+					initial="initial"
+					animate="animate"
+					className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-12">
+					{/* Brand Section */}
+					<motion.div
+						variants={fadeIn}
+						className="lg:col-span-2">
+						<Link to="/" className="inline-block">
+							<h2 className="text-2xl font-bold text-white mb-4">
+								UsedPhones
+							</h2>
+						</Link>
+						<p className="text-gray-400 mb-6 max-w-md">
+							Your trusted marketplace for buying and selling used phones. We provide a secure platform for all your mobile device needs.
+						</p>
+						<div className="flex space-x-4">
+							{socialLinks.map((social, index) => (
+								<motion.a
+									key={index}
+									variants={fadeIn}
+									href={social.url}
+									target="_blank"
+									rel="noopener noreferrer"
+									className="text-gray-400 hover:text-white transition-colors duration-300 text-xl">
+									{social.icon}
+								</motion.a>
+							))}
+						</div>
+					</motion.div>
+
+					{/* Links Sections */}
+					{footerLinks.map((section, index) => (
+						<motion.div
+							key={section.title}
+							variants={fadeIn}
+							className="space-y-4">
+							<h3 className="text-lg font-semibold text-white">
+								{section.title}
+							</h3>
+							<ul className="space-y-2">
+								{section.links.map((link) => (
+									<li key={link.name}>
+										<Link
+											to={link.path}
+											className="text-gray-400 hover:text-white transition-colors duration-300">
+											{link.name}
+										</Link>
+									</li>
+								))}
+							</ul>
+						</motion.div>
+					))}
+				</motion.div>
+
+				{/* Bottom Section */}
+				<motion.div
+					variants={fadeIn}
+					initial="initial"
+					animate="animate"
+					className="border-t border-gray-800 mt-12 pt-8">
+					<div className="flex flex-col md:flex-row justify-between items-center">
+						<p className="text-gray-400 text-sm">
+							© {currentYear} UsedPhones. All rights reserved.
+						</p>
+						<div className="flex space-x-6 mt-4 md:mt-0">
+							<Link
+								to="/privacy"
+								className="text-gray-400 hover:text-white text-sm transition-colors duration-300">
+								Privacy Policy
 							</Link>
-							<Link>
-								<svg
-									xmlns="http://www.w3.org/2000/svg"
-									width="24"
-									height="24"
-									viewBox="0 0 24 24"
-									className="fill-current">
-									<path d="M19.615 3.184c-3.604-.246-11.631-.245-15.23 0-3.897.266-4.356 2.62-4.385 8.816.029 6.185.484 8.549 4.385 8.816 3.6.245 11.626.246 15.23 0 3.897-.266 4.356-2.62 4.385-8.816-.029-6.185-.484-8.549-4.385-8.816zm-10.615 12.816v-8l8 3.993-8 4.007z"></path>
-								</svg>
+							<Link
+								to="/terms"
+								className="text-gray-400 hover:text-white text-sm transition-colors duration-300">
+								Terms of Service
 							</Link>
-							<Link>
-								<svg
-									xmlns="http://www.w3.org/2000/svg"
-									width="24"
-									height="24"
-									viewBox="0 0 24 24"
-									className="fill-current">
-									<path d="M9 8h-3v4h3v12h5v-12h3.642l.358-4h-4v-1.667c0-.955.192-1.333 1.115-1.333h2.885v-5h-3.808c-3.596 0-5.192 1.583-5.192 4.615v3.385z"></path>
-								</svg>
+							<Link
+								to="/cookies"
+								className="text-gray-400 hover:text-white text-sm transition-colors duration-300">
+								Cookie Policy
 							</Link>
 						</div>
 					</div>
-					<div>
-						<p>
-							Copyright © 2022 - All right reserved by Used
-							Mobile.com
-						</p>
-					</div>
-				</footer>
-			</footer>
-		</div>
+				</motion.div>
+			</div>
+		</footer>
 	);
 };
 

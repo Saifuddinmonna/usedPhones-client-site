@@ -1,4 +1,8 @@
-node_modules
+
+node_modules/
+.cache/
+*.pack
+.DS_Store
 .env.local
 Toastyfy
 ReactPhotoView
