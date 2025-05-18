@@ -71,9 +71,26 @@ const router = createBrowserRouter([
 					{
 						path: "/allphones/:brand",
 						loader: async ({ params }) => {
-							return fetch(
-								`https://usedphonesserver-saifuddinmonna.vercel.app/allphones/?brand=${params.brand}`,
-							);
+							try {
+								const response = await fetch(
+									`https://usedphonesserver-saifuddinmonna.vercel.app/allphones/?brand=${params.brand}`,
+									{
+										headers: {
+											'Cache-Control': 'max-age=300', // Cache for 5 minutes
+										},
+									}
+								);
+								
+								if (!response.ok) {
+									throw new Error('Failed to fetch phones');
+								}
+								
+								const data = await response.json();
+								return data;
+							} catch (error) {
+								console.error('Error loading phones:', error);
+								throw new Error('Failed to load phones. Please try again later.');
+							}
 						},
 						element: (
 							<PrivateRoute>

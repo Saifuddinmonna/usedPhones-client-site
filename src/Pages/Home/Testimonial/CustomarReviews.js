@@ -119,7 +119,7 @@ const CustomarReviews = () => {
 						What Our Customers Say
 					</h2>
 					<p className="text-gray-700 max-w-2xl mx-auto text-lg leading-relaxed">
-						Honest feedback from our valued users
+						Read authentic reviews from our satisfied customers
 					</p>
 				</motion.div>
 
