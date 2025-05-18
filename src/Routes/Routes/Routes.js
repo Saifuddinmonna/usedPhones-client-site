@@ -4,6 +4,7 @@ import About from "../../components/About/About";
 import Blog from "../../components/Blog/Blog";
 import DashboardLayout from "../../Layout/DashboardLayout";
 import Main from "../../Layout/Main";
+import ProductDetails from "../../Pages/Home/FeaturedProducts/ProductDetails";
 
 import AddPhone from "../../Pages/Dashboard/AddPhone/AddPhone";
 import AllPhonesForLayout from "../../Pages/Dashboard/AddPhone/AllPhones";
@@ -117,6 +118,10 @@ const router = createBrowserRouter([
 						<CustomarReviewsAll></CustomarReviewsAll>
 					</PrivateRoute>
 				),
+			},
+			{
+				path: "/product/:id",
+				element: <ProductDetails></ProductDetails>,
 			},
 			{
 				path: "/*",

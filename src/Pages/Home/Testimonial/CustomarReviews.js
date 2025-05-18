@@ -1,432 +1,290 @@
-import React, { useContext } from "react";
-import quote from "../../../assets/icons/quote.svg";
-import people1 from "../../../assets/images/people1.png";
-import people2 from "../../../assets/images/people2.png";
-import people3 from "../../../assets/images/people3.png";
-import Review from "./Review";
-import MyModal from "./AllUserCommences";
+import React, { useContext, useState } from "react";
+import { motion } from "framer-motion";
 import { Dialog, Transition } from "@headlessui/react";
-import { Fragment, useState } from "react";
+import { Fragment } from "react";
 import { useQuery } from "@tanstack/react-query";
-import { data } from "autoprefixer";
-
 import { useForm } from "react-hook-form";
-import toast from "react-hot-toast";
-import { Link, useNavigate } from "react-router-dom";
-import Loading from "../../Shared/Loading/Loading";
+import { Link } from "react-router-dom";
 import { AuthContext } from "../../../contexts/AuthProvider";
+import Review from "./Review";
+import { fadeIn, staggerContainer } from "../../../utils/animations";
+import toast from "react-hot-toast";
 
 const CustomarReviews = () => {
 	const { user } = useContext(AuthContext);
-	console.log("for emialuser", user);
-	let [isOpen, setIsOpen] = useState(false);
+	const [isOpen, setIsOpen] = useState(false);
 
-	const { data: userscommences = [], refetch } = useQuery({
+	const { data: userscommences = [] } = useQuery({
 		queryKey: ["userscommences"],
 		queryFn: async () => {
 			const res = await fetch(
-				"https://usedphonesserver-saifuddinmonna.vercel.app/userscommences",
+				"https://usedphonesserver-saifuddinmonna.vercel.app/userscommences"
 			);
 			const data = await res.json();
 			return data;
 		},
 	});
 
-	const {
-		data: divisions,
-
-		isLoading2,
-	} = useQuery({
+	const { data: divisions = [] } = useQuery({
 		queryKey: ["division"],
 		queryFn: async () => {
 			const res = await fetch(
-				"https://usedphonesserver-saifuddinmonna.vercel.app/divisionsnameforreview",
+				"https://usedphonesserver-saifuddinmonna.vercel.app/divisionsnameforreview"
 			);
 			const data = await res.json();
-			console.log("data", data);
 			return data;
 		},
 	});
+
 	const {
 		register,
 		handleSubmit,
 		formState: { errors },
+		reset
 	} = useForm();
 
-	const imageHostKey = process.env.REACT_APP_imgbb_key;
-	console.log(imageHostKey, "image key");
-
-	const navigate = useNavigate();
-
-	console.log(data.location);
-
-	const handleAddPhone = (data) => {
-		const image = data.image[0] ? data.image[0] : user?.photoURL;
-		const multipleImage = data.multipleImage;
-		const images = [image, multipleImage];
-		const formData = new FormData();
-		formData.append("image", image);
-		const url = `https://api.imgbb.com/1/upload?key=${imageHostKey}`;
-		fetch(url, {
-			method: "POST",
-			body: formData,
-		})
-			.then((res) => res.json())
-			.then((imgData) => {
-				if (imgData.success) {
-					console.log(imgData.data.url);
-					console.log(data.multipleImage, "images");
-					console.log(data.image, "images");
-					console.log("data", data);
-					const phone = {
-						Name: data.name,
-						Email: data.email,
-						brand: data.brand,
-						image: imgData.data.url,
-						description: data.description,
-						location: data.location,
-					};
-
-					// save phone information to the database
-					fetch(
-						"https://usedphonesserver-saifuddinmonna.vercel.app/userscommences",
-						{
-							method: "POST",
-							headers: {
-								"content-type": "application/json",
-								authorization: `bearer ${localStorage.getItem(
-									"accessToken",
-								)}`,
-							},
-							body: JSON.stringify(phone),
-						},
-					)
-						.then((res) => res.json())
-						.then((result) => {
-							console.log(result);
-							toast.success(`${data.name} is added successfully`);
-						});
-				}
-			});
+	const openModal = () => setIsOpen(true);
+	const closeModal = () => {
+		setIsOpen(false);
+		reset();
 	};
 
-	function closeModal() {
-		setIsOpen(false);
-	}
+	const handleAddReview = async (data) => {
+		try {
+			const formData = new FormData();
+			formData.append("image", data.image[0]);
 
-	function openModal() {
-		setIsOpen(true);
-	}
-
-	const handleDeletecommence = (id) => {
-		console.log("user id ffor token checj", id);
-		fetch(
-			`https://usedphonesserver-saifuddinmonna.vercel.app/users/${id}`,
-			{
-				method: "DELETE",
-				headers: {
-					authorization: `bearer ${localStorage.getItem(
-						"accessToken",
-					)}`,
-				},
-			},
-		)
-			.then((res) => res.json())
-			.then((data) => {
-				console.log(data);
-				if (data.deletedCount === 1) {
-					toast.success("Delete Process is successful.");
-					refetch();
+			const imgRes = await fetch(
+				`https://api.imgbb.com/1/upload?key=${process.env.REACT_APP_imgbb_key}`,
+				{
+					method: "POST",
+					body: formData,
 				}
-			});
+			);
+			const imgData = await imgRes.json();
+
+			const reviewData = {
+				Name: data.name,
+				email: data.email,
+				location: data.location,
+				description: data.description,
+				image: imgData.data.url,
+				review: 5,
+			};
+
+			const res = await fetch(
+				"https://usedphonesserver-saifuddinmonna.vercel.app/userscommences",
+				{
+					method: "POST",
+					headers: {
+						"content-type": "application/json",
+					},
+					body: JSON.stringify(reviewData),
+				}
+			);
+
+			if (res.ok) {
+				closeModal();
+				toast.success("Review added successfully!");
+			}
+		} catch (error) {
+			console.error(error);
+			toast.error("Failed to add review");
+		}
 	};
 
 	return (
-		<section className="my-16">
-			<div>
-				<div className=" ">
-					<div className="border rounded-full text-center shadow-xl p-4 m-6">
-						<h4 className="text-3xl text-primary font-bold">
-							Customer Review
-						</h4>
-						<h2 className="text-4xl">What Our Customer Says</h2>
-					</div>
-					<div className="flex justify-around">
-						<div>
-							{/* modal start from here*/}
+		<section className="py-16 bg-gradient-to-b from-gray-50 to-white">
+			<div className="container mx-auto px-4">
+				<motion.div
+					variants={fadeIn}
+					initial="initial"
+					animate="animate"
+					className="text-center mb-12">
+					<h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+						Customer Reviews
+					</h2>
+					<p className="text-gray-700 max-w-2xl mx-auto text-lg">
+						What our customers say about our service
+					</p>
+				</motion.div>
 
-							<>
-								<div className="   items-center ">
-									<button
-										type="button"
-										onClick={openModal}
-										className="rounded-md btn btn-info btn-sm bg-opacity-75 px-4 py-2 text-sm font-medium text-white hover:bg-opacity-30 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75">
-										Add A Review About Our Service
-									</button>
-								</div>
-
-								<Transition appear show={isOpen} as={Fragment}>
-									<Dialog
-										as="div"
-										className="relative z-10"
-										onClose={closeModal}>
-										<Transition.Child
-											as={Fragment}
-											enter="ease-out duration-300"
-											enterFrom="opacity-0"
-											enterTo="opacity-100"
-											leave="ease-in duration-200"
-											leaveFrom="opacity-100"
-											leaveTo="opacity-0">
-											<div className="fixed inset-0 bg-black bg-opacity-25" />
-										</Transition.Child>
-
-										<div className="fixed inset-0 overflow-y-auto">
-											<div className="flex min-h-full items-center justify-center p-4 text-center">
-												<Transition.Child
-													as={Fragment}
-													enter="ease-out duration-300"
-													enterFrom="opacity-0 scale-95"
-													enterTo="opacity-100 scale-100"
-													leave="ease-in duration-200"
-													leaveFrom="opacity-100 scale-100"
-													leaveTo="opacity-0 scale-95">
-													<Dialog.Panel className="w-full max-w-md transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all">
-														<Dialog.Title
-															as="h3"
-															className="text-lg font-medium leading-6 text-gray-900">
-															Please Review Us
-														</Dialog.Title>
-														<div className="mt-2">
-															<div className="flex flex-col justify-center items-center mt-5 ">
-																<div className="px-7 ">
-																	<h2 className="text-4xl text-center">
-																		Add A
-																		Review
-																	</h2>
-																</div>
-																<div className="flex flex-row justify-center items-center mx-5 my-6 ">
-																	<form
-																		className="text-center grid  justify-center items-center"
-																		onSubmit={handleSubmit(
-																			handleAddPhone,
-																		)}>
-																		<div className="text-center grid gap-4 md:grid-cols-2 lg:grid-cols-2  justify-center items-center">
-																			<div className="form-control w-full max-w-xs">
-																				<label className="label">
-																					{" "}
-																					<span className="label-text">
-																						Name
-																					</span>
-																				</label>
-																				<input
-																					defaultValue={
-																						user?.displayName
-																					}
-																					placeholder={
-																						user?.displayName
-																					}
-																					type="text"
-																					{...register(
-																						"name",
-																						{
-																							required:
-																								"Name is Required",
-																						},
-																					)}
-																					className="input input-bordered w-full max-w-xs"
-																				/>
-																				{errors.name && (
-																					<p className="text-red-500">
-																						{
-																							errors
-																								.name
-																								.message
-																						}
-																					</p>
-																				)}
-																			</div>
-
-																			<div className="form-control w-full max-w-xs">
-																				<label className="label">
-																					{" "}
-																					<span className="label-text">
-																						Email
-																					</span>
-																				</label>
-																				<input
-																					defaultValue={
-																						user?.email
-																					}
-																					placeholder={
-																						user?.email
-																					}
-																					type="email"
-																					{...register(
-																						"email",
-																						{
-																							required: true,
-																						},
-																					)}
-																					className="input input-bordered w-full max-w-xs"
-																				/>
-																				{errors.email && (
-																					<p className="text-red-500">
-																						{
-																							errors
-																								.email
-																								.message
-																						}
-																					</p>
-																				)}
-																			</div>
-																			<div className="form-control w-full max-w-xs">
-																				<label className="label">
-																					{" "}
-																					<span className="label-text">
-																						Location
-																					</span>
-																				</label>
-																				<select
-																					{...register(
-																						"location",
-																					)}
-																					className="select input-bordered w-full max-w-xs">
-																					{divisions?.map(
-																						(
-																							division,
-																						) => (
-																							<option
-																								key={
-																									division._id
-																								}
-																								value={
-																									division.division
-																								}>
-																								{
-																									division.division
-																								}
-																							</option>
-																						),
-																					)}
-																				</select>
-																			</div>
-
-																			<div className="form-control w-full max-w-xs">
-																				<label className="label">
-																					{" "}
-																					<span className="label-text">
-																						Photo
-																					</span>
-																				</label>
-																				<input
-																					placeholder={
-																						user?.photoURL
-																					}
-																					type="file"
-																					multiple
-																					accept="image/*"
-																					{...register(
-																						"image",
-
-																						!user?.photoURL &&
-																							`{required: "Photo is Required",}`,
-																					)}
-																					className="input input-bordered w-full max-w-xs"
-																				/>
-
-																				{errors.img && (
-																					<p className="text-red-500">
-																						{
-																							errors
-																								.img
-																								.message
-																						}
-																					</p>
-																				)}
-																			</div>
-																			<div className="form-control w-full  max-w-xs">
-																				<label className="label">
-																					{" "}
-																					<span className="label-text">
-																						Please
-																						Give
-																						YOur
-																						Opinion
-																					</span>
-																				</label>
-
-																				<textarea
-																					type="text"
-																					{...register(
-																						"description",
-																						{
-																							required:
-																								"Name is Required",
-																						},
-																					)}
-																					className="textarea input-bordered w-full h-36  max-w-xs"
-																					placeholder="please give a description about the phone"></textarea>
-																				{errors.name && (
-																					<p className="text-red-500">
-																						{
-																							errors
-																								.name
-																								.message
-																						}
-																					</p>
-																				)}
-																			</div>
-																		</div>
-
-																		<div>
-																			<input
-																				className="btn btn-primary w-full  mt-4"
-																				value="Add Your Commence"
-																				type="submit"
-																			/>
-																		</div>
-																	</form>
-																</div>
-															</div>
-														</div>
-
-														<div className="mt-4">
-															<button
-																type="button"
-																className="inline-flex justify-center rounded-md border border-transparent bg-blue-100 px-4 py-2 text-sm font-medium text-blue-900 hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
-																onClick={
-																	closeModal
-																}>
-																Got it, thanks!
-															</button>
-														</div>
-													</Dialog.Panel>
-												</Transition.Child>
-											</div>
-										</div>
-									</Dialog>
-								</Transition>
-							</>
-						</div>
-						<div className="   items-center ">
-							<Link to="/customarreviewsall">
-								<button
-									type="button"
-									onClick={openModal}
-									className="rounded-md btn btn-info btn-sm bg-opacity-75 px-4 py-2 text-sm font-medium text-white hover:bg-opacity-30 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75">
-									See Al Reviews
-								</button>
-							</Link>
-						</div>
-					</div>
+				<div className="flex justify-center gap-4 mb-12">
+					<button
+						onClick={openModal}
+						className="btn btn-primary px-6 py-2 rounded-lg hover:bg-primary-dark transition-colors">
+						Add Your Review
+					</button>
+					<Link
+						to="/customarreviewsall"
+						className="btn btn-outline px-6 py-2 rounded-lg hover:bg-gray-100 transition-colors">
+						View All Reviews
+					</Link>
 				</div>
+
+				<motion.div
+					variants={staggerContainer}
+					initial="initial"
+					animate="animate"
+					className="grid gap-6 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+					{userscommences?.map((review) => (
+						<motion.div key={review._id} variants={fadeIn}>
+							<Review review={review} />
+						</motion.div>
+					))}
+				</motion.div>
 			</div>
-			<div className="grid gap-6 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
-				{userscommences?.map((review) => (
-					<Review key={review._id} review={review}></Review>
-				))}
-			</div>
+
+			<Transition appear show={isOpen} as={Fragment}>
+				<Dialog
+					as="div"
+					className="relative z-10"
+					onClose={closeModal}>
+					<Transition.Child
+						as={Fragment}
+						enter="ease-out duration-300"
+						enterFrom="opacity-0"
+						enterTo="opacity-100"
+						leave="ease-in duration-200"
+						leaveFrom="opacity-100"
+						leaveTo="opacity-0">
+						<div className="fixed inset-0 bg-black bg-opacity-25" />
+					</Transition.Child>
+
+					<div className="fixed inset-0 overflow-y-auto">
+						<div className="flex min-h-full items-center justify-center p-4">
+							<Transition.Child
+								as={Fragment}
+								enter="ease-out duration-300"
+								enterFrom="opacity-0 scale-95"
+								enterTo="opacity-100 scale-100"
+								leave="ease-in duration-200"
+								leaveFrom="opacity-100 scale-100"
+								leaveTo="opacity-0 scale-95">
+								<Dialog.Panel className="w-full max-w-md transform overflow-hidden rounded-2xl bg-white p-6 shadow-xl transition-all">
+									<Dialog.Title
+										as="h3"
+										className="text-xl font-semibold text-gray-900 mb-4">
+										Share Your Experience
+									</Dialog.Title>
+
+									<form onSubmit={handleSubmit(handleAddReview)} className="space-y-4">
+										<div className="form-control">
+											<label className="label">
+												<span className="label-text font-medium">Name</span>
+											</label>
+											<input
+												defaultValue={user?.displayName}
+												type="text"
+												{...register("name", {
+													required: "Name is required",
+												})}
+												className="input input-bordered w-full"
+											/>
+											{errors.name && (
+												<p className="text-red-500 text-sm mt-1">
+													{errors.name.message}
+												</p>
+											)}
+										</div>
+
+										<div className="form-control">
+											<label className="label">
+												<span className="label-text font-medium">Email</span>
+											</label>
+											<input
+												defaultValue={user?.email}
+												type="email"
+												{...register("email", {
+													required: "Email is required",
+												})}
+												className="input input-bordered w-full"
+											/>
+											{errors.email && (
+												<p className="text-red-500 text-sm mt-1">
+													{errors.email.message}
+												</p>
+											)}
+										</div>
+
+										<div className="form-control">
+											<label className="label">
+												<span className="label-text font-medium">Location</span>
+											</label>
+											<select
+												{...register("location", {
+													required: "Location is required",
+												})}
+												className="select select-bordered w-full">
+												<option value="">Select Location</option>
+												{divisions?.map((division) => (
+													<option key={division._id} value={division.division}>
+														{division.division}
+													</option>
+												))}
+											</select>
+											{errors.location && (
+												<p className="text-red-500 text-sm mt-1">
+													{errors.location.message}
+												</p>
+											)}
+										</div>
+
+										<div className="form-control">
+											<label className="label">
+												<span className="label-text font-medium">Photo</span>
+											</label>
+											<input
+												type="file"
+												accept="image/*"
+												{...register("image", {
+													required: !user?.photoURL && "Photo is required",
+												})}
+												className="file-input file-input-bordered w-full"
+											/>
+											{errors.image && (
+												<p className="text-red-500 text-sm mt-1">
+													{errors.image.message}
+												</p>
+											)}
+										</div>
+
+										<div className="form-control">
+											<label className="label">
+												<span className="label-text font-medium">Your Review</span>
+											</label>
+											<textarea
+												{...register("description", {
+													required: "Review is required",
+												})}
+												className="textarea textarea-bordered h-24"
+												placeholder="Share your experience with us..."
+											/>
+											{errors.description && (
+												<p className="text-red-500 text-sm mt-1">
+													{errors.description.message}
+												</p>
+											)}
+										</div>
+
+										<div className="flex justify-end gap-4 mt-6">
+											<button
+												type="button"
+												onClick={closeModal}
+												className="btn btn-outline">
+												Cancel
+											</button>
+											<button type="submit" className="btn btn-primary">
+												Submit Review
+											</button>
+										</div>
+									</form>
+								</Dialog.Panel>
+							</Transition.Child>
+						</div>
+					</div>
+				</Dialog>
+			</Transition>
 		</section>
 	);
 };
