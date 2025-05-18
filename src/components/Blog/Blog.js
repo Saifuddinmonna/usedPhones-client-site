@@ -1,63 +1,436 @@
 import React, { useState } from "react";
 
-// Sample Blog Post Data (at least 33 articles)
+// Sample Blog Post Data with enhanced content and images
 const allBlogPosts = [
     {
         id: 1,
         title: "The Future of Web Development: Trends to Watch in 2024",
-        content: "Web development is constantly evolving. This year, we're seeing a surge in AI-powered tools, a continued rise of Jamstack architectures, and an increased focus on web accessibility and sustainability. Server-side rendering with frameworks like Next.js and Nuxt.js is becoming standard for performance-critical applications. WebAssembly (Wasm) is also gaining traction for running high-performance code in the browser. Stay ahead by exploring these exciting trends!",
+        content: `Web development is constantly evolving, and 2024 brings exciting new trends that are reshaping the industry. Let's explore the key developments that are making waves:
+
+1. AI-Powered Development Tools
+The integration of AI in web development tools is revolutionizing how we code. Tools like GitHub Copilot and Amazon CodeWhisperer are becoming essential for developers, offering intelligent code suggestions and automating repetitive tasks.
+
+2. Jamstack Architecture
+The Jamstack approach continues to gain momentum, offering better performance, security, and developer experience. Companies are increasingly adopting this architecture for its ability to deliver lightning-fast websites with improved scalability.
+
+3. Web Accessibility (a11y)
+Accessibility is no longer optional. With stricter regulations and growing awareness, developers are prioritizing inclusive design. Tools like axe-core and Lighthouse are becoming standard in development workflows.
+
+4. WebAssembly (Wasm)
+WebAssembly is enabling high-performance applications to run in the browser. From video editing to 3D rendering, Wasm is opening new possibilities for web applications.
+
+5. Sustainable Web Development
+Green coding practices are gaining traction. Developers are focusing on optimizing performance, reducing carbon footprints, and implementing eco-friendly hosting solutions.`,
+        imageUrl: "https://images.unsplash.com/photo-1498050108023-c5249f4df085?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2072&q=80",
+        author: "Sarah Johnson",
+        date: "March 15, 2024",
+        readTime: "8 min read",
+        category: "Web Development",
+        tags: ["AI", "Jamstack", "WebAssembly", "Accessibility"]
     },
     {
         id: 2,
         title: "Mastering JavaScript: Advanced Asynchronous Patterns",
-        content: "Beyond callbacks and Promises, modern JavaScript offers async/await for cleaner asynchronous code. Understanding event loops, microtasks, and macrotasks is crucial for debugging and optimizing performance. We'll explore advanced patterns like generators for custom iteration and observables for handling complex event streams. These techniques will elevate your JavaScript skills to the next level.",
+        content: `JavaScript's asynchronous nature is both powerful and challenging. Let's dive deep into modern async patterns:
+
+1. Async/Await Revolution
+The async/await syntax has transformed how we write asynchronous code. It makes asynchronous code look and behave more like synchronous code, improving readability and maintainability.
+
+2. Event Loop Understanding
+The JavaScript event loop is crucial for understanding async behavior. It's a single-threaded loop that continuously checks the call stack and processes events, callbacks, and promises.
+
+3. Promise Patterns
+Modern JavaScript offers several promise patterns:
+- Promise.all() for parallel execution
+- Promise.race() for competitive promises
+- Promise.allSettled() for handling multiple promises regardless of outcome
+
+4. Generator Functions
+Generators provide a powerful way to handle asynchronous operations with more control over the execution flow. They're particularly useful for:
+- Custom iteration
+- State management
+- Complex async flows
+
+5. Observable Pattern
+The Observable pattern, popularized by libraries like RxJS, provides a powerful way to handle streams of data and events.`,
+        imageUrl: "https://images.unsplash.com/photo-1555066931-4365d14bab8c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80",
+        author: "Michael Chen",
+        date: "March 12, 2024",
+        readTime: "10 min read",
+        category: "JavaScript",
+        tags: ["Async/Await", "Promises", "Event Loop", "Generators"]
     },
     {
         id: 3,
         title: "A Deep Dive into React Hooks: Beyond useState and useEffect",
-        content: "React Hooks revolutionized how we write components. While `useState` and `useEffect` are fundamental, hooks like `useContext` for state management, `useReducer` for complex state logic, `useMemo` and `useCallback` for performance optimizations, and `useRef` for direct DOM manipulation or persisting values are equally important. We'll also touch upon creating custom Hooks to encapsulate reusable logic.",
+        content: `React Hooks have revolutionized component development. Let's explore advanced hook patterns and best practices:
+
+1. Custom Hooks
+Creating custom hooks allows you to extract component logic into reusable functions. Common patterns include:
+- useLocalStorage for persistent state
+- useDebounce for delayed execution
+- useMediaQuery for responsive design
+
+2. Context and State Management
+useContext and useReducer provide powerful state management solutions:
+- useContext for global state
+- useReducer for complex state logic
+- Combining both for scalable applications
+
+3. Performance Optimization
+useMemo and useCallback are essential for performance:
+- useMemo for expensive calculations
+- useCallback for stable function references
+- When and how to use them effectively
+
+4. Advanced useEffect Patterns
+Mastering useEffect is crucial for side effects:
+- Cleanup functions
+- Dependency arrays
+- Race conditions
+- Infinite loops prevention
+
+5. Testing Hooks
+Testing custom hooks requires special consideration:
+- Using @testing-library/react-hooks
+- Mocking dependencies
+- Testing async behavior`,
+        imageUrl: "https://images.unsplash.com/photo-1633356122544-f134324a6cee?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80",
+        author: "Emily Rodriguez",
+        date: "March 10, 2024",
+        readTime: "12 min read",
+        category: "React",
+        tags: ["Hooks", "State Management", "Performance", "Testing"]
     },
     {
         id: 4,
         title: "Understanding CSS Grid vs. Flexbox: When to Use Which",
-        content: "CSS Grid and Flexbox are powerful layout tools, but they serve different purposes. Flexbox is ideal for one-dimensional layouts (rows or columns), perfect for navigation bars, component alignment, and distributing space. Grid, on the other hand, excels at two-dimensional layouts, allowing you to define complex grids with rows and columns simultaneously. Understanding their strengths helps in creating responsive and intricate designs efficiently.",
+        content: `CSS Grid and Flexbox are powerful layout tools, but they serve different purposes. Let's break down when to use each:
+
+1. Flexbox Use Cases
+Flexbox excels at:
+- One-dimensional layouts (rows or columns)
+- Navigation bars and menus
+- Card layouts with equal heights
+- Form layouts
+- Centering content
+
+2. Grid Use Cases
+Grid is perfect for:
+- Two-dimensional layouts
+- Complex page structures
+- Magazine-style layouts
+- Dashboard designs
+- Responsive image galleries
+
+3. Combining Both
+The real power comes from using them together:
+- Grid for overall page layout
+- Flexbox for component-level layouts
+- Nested layouts
+- Responsive designs
+
+4. Performance Considerations
+Understanding performance implications:
+- Browser support
+- Rendering performance
+- Mobile optimization
+- Animation considerations
+
+5. Best Practices
+Tips for effective use:
+- Start with mobile-first approach
+- Use meaningful class names
+- Consider accessibility
+- Test across browsers`,
+        imageUrl: "https://images.unsplash.com/photo-1507721999472-8ed4421c4af2?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80",
+        author: "David Kim",
+        date: "March 8, 2024",
+        readTime: "9 min read",
+        category: "CSS",
+        tags: ["Grid", "Flexbox", "Layout", "Responsive Design"]
     },
     {
         id: 5,
         title: "The Rise of Serverless Architectures: Benefits and Challenges",
-        content: "Serverless computing, with services like AWS Lambda, Azure Functions, and Google Cloud Functions, allows developers to build and run applications without managing servers. Key benefits include scalability, cost-efficiency (pay-per-use), and reduced operational overhead. However, challenges like cold starts, vendor lock-in, and debugging complexities need careful consideration.",
+        content: `Serverless computing is transforming how we build and deploy applications. Let's explore its impact:
+
+1. Key Benefits
+Serverless offers several advantages:
+- Pay-per-use pricing
+- Automatic scaling
+- Reduced operational overhead
+- Faster time to market
+- Built-in high availability
+
+2. Common Use Cases
+Ideal scenarios for serverless:
+- API endpoints
+- Event-driven processing
+- Scheduled tasks
+- File processing
+- Real-time data processing
+
+3. Challenges and Solutions
+Common challenges include:
+- Cold starts
+- Vendor lock-in
+- Debugging complexity
+- Cost optimization
+- Security considerations
+
+4. Best Practices
+Tips for successful serverless adoption:
+- Function design
+- Error handling
+- Monitoring and logging
+- Security implementation
+- Cost management
+
+5. Future Trends
+Emerging developments:
+- Edge computing integration
+- Multi-cloud strategies
+- Improved developer tools
+- Enhanced monitoring
+- Better debugging capabilities`,
+        imageUrl: "https://images.unsplash.com/photo-1451187580459-43490279c0fa?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2072&q=80",
+        author: "Alex Thompson",
+        date: "March 5, 2024",
+        readTime: "11 min read",
+        category: "Cloud Computing",
+        tags: ["Serverless", "AWS Lambda", "Cloud", "Architecture"]
     },
-    // Add 30 more articles...
-    { id: 6, title: "Cybersecurity Best Practices for Developers", content: "Placeholder content about cybersecurity for developers. Focus on secure coding, dependency management, and threat modeling." },
-    { id: 7, title: "Optimizing Web Performance: A Comprehensive Guide", content: "Placeholder content about web performance optimization. Cover image optimization, code splitting, lazy loading, and caching." },
-    { id: 8, title: "Introduction to Machine Learning for Beginners", content: "Placeholder content introducing machine learning concepts. Explain supervised, unsupervised learning, and common algorithms." },
-    { id: 9, title: "Building Scalable APIs with Node.js and Express", content: "Placeholder content on creating scalable APIs using Node.js and Express. Discuss middleware, routing, and database integration." },
-    { id: 10, title: "The Importance of UX/UI in Modern Applications", content: "Placeholder content highlighting the significance of UX/UI design. Emphasize user-centered design principles." },
-    { id: 11, title: "Exploring the World of NoSQL Databases", content: "Placeholder content about NoSQL databases. Compare document, key-value, column-family, and graph databases." },
-    { id: 12, title: "DevOps Culture: Bridging Development and Operations", content: "Placeholder content on DevOps culture. Discuss collaboration, automation, and continuous improvement." },
-    { id: 13, title: "Getting Started with Docker and Containers", content: "Placeholder content for beginners on Docker and containerization. Explain images, containers, and Dockerfiles." },
-    { id: 14, title: "Progressive Web Apps (PWAs): The Next Big Thing?", content: "Placeholder content about PWAs. Discuss their benefits, features like service workers, and manifest files." },
-    { id: 15, title: "A Guide to Effective Unit Testing in JavaScript", content: "Placeholder content on unit testing. Cover frameworks like Jest or Mocha, and best practices." },
-    { id: 16, title: "Navigating the Cloud: AWS vs. Azure vs. GCP", content: "Placeholder content comparing major cloud providers. Discuss their core services, pricing, and use cases." },
-    { id: 17, title: "The Art of Clean Code: Principles and Practices", content: "Placeholder content about writing clean code. Refer to principles from Robert C. Martin's book." },
-    { id: 18, title: "Data Structures and Algorithms in JavaScript", content: "Placeholder content on common data structures (arrays, linked lists, trees) and algorithms (sorting, searching) in JS." },
-    { id: 19, title: "Building Real-time Applications with WebSockets", content: "Placeholder content about WebSockets for real-time communication. Discuss server-side and client-side implementation." },
-    { id: 20, title: "An Introduction to GraphQL: A Query Language for APIs", content: "Placeholder content introducing GraphQL. Compare it with REST and explain its core concepts." },
-    { id: 21, title: "The Role of AI in Software Development Lifecycle", content: "Placeholder content on how AI is impacting software development, from coding assistants to automated testing." },
-    { id: 22, title: "Mobile-First Design: Why It Matters More Than Ever", content: "Placeholder content advocating for mobile-first design. Discuss its benefits for UX and SEO." },
-    { id: 23, title: "Securing Your Web Applications: Common Vulnerabilities", content: "Placeholder content on web application security. Cover OWASP Top 10 vulnerabilities like XSS, SQL Injection." },
-    { id: 24, title: "Version Control with Git: Beyond the Basics", content: "Placeholder content on advanced Git topics like branching strategies, rebasing, and resolving conflicts." },
-    { id: 25, title: "The Evolution of Frontend Frameworks: A Historical Look", content: "Placeholder content tracing the history of frontend frameworks from jQuery to modern SPAs." },
-    { id: 26, title: "Understanding Asynchronous JavaScript: Callbacks, Promises, Async/Await", content: "A re-iteration or deeper dive into asynchronous JavaScript concepts." },
-    { id: 27, title: "Building Accessible Web Interfaces (a11y)", content: "Placeholder content on web accessibility. Discuss WCAG guidelines, ARIA attributes, and testing tools." },
-    { id: 28, title: "The Power of Data Visualization with D3.js", content: "Placeholder content on data visualization using D3.js. Show examples of charts and graphs." },
-    { id: 29, title: "Microservices Architecture: Pros, Cons, and Best Practices", content: "Placeholder content about microservices. Discuss design patterns, communication, and challenges." },
-    { id: 30, title: "Continuous Integration and Continuous Deployment (CI/CD) Pipelines", content: "Placeholder content on CI/CD. Explain tools like Jenkins, GitLab CI, GitHub Actions." },
-    { id: 31, title: "Exploring Functional Programming Concepts in JavaScript", content: "Placeholder content on functional programming paradigms like immutability, pure functions, and higher-order functions in JS." },
-    { id: 32, title: "The Impact of Big Data on Business Intelligence", content: "Placeholder content on how big data is transforming business intelligence and decision-making." },
-    { id: 33, title: "Ethical Considerations in AI Development and Deployment", content: "Placeholder content discussing ethical challenges in AI, such as bias, privacy, and accountability." },
-    { id: 34, title: "Getting Started with Python for Web Development using Django/Flask", content: "Placeholder content for beginners looking to use Python for web development with popular frameworks." },
-    { id: 35, title: "The State of Jamstack in 2024: Trends and Future", content: "Placeholder content analyzing the current state and future prospects of the Jamstack architecture." },
+    {
+        id: 6,
+        title: "Cybersecurity Best Practices for Modern Web Applications",
+        content: `In today's digital landscape, security is paramount. Let's explore essential cybersecurity practices for web applications:
+
+1. Authentication and Authorization
+- Implement multi-factor authentication (MFA)
+- Use OAuth 2.0 and OpenID Connect
+- Implement role-based access control (RBAC)
+- Regular security audits and penetration testing
+- Secure password policies and storage
+
+2. Data Protection
+- Encrypt sensitive data at rest and in transit
+- Implement proper session management
+- Use secure HTTP headers
+- Regular security updates and patches
+- Implement rate limiting and DDoS protection
+
+3. API Security
+- Validate all input data
+- Implement proper CORS policies
+- Use API keys and tokens
+- Rate limiting and throttling
+- Regular API security audits
+
+4. Frontend Security
+- Implement Content Security Policy (CSP)
+- Use HTTPS everywhere
+- Prevent XSS attacks
+- Implement proper error handling
+- Regular dependency updates
+
+5. Monitoring and Logging
+- Implement comprehensive logging
+- Set up security alerts
+- Regular security scans
+- Incident response plan
+- Regular backup procedures`,
+        imageUrl: "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80",
+        author: "James Wilson",
+        date: "March 3, 2024",
+        readTime: "10 min read",
+        category: "Security",
+        tags: ["Cybersecurity", "Web Security", "Authentication", "API Security"]
+    },
+    {
+        id: 7,
+        title: "Optimizing Web Performance: A Comprehensive Guide",
+        content: `Web performance optimization is crucial for user experience and SEO. Here's a comprehensive guide:
+
+1. Image Optimization
+- Use modern image formats (WebP, AVIF)
+- Implement lazy loading
+- Use responsive images
+- Optimize image compression
+- Implement proper caching
+
+2. Code Optimization
+- Minify CSS, JavaScript, and HTML
+- Implement code splitting
+- Use tree shaking
+- Optimize third-party scripts
+- Implement proper caching strategies
+
+3. Server Optimization
+- Use CDN for static assets
+- Implement proper caching headers
+- Enable compression (Gzip/Brotli)
+- Optimize database queries
+- Use server-side rendering where appropriate
+
+4. Frontend Performance
+- Optimize critical rendering path
+- Reduce render-blocking resources
+- Implement proper lazy loading
+- Use service workers for offline support
+- Optimize animations and transitions
+
+5. Monitoring and Analytics
+- Implement performance monitoring
+- Use Core Web Vitals
+- Regular performance audits
+- User experience monitoring
+- A/B testing for optimizations`,
+        imageUrl: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2015&q=80",
+        author: "Lisa Chen",
+        date: "March 1, 2024",
+        readTime: "12 min read",
+        category: "Performance",
+        tags: ["Web Performance", "Optimization", "Core Web Vitals", "Caching"]
+    },
+    {
+        id: 8,
+        title: "Building Scalable APIs with Node.js and Express",
+        content: `Creating scalable APIs is crucial for modern applications. Let's explore best practices:
+
+1. Architecture Design
+- Implement proper routing structure
+- Use middleware effectively
+- Implement proper error handling
+- Use environment variables
+- Follow RESTful principles
+
+2. Database Optimization
+- Implement connection pooling
+- Use proper indexing
+- Implement caching strategies
+- Optimize queries
+- Use proper data modeling
+
+3. Security Implementation
+- Implement proper authentication
+- Use rate limiting
+- Implement input validation
+- Use proper error handling
+- Implement logging and monitoring
+
+4. Performance Optimization
+- Implement caching
+- Use compression
+- Optimize response times
+- Implement proper pagination
+- Use proper error handling
+
+5. Testing and Documentation
+- Implement unit tests
+- Use integration tests
+- Implement API documentation
+- Use proper versioning
+- Implement monitoring and logging`,
+        imageUrl: "https://images.unsplash.com/photo-1555066931-4365d14bab8c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80",
+        author: "Mark Anderson",
+        date: "February 28, 2024",
+        readTime: "11 min read",
+        category: "Backend",
+        tags: ["Node.js", "Express", "API Design", "Scalability"]
+    },
+    {
+        id: 9,
+        title: "The Future of AI in Web Development",
+        content: `Artificial Intelligence is revolutionizing web development. Let's explore the future:
+
+1. AI-Powered Development Tools
+- Code generation and completion
+- Automated testing and debugging
+- Performance optimization
+- Security analysis
+- Documentation generation
+
+2. AI in User Experience
+- Personalized content delivery
+- Smart search functionality
+- Automated content generation
+- User behavior analysis
+- Predictive user interfaces
+
+3. AI in Testing and Quality Assurance
+- Automated test generation
+- Bug prediction and prevention
+- Performance optimization
+- Security vulnerability detection
+- Code quality analysis
+
+4. AI in Content Management
+- Automated content generation
+- Content optimization
+- SEO automation
+- Personalization
+- Content moderation
+
+5. Future Trends
+- AI-driven development workflows
+- Automated deployment and scaling
+- Enhanced security measures
+- Improved user experiences
+- Advanced analytics and insights`,
+        imageUrl: "https://images.unsplash.com/photo-1677442136019-21780ecad995?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80",
+        author: "Sophie Martinez",
+        date: "February 25, 2024",
+        readTime: "9 min read",
+        category: "AI",
+        tags: ["Artificial Intelligence", "Web Development", "Future Tech", "Automation"]
+    },
+    {
+        id: 10,
+        title: "Mastering TypeScript: Advanced Patterns and Best Practices",
+        content: `TypeScript has become essential in modern web development. Let's explore advanced patterns:
+
+1. Advanced Type System
+- Generic types and constraints
+- Utility types
+- Conditional types
+- Mapped types
+- Type inference and manipulation
+
+2. Design Patterns
+- Singleton pattern
+- Factory pattern
+- Observer pattern
+- Decorator pattern
+- Strategy pattern
+
+3. Best Practices
+- Proper type definitions
+- Interface vs Type
+- Proper error handling
+- Code organization
+- Testing strategies
+
+4. Performance Optimization
+- Type checking optimization
+- Bundle size optimization
+- Compilation optimization
+- Runtime performance
+- Memory management
+
+5. Integration Patterns
+- React integration
+- Node.js integration
+- Database integration
+- API integration
+- Testing framework integration`,
+        imageUrl: "https://images.unsplash.com/photo-1516116216624-53e697fedbea?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2028&q=80",
+        author: "Ryan Thompson",
+        date: "February 22, 2024",
+        readTime: "13 min read",
+        category: "TypeScript",
+        tags: ["TypeScript", "Type System", "Design Patterns", "Best Practices"]
+    }
 ];
 
 const POSTS_PER_PAGE = 4;
@@ -146,12 +519,51 @@ const Blog = () => {
                             key={post.id}
                             className="bg-white p-6 md:p-8 rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 ease-in-out transform hover:-translate-y-1 hover:scale-[1.02] mb-8"
                         >
-                            <h2 className="text-2xl sm:text-3xl font-bold text-slate-800 mb-6 text-center capitalize">
-                                {post.title}
-                            </h2>
-                            <p className="text-slate-700 text-base md:text-lg leading-relaxed text-left">
-                                {post.content}
-                            </p>
+                            {/* Featured Image */}
+                            <div className="mb-6 overflow-hidden rounded-lg">
+                                <img
+                                    src={post.imageUrl}
+                                    alt={post.title}
+                                    className="w-full h-[400px] object-cover hover:scale-105 transition-transform duration-300"
+                                />
+                            </div>
+
+                            {/* Post Header */}
+                            <div className="mb-6">
+                                <div className="flex items-center gap-4 mb-4">
+                                    <span className="px-3 py-1 bg-teal-100 text-teal-700 rounded-full text-sm font-medium">
+                                        {post.category}
+                                    </span>
+                                    <span className="text-gray-500 text-sm">{post.readTime}</span>
+                                </div>
+                                <h2 className="text-2xl sm:text-3xl font-bold text-slate-800 mb-4">
+                                    {post.title}
+                                </h2>
+                                <div className="flex items-center gap-4 text-sm text-gray-600">
+                                    <span>By {post.author}</span>
+                                    <span>•</span>
+                                    <span>{post.date}</span>
+                                </div>
+                            </div>
+
+                            {/* Post Content */}
+                            <div className="prose prose-lg max-w-none">
+                                <p className="text-slate-700 leading-relaxed whitespace-pre-line">
+                                    {post.content}
+                                </p>
+                            </div>
+
+                            {/* Tags */}
+                            <div className="mt-6 flex flex-wrap gap-2">
+                                {post.tags.map((tag, index) => (
+                                    <span
+                                        key={index}
+                                        className="px-3 py-1 bg-gray-100 text-gray-700 rounded-full text-sm"
+                                    >
+                                        #{tag}
+                                    </span>
+                                ))}
+                            </div>
                         </article>
                     ))
                 ) : (
