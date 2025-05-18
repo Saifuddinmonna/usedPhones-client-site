@@ -1,4 +1,4 @@
-import React, { Suspense, useState, useContext } from "react"; // Added useState, useContext
+import React, { Suspense, useState, useContext, lazy } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { motion } from "framer-motion";
@@ -6,36 +6,38 @@ import { PhotoProvider, PhotoView } from "react-photo-view";
 import { FaStar, FaUser, FaCalendarAlt, FaTag } from "react-icons/fa";
 import { fadeIn } from "../../../utils/animations";
 import toast from "react-hot-toast";
-import PhoneOrderModal from "../../Dashboard/MyOrders/PhoneOrderModal"; // Import the modal
-import { AuthContext } from "../../../contexts/AuthProvider"; // Import AuthContext
-import useBuyer from "../../../hooks/useBuyer"; // Import useBuyer hook
+import { AuthContext } from "../../../contexts/AuthProvider";
+import useBuyer from "../../../hooks/useBuyer";
+import Loading from "../../Shared/Loading/Loading";
 
-const Loading = () => (
-	<div className="min-h-screen flex items-center justify-center">
-		<div className="loading loading-spinner loading-lg text-primary"></div>
-	</div>
-);
+// Lazy load the modal component
+const PhoneOrderModal = lazy(() => import("../../Dashboard/MyOrders/PhoneOrderModal"));
+
+// Lazy load the image component
+const LazyImage = lazy(() => import("../../../components/LazyImage/LazyImage"));
 
 const ProductDetails = () => {
 	const { id } = useParams();
 	const navigate = useNavigate();
-	const { user } = useContext(AuthContext); // Get user from context
-	const [isBuyer] = useBuyer(user?.email); // Check if user is a buyer
-
+	const { user } = useContext(AuthContext);
+	const [isBuyer] = useBuyer(user?.email);
 	const [isBookingModalOpen, setIsBookingModalOpen] = useState(false);
-	// onClickPhone state is not strictly needed here as 'phone' from useQuery can be used directly
 
+	// Optimized data fetching with caching
 	const { data: phone, isLoading, error } = useQuery({
 		queryKey: ["phone", id],
 		queryFn: async () => {
-			console.log (`"testing frm id:" ${id}`);
 			try {
 				const res = await fetch(
-					`https://usedphonesserver-dbpt-p3grkdoxf-saifuddinmonnas-projects.vercel.app/allphones/${id}`
+					`https://usedphonesserver-dbpt-p3grkdoxf-saifuddinmonnas-projects.vercel.app/allphones/${id}`,
+					{
+						headers: {
+							'Cache-Control': 'max-age=300', // Cache for 5 minutes
+						},
+					}
 				);
 				if (!res.ok) {
-					const errorData = await res.json();
-					throw new Error(errorData.message || "Failed to fetch product details");
+					throw new Error('Failed to fetch product details');
 				}
 				const data = await res.json();
 				if (!data) {
@@ -49,6 +51,8 @@ const ProductDetails = () => {
 		},
 		staleTime: 5 * 60 * 1000, // 5 minutes
 		cacheTime: 10 * 60 * 1000, // 10 minutes
+		refetchOnWindowFocus: false, // Disable refetch on window focus
+		retry: 1, // Only retry once on failure
 	});
 
 	const handleOpenBookingModal = () => {
@@ -120,12 +124,13 @@ const ProductDetails = () => {
 							<div className="relative">
 								<PhotoProvider>
 									<PhotoView src={phone?.image}>
-										<img
-											src={phone?.image}
-											alt={phone?.brand}
-											loading="lazy"
-											className="w-full h-[500px] object-cover rounded-lg cursor-pointer hover:scale-105 transition-transform duration-300"
-										/>
+										<Suspense fallback={<div className="w-full h-[500px] bg-gray-200 animate-pulse" />}>
+											<LazyImage
+												src={phone?.image}
+												alt={phone?.brand}
+												className="w-full h-[500px] object-cover rounded-lg cursor-pointer hover:scale-105 transition-transform duration-300"
+											/>
+										</Suspense>
 									</PhotoView>
 								</PhotoProvider>
 								<div className="absolute top-4 right-4 bg-primary text-white px-4 py-2 rounded-full text-sm font-medium">
@@ -168,7 +173,7 @@ const ProductDetails = () => {
 									</div>
 								</div>
 
-								<div className="border-t border-gray-200 pt-6">
+								<div>
 									<h3 className="text-xl font-semibold text-gray-900 mb-4">
 										Seller Information
 									</h3>
@@ -218,11 +223,14 @@ const ProductDetails = () => {
 							</div>
 						</div>
 					</motion.div>
-					<PhoneOrderModal
-						isOpen={isBookingModalOpen}
-						closeModal={handleCloseBookingModal}
-						onClickPhone={phone} // Pass the fetched phone data to the modal
-					/>
+					
+					<Suspense fallback={<Loading />}>
+						<PhoneOrderModal
+							isOpen={isBookingModalOpen}
+							closeModal={handleCloseBookingModal}
+							onClickPhone={phone}
+						/>
+					</Suspense>
 				</div>
 			</section>
 		</Suspense>
