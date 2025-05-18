@@ -1,48 +1,55 @@
 import React from "react";
 import { motion } from "framer-motion";
 import { fadeIn, staggerContainer } from "../../../utils/animations";
+import { FaApple, FaGoogle } from "react-icons/fa";
+import { SiSamsung, SiXiaomi, SiOneplus } from "react-icons/si";
 
 const Brands = () => {
 	const brands = [
 		{
 			id: 1,
 			name: "Apple",
-			logo: "https://i.ibb.co/0jQ8X0J/apple.png",
+			icon: <FaApple className="w-16 h-16" />,
+			color: "text-gray-900",
 		},
 		{
 			id: 2,
 			name: "Samsung",
-			logo: "https://i.ibb.co/0jQ8X0J/samsung.png",
+			icon: <SiSamsung className="w-16 h-16" />,
+			color: "text-blue-600",
 		},
 		{
 			id: 3,
 			name: "Google",
-			logo: "https://i.ibb.co/0jQ8X0J/google.png",
+			icon: <FaGoogle className="w-16 h-16" />,
+			color: "text-red-500",
 		},
 		{
 			id: 4,
 			name: "Xiaomi",
-			logo: "https://i.ibb.co/0jQ8X0J/xiaomi.png",
+			icon: <SiXiaomi className="w-16 h-16" />,
+			color: "text-orange-500",
 		},
 		{
 			id: 5,
 			name: "OnePlus",
-			logo: "https://i.ibb.co/0jQ8X0J/oneplus.png",
+			icon: <SiOneplus className="w-16 h-16" />,
+			color: "text-red-600",
 		},
 	];
 
 	return (
-		<section className="py-16 bg-gray-50">
+		<section className="py-16 bg-gradient-to-b from-gray-50 to-white">
 			<div className="container mx-auto px-4">
 				<motion.div
 					variants={fadeIn}
 					initial="initial"
 					animate="animate"
 					className="text-center mb-12">
-					<h2 className="text-3xl font-bold text-gray-900 mb-4">
+					<h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
 						Trusted Brands
 					</h2>
-					<p className="text-gray-600">
+					<p className="text-gray-700 max-w-2xl mx-auto text-lg">
 						We work with the most trusted brands in the industry
 					</p>
 				</motion.div>
@@ -56,12 +63,17 @@ const Brands = () => {
 						<motion.div
 							key={brand.id}
 							variants={fadeIn}
-							className="flex items-center justify-center p-6 bg-white rounded-lg shadow-sm hover:shadow-md transition-shadow duration-300">
-							<img
-								src={brand.logo}
-								alt={brand.name}
-								className="h-12 object-contain filter grayscale hover:grayscale-0 transition-all duration-300"
-							/>
+							className="group">
+							<div className="bg-white rounded-xl p-6 shadow-md hover:shadow-xl transition-all duration-300 h-full flex flex-col items-center justify-center">
+								<div className="relative w-32 h-32 mb-4 flex items-center justify-center">
+									<div className={`${brand.color} group-hover:scale-110 transition-transform duration-300`}>
+										{brand.icon}
+									</div>
+								</div>
+								<h3 className="text-lg font-semibold text-gray-900 group-hover:text-primary transition-colors duration-300">
+									{brand.name}
+								</h3>
+							</div>
 						</motion.div>
 					))}
 				</motion.div>

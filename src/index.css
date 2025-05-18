@@ -6,13 +6,13 @@
 
 :root {
   /* Primary Colors */
-  --primary-color: #4F46E5;
-  --primary-dark: #4338CA;
-  --primary-light: #818CF8;
+  --primary-color: #2563EB;
+  --primary-dark: #1D4ED8;
+  --primary-light: #60A5FA;
   
   /* Secondary Colors */
-  --secondary-color: #10B981;
-  --secondary-dark: #059669;
+  --secondary-color: #059669;
+  --secondary-dark: #047857;
   --secondary-light: #34D399;
   
   /* Neutral Colors */
@@ -29,8 +29,8 @@
   
   /* Text Colors */
   --text-primary: var(--gray-900);
-  --text-secondary: var(--gray-600);
-  --text-tertiary: var(--gray-400);
+  --text-secondary: var(--gray-700);
+  --text-tertiary: var(--gray-500);
   
   /* Background Colors */
   --bg-primary: #FFFFFF;
@@ -101,10 +101,45 @@ a:hover {
 .btn-primary {
   background-color: var(--primary-color);
   color: white;
+  border: none;
 }
 
 .btn-primary:hover {
   background-color: var(--primary-dark);
+  color: white;
+}
+
+.btn-outline {
+  border: 2px solid var(--primary-color);
+  color: var(--primary-color);
+  background-color: transparent;
+}
+
+.btn-outline:hover {
+  background-color: var(--primary-color);
+  color: white;
+}
+
+/* Form Elements */
+input, textarea, select {
+  border: 1px solid var(--gray-300);
+  border-radius: 0.5rem;
+  padding: 0.75rem 1rem;
+  color: var(--text-primary);
+  background-color: white;
+}
+
+input:focus, textarea:focus, select:focus {
+  outline: none;
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 3px var(--primary-light);
+}
+
+/* Cards */
+.card {
+  background-color: white;
+  border-radius: 1rem;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
 }
 
 /* Custom scrollbar */
@@ -117,12 +152,12 @@ a:hover {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: var(--primary-color);
+  background: var(--gray-400);
   border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--primary-dark);
+  background: var(--gray-500);
 }
 
 /* Smooth transitions */

@@ -1,9 +1,11 @@
 import React from 'react';
 
-const PrimaryButton = ({children}) => {
+const PrimaryButton = ({children, className = ''}) => {
     return (
         <button 
-        className="btn btn-primary bg-gradient-to-r from-primary to-secondary text-white">{children}</button>
+            className={`btn btn-primary bg-primary hover:bg-primary-dark text-white font-medium shadow-md hover:shadow-lg transition-all duration-300 ${className}`}>
+            {children}
+        </button>
     );
 };
 
