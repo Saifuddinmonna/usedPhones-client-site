@@ -1,4 +1,4 @@
-import React from "react";
+import React, { memo } from "react";
 import { motion } from "framer-motion";
 import { useQuery } from "@tanstack/react-query";
 import Banner from "../Banner/Banner";
@@ -6,7 +6,7 @@ import Brands from "../Brands/Brands";
 import CustomarReviews from "../Testimonial/CustomarReviews";
 import FeaturedProducts from "../FeaturedProducts/FeaturedProducts";
 
-const Home = () => {
+const Home = memo(() => {
 	const { data: phones = [] } = useQuery({
 		queryKey: ["phones"],
 		queryFn: async () => {
@@ -16,6 +16,8 @@ const Home = () => {
 			const data = await res.json();
 			return data;
 		},
+		staleTime: 5 * 60 * 1000, // 5 minutes
+		cacheTime: 10 * 60 * 1000, // 10 minutes
 	});
 
 	// Get featured phones (first 6 phones)
@@ -60,6 +62,8 @@ const Home = () => {
 			</section>
 		</motion.div>
 	);
-};
+});
+
+Home.displayName = "Home";
 
 export default Home;

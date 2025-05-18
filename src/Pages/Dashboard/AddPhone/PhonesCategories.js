@@ -10,6 +10,7 @@ import { useLoaderData } from "react-router-dom";
 import useBuyer from "../../../hooks/useBuyer";
 import { AuthContext } from "../../../contexts/AuthProvider";
 import useSeller from "../../../hooks/useSeller";
+import { motion } from "framer-motion";
 
 const PhonesCategories = () => {
 	const [onClickPhone, setOnClickPhone] = useState(null);
@@ -30,107 +31,139 @@ const PhonesCategories = () => {
 		setOnClickPhone(null);
 	};
 
+	// Animation variants
+	const containerVariants = {
+		hidden: { opacity: 0 },
+		visible: {
+			opacity: 1,
+			transition: {
+				staggerChildren: 0.1
+			}
+		}
+	};
+
+	const itemVariants = {
+		hidden: { y: 20, opacity: 0 },
+		visible: {
+			y: 0,
+			opacity: 1,
+			transition: {
+				duration: 0.5,
+				ease: "easeOut"
+			}
+		}
+	};
+
 	if (phones.length !== 0) {
 		return (
 			<>
 				<div className="mt-14 rounded-lg">
-					<div>
-						<div className="border rounded-full text-center shadow-xl p-4 m-6">
-							<h1 className="text-4xl">All Advertised Items</h1>
+					<motion.div
+						initial={{ opacity: 0, y: -20 }}
+						animate={{ opacity: 1, y: 0 }}
+						transition={{ duration: 0.5 }}
+						className="text-center mb-12">
+						<div className="inline-block border-b-2 border-primary pb-2">
+							<h1 className="text-3xl md:text-4xl font-bold text-gray-800">All Advertised Items</h1>
 						</div>
-					</div>
-					<div className="rounded-lg">
-						<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-7 gap-y-10 shadow-xl rounded-lg">
+					</motion.div>
+					<motion.div
+						variants={containerVariants}
+						initial="hidden"
+						animate="visible"
+						className="rounded-lg">
+						<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
 							{phones?.map((phone, i) => (
-								<div key={phone._id} className="card bg-base-100 shadow-xl">
-									<figure className="px-10 pt-10">
+								<motion.div
+									key={phone._id}
+									variants={itemVariants}
+									className="card bg-white shadow-lg hover:shadow-xl transition-shadow duration-300 rounded-lg overflow-hidden">
+									<figure className="relative">
 										<PhotoProvider>
 											<PhotoView src={phone.image}>
 												<img
-													className="md:h-64 lg:h-72 minhight w-full object-cover rounded-t-3xl"
+													className="w-full h-64 object-cover cursor-pointer hover:scale-105 transition-transform duration-300"
 													src={phone.image}
 													alt="pic of phone"
 												/>
 											</PhotoView>
 										</PhotoProvider>
+										<div className="absolute top-4 right-4 bg-primary text-white px-4 py-2 rounded-full text-sm font-medium">
+											{phone.phonesCondition}
+										</div>
 									</figure>
-									<div className="bgColor card-body items-center text-center">
-										<div className="flex flex-wrap mt-3 justify-around">
-											<h2 className="text-2xl text-bolder text-primary">
-												{phone?.brand}-{phone.phoneModel}-
+									<div className="p-6">
+										<div className="flex justify-between items-start mb-4">
+											<h2 className="text-xl font-semibold text-gray-800">
+												{phone?.brand} {phone.phoneModel}
 											</h2>
-											<div className="border rounded-full p-2 text-bolder text-bolder text-xl text-strong">
-												tk {phone.resalePrice}
-											</div>
+											<span className="text-lg font-bold text-primary">
+												TK {phone.resalePrice}
+											</span>
 										</div>
-										<div className="text-black divider text divider-vertical"></div>
-										<div className="shadow-sm rounded-lg">
-											<div className="flex justify-around my-3">
-												<div className="border rounded-full mr-3 flex p-2 text-bolder text-xl">
-													<AiOutlineStar className="d-inline-block text-center text-base text-red-300 text-bold"></AiOutlineStar>
-													<AiOutlineStar className="d-inline-block text-center text-base text-red-400 text-bolder"></AiOutlineStar>{" "}
-													{phone.phonesCondition}
+
+										<div className="space-y-4">
+											<div className="flex items-center justify-between">
+												<div className="flex items-center space-x-2">
+													<AiOutlineStar className="text-yellow-400 text-xl" />
+													<AiOutlineStar className="text-yellow-400 text-xl" />
+													<span className="text-gray-600">{phone.phonesCondition}</span>
 												</div>
-												<div>
-													<button className="btn btn-primary opacity-80 d-block shadow-md">
-														Whish List
-													</button>
+												<button className="btn btn-primary btn-sm opacity-80 hover:opacity-100 transition-opacity">
+													Wish List
+												</button>
+											</div>
+
+											<div className="grid grid-cols-2 gap-4">
+												<div className="bg-gray-50 p-3 rounded-lg">
+													<p className="text-sm text-gray-500">Original Price</p>
+													<p className="font-semibold text-gray-800">TK {phone.originalPrice}</p>
+												</div>
+												<div className="bg-gray-50 p-3 rounded-lg">
+													<p className="text-sm text-gray-500">Seller</p>
+													<p className="font-semibold text-gray-800">{phone.sellerName}</p>
 												</div>
 											</div>
 
-											<div className="flex justify-around">
-												<div className="text-lg border rounded-full p-2 text-bold text-bold">
-													Original Price-{phone.originalPrice}
+											<div className="grid grid-cols-2 gap-4">
+												<div className="bg-gray-50 p-3 rounded-lg">
+													<p className="text-sm text-gray-500">Year of Use</p>
+													<p className="font-semibold text-gray-800">{phone?.yearOfUse}</p>
 												</div>
-												<div className="text-lg border rounded-full p-2 text-bold text-bold">
-													Seller Name -{phone.sellerName}
-												</div>
-											</div>
-
-											<div className="flex justify-around">
-												<div className="text-lg border rounded-full p-2 text-bold text-bold">
-													Year of Use -{phone?.yearOfUse}
-												</div>
-
-												<div className="text-lg border rounded-full p-2 text-bold text-bold">
-													Buying Date-{phone.dateOfBuying}
+												<div className="bg-gray-50 p-3 rounded-lg">
+													<p className="text-sm text-gray-500">Buying Date</p>
+													<p className="font-semibold text-gray-800">{phone.dateOfBuying}</p>
 												</div>
 											</div>
 
-											<div className="flex justify-around">
-												<div className="text-lg border rounded-full p-2 text-bold text-bold">
-													Time fo Posting :{phone.timeOfPost}
-												</div>
+											<div className="bg-gray-50 p-3 rounded-lg">
+												<p className="text-sm text-gray-500">Posted</p>
+												<p className="font-semibold text-gray-800">{phone.timeOfPost}</p>
+											</div>
+
+											<div className="bg-gray-50 p-3 rounded-lg">
+												<p className="text-sm text-gray-500">Description</p>
+												<p className="text-gray-800 line-clamp-2">
+													{phone?.description || "No description available"}
+												</p>
 											</div>
 										</div>
-										<div className="text-black text-justify divider divider-vertical"></div>
-										<div className="px-3">
-											<p>
-												{phone?.description ? (
-													<>{phone?.description.slice(0, 100)}</>
-												) : (
-													<p>Not available</p>
-												)}
-												...
-											</p>
-										</div>
-									</div>
-									<div className="flex flex-col justify-around">
-										<div className="p-2 mx- block bg-primary mb- w-full opacity-90 mb-1 shadow text-center">
-											View Details
-										</div>
-										<div className="p-2 mx- bg-primary mb- w-full opacity-90 rounded-b-xl text-center">
+
+										<div className="mt-6 space-y-3">
+											<button className="w-full btn btn-outline btn-primary hover:bg-primary hover:text-white transition-colors">
+												View Details
+											</button>
 											<button
 												onClick={() => handleOpenModal(phone)}
-												className="w-full text-white font-semibold">
+												className="w-full btn btn-primary hover:bg-primary-dark transition-colors">
 												{isBuyer ? "Book Now" : "Login First to Book"}
 											</button>
 										</div>
 									</div>
-								</div>
+								</motion.div>
 							))}
 						</div>
-					</div>
+					</motion.div>
 				</div>
 				<BookingModal
 					isOpen={isModalOpen}
@@ -141,9 +174,13 @@ const PhonesCategories = () => {
 		);
 	} else {
 		return (
-			<div className="text-center p-8">
+			<motion.div
+				initial={{ opacity: 0, y: 20 }}
+				animate={{ opacity: 1, y: 0 }}
+				transition={{ duration: 0.5 }}
+				className="text-center p-8">
 				<h2 className="text-2xl font-semibold text-gray-700">No phones found in this category</h2>
-			</div>
+			</motion.div>
 		);
 	}
 };

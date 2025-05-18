@@ -1,5 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import React, { useContext, useState } from "react";
+import { Link } from "react-router-dom"; // Import Link
 import { FaBeer } from "react-icons/fa";
 import { AiOutlineStar, IconName } from "react-icons/ai";
 import "./AllPhone.css";
@@ -162,9 +163,11 @@ const AllPhonesForLayout = () => {
 										</div>
 									</div>
 									<div className="p-4 border-t border-gray-200">
-										<button className="btn btn-sm btn-outline btn-primary w-full mb-2">
+										<Link
+											to={`/product/${phone._id}`} // Link to the product details page
+											className="btn btn-sm btn-outline btn-primary w-full mb-2">
 											View Details
-										</button>
+										</Link>
 										<label
 											onClick={() => HandlesetOnClickPhone(phone)}
 											className={`btn btn-sm btn-primary w-full cursor-pointer ${

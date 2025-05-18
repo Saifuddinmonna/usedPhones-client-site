@@ -1,22 +1,38 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react"; // Added useState
 import { Link, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import { PhotoProvider, PhotoView } from "react-photo-view";
 import { fadeIn, staggerContainer } from "../../../utils/animations";
 import { AuthContext } from "../../../contexts/AuthProvider";
 import toast from "react-hot-toast";
+import PhoneOrderModal from "../../Dashboard/MyOrders/PhoneOrderModal"; // Import the modal
+import useBuyer from "../../../hooks/useBuyer"; // Import useBuyer hook
 
 const FeaturedProducts = ({ phones }) => {
 	const navigate = useNavigate();
 	const { user } = useContext(AuthContext);
+	const [isBuyer] = useBuyer(user?.email); // Check if user is a buyer
 
-	const handleBooking = (phone) => {
+	const [isBookingModalOpen, setIsBookingModalOpen] = useState(false);
+	const [selectedPhoneForBooking, setSelectedPhoneForBooking] = useState(null);
+
+	const handleOpenBookingModal = (phone) => {
+		setSelectedPhoneForBooking(phone);
 		if (!user) {
 			toast.error("Please login to book this product");
 			navigate("/login");
 			return;
 		}
-		navigate(`/product/${phone._id}`);
+		if (!isBuyer) {
+			toast.error("Only buyers can book products. Please check your account type.");
+			return;
+		}
+		setIsBookingModalOpen(true);
+	};
+
+	const handleCloseBookingModal = () => {
+		setIsBookingModalOpen(false);
+		setSelectedPhoneForBooking(null); // Clear selected phone
 	};
 
 	return (
@@ -112,8 +128,12 @@ const FeaturedProducts = ({ phones }) => {
 											View Details
 										</Link>
 										<button
-											onClick={() => handleBooking(phone)}
-											className="flex-1 btn btn-outline btn-primary">
+											onClick={() => handleOpenBookingModal(phone)}
+											className={`flex-1 btn btn-outline btn-primary ${
+												!user || !isBuyer ? "btn-disabled" : ""
+											}`}
+											disabled={!user || !isBuyer}
+										>
 											Book Now
 										</button>
 									</div>
@@ -122,6 +142,13 @@ const FeaturedProducts = ({ phones }) => {
 						</motion.div>
 					))}
 				</motion.div>
+				{selectedPhoneForBooking && (
+					<PhoneOrderModal
+						isOpen={isBookingModalOpen}
+						closeModal={handleCloseBookingModal}
+						onClickPhone={selectedPhoneForBooking}
+					/>
+				)}
 			</div>
 		</section>
 	);
